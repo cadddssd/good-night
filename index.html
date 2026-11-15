@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#17142f">
+  <title>Good Night 🌙</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Itim&family=Mali:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="sky" aria-hidden="true"><div class="moon"></div><div id="stars"></div><div id="floaties"></div></div>
+  <main class="card">
+    <p class="eyebrow">A little note for tonight</p>
+    <h1>Good Night</h1>
+    <p class="subtitle">คืนนี้พักผ่อนให้สบายนะ ✨</p>
+    <div class="message-wrap" aria-live="polite"><p id="message" class="message"></p></div>
+    <p id="dateLabel" class="date-label"></p>
+    <button id="newMessage" class="soft-button" type="button">ขอข้อความอีกอัน 💌</button>
+    <div class="music-control">
+      <audio id="goodNightMusic" preload="none" loop>
+        <source src="assets/good-night.mp3" type="audio/mpeg">
+      </audio>
+      <button id="musicBtn" class="music-button" type="button" aria-pressed="false">
+        <span id="musicIcon" aria-hidden="true">🎵</span><span id="musicText">เปิดเพลงพื้นหลัง</span>
+      </button>
+      <p id="musicStatus" class="music-status" aria-live="polite">เพลงบรรเลงเปียโนเบา ๆ สำหรับคืนนี้</p>
+      <p class="music-credit">เพลง <a href="https://pixabay.com/music/modern-classical-starry-sky-calm-dreamy-piano-235728/" target="_blank" rel="noopener noreferrer">Starry Sky (Calm Dreamy Piano)</a> โดย noemazeek</p>
+    </div>
+    <p class="signature">ส่งความคิดถึงให้คืนนี้ 🌙</p>
+  </main>
+  <script src="script.js"></script>
+</body>
+</html>
