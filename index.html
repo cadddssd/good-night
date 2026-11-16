@@ -19,13 +19,20 @@
     <div class="message-wrap" aria-live="polite"><p id="message" class="message"></p></div>
     <p id="dateLabel" class="date-label"></p>
     <button id="newMessage" class="soft-button" type="button">ขอข้อความอีกอัน 💌</button>
+    <p id="messageStatus" class="message-status" aria-live="polite"></p>
+    <button id="themeBtn" class="theme-button" type="button">เปลี่ยนบรรยากาศ 🌌</button>
     <div class="music-control">
       <audio id="goodNightMusic" preload="none" loop>
         <source src="assets/good-night.mp3" type="audio/mpeg">
       </audio>
-      <button id="musicBtn" class="music-button" type="button" aria-pressed="false">
+      <div class="music-player">
+        <button id="prevTrack" class="track-button" type="button" aria-label="เพลงก่อนหน้า">⏮</button>
+        <button id="musicBtn" class="music-button" type="button" aria-pressed="false">
         <span id="musicIcon" aria-hidden="true">🎵</span><span id="musicText">เปิดเพลงพื้นหลัง</span>
       </button>
+        <button id="nextTrack" class="track-button" type="button" aria-label="เพลงถัดไป">⏭</button>
+      </div>
+      <p id="trackTitle" class="track-title">Starry Sky (Calm Dreamy Piano)</p>
       <p id="musicStatus" class="music-status" aria-live="polite">เพลงบรรเลงเปียโนเบา ๆ สำหรับคืนนี้</p>
       <p class="music-credit">เพลง <a href="https://pixabay.com/music/modern-classical-starry-sky-calm-dreamy-piano-235728/" target="_blank" rel="noopener noreferrer">Starry Sky (Calm Dreamy Piano)</a> โดย noemazeek</p>
     </div>
