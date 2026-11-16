@@ -28,3 +28,15 @@ h1 { margin: 0; font: 600 clamp(2.8rem, 11vw, 4.6rem)/1.1 "Itim", cursive; text-
 @keyframes rise { 10% { opacity: .8; } 100% { opacity: 0; transform: translateY(-110vh) translateX(var(--drift, 20px)) rotate(25deg); } }
 @media (max-width: 480px) { body { padding: 14px; } .card { border-radius: 24px; } .moon { width: 70px; height: 70px; right: 8%; top: 5%; } .moon::after { width: 64px; height: 64px; } }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; scroll-behavior: auto !important; } }
+
+body { --page-bg: radial-gradient(ellipse at 50% 110%, #5c467e 0, transparent 44%), linear-gradient(145deg, #11142c, #292044 58%, #453657); background: var(--page-bg); transition: background .5s ease; }
+body[data-theme="lavender"] { --page-bg: radial-gradient(ellipse at 50% 110%, #9879b8 0, transparent 48%), linear-gradient(145deg, #30264f, #59436f 58%, #82618c); }
+body[data-theme="ocean"] { --page-bg: radial-gradient(ellipse at 50% 110%, #397b91 0, transparent 48%), linear-gradient(145deg, #0d263c, #17485c 58%, #326b78); }
+body[data-theme="dawn"] { --page-bg: radial-gradient(ellipse at 50% 110%, #bd8291 0, transparent 48%), linear-gradient(145deg, #382b4c, #76516e 58%, #a66f79); }
+.theme-button { margin-top: 12px; border: 1px solid #ffffff42; border-radius: 999px; padding: 8px 16px; color: #fcecff; background: #ffffff12; font: .88rem "Mali", sans-serif; cursor: pointer; }
+.theme-button:hover, .track-button:hover { background: #ffffff30; }
+.message-status { min-height: 1.2em; margin: 8px 0 0; color: #e7d9ee; font-size: .78rem; }
+.music-player { display: flex; align-items: center; justify-content: center; gap: 10px; }
+.track-button { width: 38px; height: 38px; border: 1px solid #ffffff40; border-radius: 50%; color: white; background: #ffffff15; cursor: pointer; font-size: .95rem; }
+.track-title { margin: 10px 0 0; color: #f5dced; font-size: .86rem; }
+button:disabled { opacity: .45; cursor: not-allowed; transform: none !important; }
