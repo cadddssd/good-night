@@ -42,9 +42,10 @@ body[data-theme="dawn"] { --page-bg: radial-gradient(ellipse at 50% 110%, #bd829
 button:disabled { opacity: .45; cursor: not-allowed; transform: none !important; }
 
 
-/* ตัวควบคุมระดับเสียง */
-.volume-control { display: flex; align-items: center; justify-content: center; gap: 10px; margin: 12px auto 0; max-width: 290px; }
-.volume-button { width: 30px; height: 30px; flex: 0 0 30px; border: 1px solid #ffffff40; border-radius: 50%; color: white; background: #ffffff15; cursor: pointer; font: 600 1.1rem "Mali", sans-serif; line-height: 1; }
-.volume-button:hover { background: #ffffff30; }
+/* ปุ่มลำโพงและแถบปรับเสียงแบบซ่อน */
+.volume-toggle { font-size: 1rem; }
+.volume-toggle[aria-expanded="true"] { background: #e9a8d044; border-color: #f4cde7aa; }
+.volume-panel { display: flex; align-items: center; justify-content: center; gap: 10px; width: fit-content; margin: 10px auto 0; padding: 7px 12px; border: 1px solid #ffffff30; border-radius: 999px; background: #17142f88; }
+.volume-panel[hidden] { display: none; }
 .volume-slider { width: 130px; accent-color: #f1b8df; cursor: pointer; }
 .volume-value { min-width: 38px; color: #e8d9ed; font-size: .78rem; text-align: right; }
