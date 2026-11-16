@@ -40,3 +40,11 @@ body[data-theme="dawn"] { --page-bg: radial-gradient(ellipse at 50% 110%, #bd829
 .track-button { width: 38px; height: 38px; border: 1px solid #ffffff40; border-radius: 50%; color: white; background: #ffffff15; cursor: pointer; font-size: .95rem; }
 .track-title { margin: 10px 0 0; color: #f5dced; font-size: .86rem; }
 button:disabled { opacity: .45; cursor: not-allowed; transform: none !important; }
+
+
+/* ตัวควบคุมระดับเสียง */
+.volume-control { display: flex; align-items: center; justify-content: center; gap: 10px; margin: 12px auto 0; max-width: 290px; }
+.volume-button { width: 30px; height: 30px; flex: 0 0 30px; border: 1px solid #ffffff40; border-radius: 50%; color: white; background: #ffffff15; cursor: pointer; font: 600 1.1rem "Mali", sans-serif; line-height: 1; }
+.volume-button:hover { background: #ffffff30; }
+.volume-slider { width: 130px; accent-color: #f1b8df; cursor: pointer; }
+.volume-value { min-width: 38px; color: #e8d9ed; font-size: .78rem; text-align: right; }
