@@ -345,3 +345,9 @@ h1 { color: #fff0d9; text-shadow: 0 0 24px rgba(255,204,160,.22); }
   .cloud-list { grid-template-columns: 1fr; }
   .cloud-item:only-child { grid-column: 1; }
 }
+
+
+/* Hide message timestamps for a cleaner cloud wall */
+.cloud-time {
+  display: none !important;
+}
