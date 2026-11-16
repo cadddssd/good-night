@@ -351,3 +351,7 @@ h1 { color: #fff0d9; text-shadow: 0 0 24px rgba(255,204,160,.22); }
 .cloud-time {
   display: none !important;
 }
+
+
+/* Timestamp is intentionally omitted from cloud cards */
+.cloud-time, .cloud-item time { display: none !important; }
