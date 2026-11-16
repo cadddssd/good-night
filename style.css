@@ -417,3 +417,41 @@ body[data-theme="dawn"] .message-cloud { color: #ffc4ad; opacity: .25; }
 @media (prefers-reduced-motion: reduce) {
   .message-sparkle, .message-cloud { animation: none; }
 }
+
+
+/* Randomized star field: every page load gets its own little constellation */
+.star {
+  width: var(--star-size, 3px);
+  height: var(--star-size, 3px);
+  background: var(--star-color, #fff4ce);
+  opacity: var(--star-brightness, .8);
+  box-shadow: 0 0 var(--star-glow, 8px) var(--star-color, #fff4ce);
+  animation: twinkle var(--duration, 3s) ease-in-out var(--star-delay, 0s) infinite alternate;
+}
+.star--sparkle {
+  border-radius: 50%;
+}
+.star--sparkle::before, .star--sparkle::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  display: block;
+  background: var(--star-color, #fff4ce);
+  border-radius: 99px;
+  box-shadow: 0 0 var(--star-glow, 8px) var(--star-color, #fff4ce);
+  transform: translate(-50%, -50%);
+}
+.star--sparkle::before { width: 1px; height: calc(var(--star-size, 3px) * 4.5); }
+.star--sparkle::after { width: calc(var(--star-size, 3px) * 4.5); height: 1px; }
+.star--sparkle {
+  animation-name: star-sparkle;
+}
+@keyframes star-sparkle {
+  0%, 100% { opacity: .25; transform: scale(.55) rotate(0deg); }
+  45% { opacity: .75; transform: scale(.8) rotate(35deg); }
+  65% { opacity: 1; transform: scale(1.2) rotate(45deg); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .star, .star--sparkle { animation: none; opacity: .8; }
+}
