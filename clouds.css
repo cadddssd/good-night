@@ -226,3 +226,66 @@
 @media (prefers-reduced-motion: reduce) {
   .cloud-face i { animation: none !important; }
 }
+
+
+/* Warm bedtime palette: honey moonlight, rose clouds and glowing stars */
+body {
+  color: #fff2e8;
+  background:
+    radial-gradient(ellipse at 50% 0%, rgba(190,112,105,.30), transparent 48%),
+    radial-gradient(ellipse at 12% 78%, rgba(154,105,119,.20), transparent 42%),
+    linear-gradient(145deg, #211b2d, #38283a 55%, #4a3441);
+}
+.kicker, .lead, .wall-head span, footer, #empty { color: #e5cbd0; }
+h1 { color: #fff0d9; text-shadow: 0 0 24px rgba(255,204,160,.22); }
+.compose {
+  border-color: rgba(255,220,198,.22);
+  background: linear-gradient(145deg, rgba(255,225,205,.13), rgba(255,205,190,.055));
+  box-shadow: 0 18px 60px rgba(17,8,20,.42), inset 0 1px 0 rgba(255,235,220,.14);
+}
+.compose h2, .wall-head h2 { color: #ffe0c2; }
+.compose small { color: #d7b9c0; }
+.compose input, .compose textarea {
+  color: #fff2e9;
+  border-color: rgba(255,219,201,.24);
+  background: rgba(35,22,37,.68);
+}
+.compose input::placeholder, .compose textarea::placeholder { color: #c6aab5; }
+.form-foot button {
+  color: #563b45;
+  background: linear-gradient(135deg, #ffe6c8, #f2bfc0);
+  box-shadow: 0 5px 18px rgba(255,190,165,.18);
+}
+.cloud-item:nth-child(4n+1) { --cloud: #fff0df; }
+.cloud-item:nth-child(4n+2) { --cloud: #f8dfe5; }
+.cloud-item:nth-child(4n+3) { --cloud: #f7e8d8; }
+.cloud-item:nth-child(4n) { --cloud: #f4e2ed; }
+.cloud-text { color: #624b58; }
+.cloud-author { color: #947180; }
+.cloud-time { color: #ad8d9a; }
+.cloud-face i { background: #765663; }
+.cloud-face b { border-bottom-color: #a46c7c; }
+.cloud-face em { background: rgba(235,132,151,.58); }
+.cloud-moon {
+  background: #ffe4b8;
+  box-shadow: 0 0 35px rgba(255,213,160,.55), 0 0 105px rgba(255,176,158,.22);
+}
+#cloudStars i {
+  background: #fff0c9;
+  box-shadow: 0 0 5px 1px rgba(255,223,170,.72), 0 0 14px rgba(255,190,153,.55);
+  animation: warm-star-glimmer 3.1s ease-in-out infinite;
+}
+#cloudStars i:nth-child(3n) { animation-delay: -1.05s; }
+#cloudStars i:nth-child(4n) { animation-delay: -2.05s; }
+@keyframes warm-star-glimmer {
+  0%, 100% { opacity: .28; transform: scale(.72); filter: brightness(.9); }
+  45% { opacity: 1; transform: scale(1.45); filter: brightness(1.35); }
+  58% { opacity: .72; transform: scale(1); }
+}
+@keyframes moon-glow {
+  0%, 100% { box-shadow: 0 0 35px rgba(255,213,160,.48), 0 0 100px rgba(255,176,158,.18); }
+  50% { box-shadow: 0 0 52px rgba(255,224,177,.75), 0 0 125px rgba(255,176,158,.32); }
+}
+@media (prefers-reduced-motion: reduce) {
+  #cloudStars i { animation: none !important; opacity: .8; }
+}
