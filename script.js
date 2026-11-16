@@ -119,11 +119,20 @@ dateLabel.textContent = new Intl.DateTimeFormat("th-TH",{dateStyle:"long"}).form
 messageButton.addEventListener("click",()=>{ const next=pickUnusedMessage(); if(next){showMessage(next);makeHeart();} });
 
 const starsLayer = document.querySelector("#stars");
-for(let i=0;i<75;i++){
-  const star=document.createElement("i"); star.className="star";
-  star.style.left=`${Math.random()*100}%`; star.style.top=`${Math.random()*100}%`;
-  star.style.setProperty("--duration",`${2+Math.random()*4}s`);
-  star.style.animationDelay=`${Math.random()*4}s`; starsLayer.append(star);
+const starColors = ["#fff4ce", "#ffffff", "#ffe4b5", "#e9ddff", "#d9f7ff"];
+for(let i=0;i<85;i++){
+  const star=document.createElement("i");
+  const isSparkle=Math.random()<0.16;
+  star.className=isSparkle?"star star--sparkle":"star";
+  star.style.left=`${Math.random()*100}%`;
+  star.style.top=`${Math.random()*100}%`;
+  star.style.setProperty("--star-size",`${1.2+Math.random()*3.2}px`);
+  star.style.setProperty("--duration",`${1.8+Math.random()*5.2}s`);
+  star.style.setProperty("--star-delay",`${-Math.random()*6}s`);
+  star.style.setProperty("--star-glow",`${4+Math.random()*12}px`);
+  star.style.setProperty("--star-brightness",`${0.55+Math.random()*0.45}`);
+  star.style.setProperty("--star-color",starColors[Math.floor(Math.random()*starColors.length)]);
+  starsLayer.append(star);
 }
 function makeHeart(){
   const heart=document.createElement("span"); heart.className="heart";
