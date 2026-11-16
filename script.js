@@ -69,8 +69,9 @@ const musicStatus = document.querySelector("#musicStatus");
 const trackTitle = document.querySelector("#trackTitle");
 const prevTrackButton = document.querySelector("#prevTrack");
 const nextTrackButton = document.querySelector("#nextTrack");
-const volumeDownButton = document.querySelector("#volumeDown");
-const volumeUpButton = document.querySelector("#volumeUp");
+const volumeToggle = document.querySelector("#volumeToggle");
+const volumeIcon = document.querySelector("#volumeIcon");
+const volumePanel = document.querySelector("#volumePanel");
 const volumeSlider = document.querySelector("#volumeSlider");
 const volumeValue = document.querySelector("#volumeValue");
 const themeButton = document.querySelector("#themeBtn");
@@ -205,6 +206,7 @@ function setVolume(value) {
   }
   volumeSlider.value = String(volume);
   volumeValue.textContent = `${Math.round(volume * 100)}%`;
+  volumeIcon.textContent = volume === 0 ? "🔇" : volume < 0.5 ? "🔉" : "🔊";
   try { localStorage.setItem("goodNightVolume", String(volume)); } catch {}
 }
 let savedVolume = 0.25;
@@ -214,13 +216,17 @@ try {
 } catch {}
 setVolume(savedVolume);
 volumeSlider.addEventListener("input", () => setVolume(volumeSlider.value));
-volumeDownButton.addEventListener("click", () => setVolume(currentVolume - 0.05));
-volumeUpButton.addEventListener("click", () => setVolume(currentVolume + 0.05));
+volumeToggle.addEventListener("click", () => {
+  const isOpen = !volumePanel.hidden;
+  volumePanel.hidden = isOpen;
+  volumeToggle.setAttribute("aria-expanded", String(!isOpen));
+});
 audio.addEventListener("volumechange", () => {
   if (!gainNode && Number.isFinite(audio.volume) && Math.abs(audio.volume - currentVolume) > 0.001) {
     currentVolume = audio.volume;
     volumeSlider.value = String(currentVolume);
     volumeValue.textContent = `${Math.round(currentVolume * 100)}%`;
+    volumeIcon.textContent = currentVolume === 0 ? "🔇" : currentVolume < 0.5 ? "🔉" : "🔊";
   }
 });
 loadTrack(0);
