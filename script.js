@@ -69,6 +69,10 @@ const musicStatus = document.querySelector("#musicStatus");
 const trackTitle = document.querySelector("#trackTitle");
 const prevTrackButton = document.querySelector("#prevTrack");
 const nextTrackButton = document.querySelector("#nextTrack");
+const volumeDownButton = document.querySelector("#volumeDown");
+const volumeUpButton = document.querySelector("#volumeUp");
+const volumeSlider = document.querySelector("#volumeSlider");
+const volumeValue = document.querySelector("#volumeValue");
 const themeButton = document.querySelector("#themeBtn");
 
 // เพลง MP3 ในโฟลเดอร์ assets
@@ -164,5 +168,21 @@ prevTrackButton.addEventListener("click",()=>loadTrack(currentTrack-1,!audio.pau
 nextTrackButton.addEventListener("click",()=>loadTrack(currentTrack+1,!audio.paused));
 audio.addEventListener("ended",()=>loadTrack(currentTrack+1,true));
 audio.addEventListener("error",()=>{setMusicPlaying(false);musicStatus.textContent="ไม่พบไฟล์เพลง กรุณาตรวจสอบชื่อไฟล์และโฟลเดอร์ assets";});
-audio.volume=.25;
+// ปรับระดับเสียงด้วยปุ่มและแถบเลื่อน พร้อมจดจำค่าที่เลือกไว้
+function setVolume(value){
+  const volume=Math.max(0,Math.min(1,Number(value)));
+  audio.volume=volume;
+  volumeSlider.value=String(volume);
+  volumeValue.textContent=`${Math.round(volume*100)}%`;
+  try{localStorage.setItem("goodNightVolume",String(volume));}catch{}
+}
+let savedVolume=.25;
+try{
+  const storedVolume=localStorage.getItem("goodNightVolume");
+  if(storedVolume!==null && Number.isFinite(Number(storedVolume))) savedVolume=Number(storedVolume);
+}catch{}
+setVolume(savedVolume);
+volumeSlider.addEventListener("input",()=>setVolume(volumeSlider.value));
+volumeDownButton.addEventListener("click",()=>setVolume(audio.volume-.05));
+volumeUpButton.addEventListener("click",()=>setVolume(audio.volume+.05));
 loadTrack(0);
