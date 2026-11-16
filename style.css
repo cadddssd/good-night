@@ -739,3 +739,28 @@ body {
   .guestbook-cloud-list { grid-template-columns: 1fr; gap: 10px; }
   .guestbook-cloud { min-height: 92px; }
 }
+
+
+/* Full-screen cloud guestbook entry link */
+.cloud-guestbook-link {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  margin: 24px auto 0;
+  padding: 15px 17px;
+  border: 1px solid var(--surface-border);
+  border-radius: 20px;
+  color: var(--ink);
+  background: linear-gradient(135deg, var(--accent-soft), rgba(255,255,255,.12));
+  text-decoration: none;
+  text-align: left;
+  box-shadow: 0 8px 24px var(--glow);
+  transition: transform .22s ease, box-shadow .22s ease;
+}
+.cloud-guestbook-link:hover { transform: translateY(-3px); box-shadow: 0 12px 30px var(--glow); }
+.cloud-link-icon { font-size: 1.8rem; }
+.cloud-link-copy { display: grid; gap: 3px; flex: 1; min-width: 0; }
+.cloud-link-copy strong { font-size: .9rem; }
+.cloud-link-copy small { color: var(--muted); font-size: .7rem; }
+.cloud-link-arrow { font-size: 1.2rem; opacity: .7; }
