@@ -151,3 +151,107 @@ h1 { color: var(--ink); text-shadow: 0 5px 22px var(--glow); }
 .volume-value { color: var(--muted); }
 .heart { color: var(--accent); }
 .theme-button { color: var(--accent); }
+
+
+/* Four distinct nighttime worlds — shared page structure, unique visual identity */
+body { color-scheme: dark; }
+.sky::before, .sky::after {
+  content: ""; position: absolute; pointer-events: none; transition: opacity .6s ease, transform .8s ease;
+}
+.card { transition: all .65s cubic-bezier(.2,.75,.25,1); }
+.moon { transition: all .7s ease; }
+.star { transition: background .5s ease, box-shadow .5s ease; }
+
+/* 1. Moonlit Cabin — cozy amber window light */
+body[data-theme="night"] {
+  --ink: #f7e8d1; --muted: #c6ad8d; --accent: #f3c47d; --accent-soft: #59432f;
+  --surface: rgba(42, 34, 32, .82); --surface-border: rgba(246, 207, 151, .22); --glow: rgba(255, 194, 111, .28);
+  --page-bg: radial-gradient(ellipse at 50% 105%, #78543c 0, transparent 42%), linear-gradient(145deg, #171923, #29252d 58%, #44332f);
+}
+body[data-theme="night"] .moon { width: 84px; height: 84px; top: 9%; right: 14%; background: #ffe6ad; box-shadow: 0 0 35px #ffc86c88, 0 0 100px #ffc86c33; }
+body[data-theme="night"] .moon::after { display: block; width: 76px; height: 76px; left: 20px; top: -9px; background: #29232d; }
+body[data-theme="night"] .sky::before {
+  width: 170px; height: 110px; left: 7%; bottom: 0; opacity: .65;
+  background: linear-gradient(180deg, transparent 0 18%, #30252a 18% 100%);
+  clip-path: polygon(0 20%, 14% 20%, 14% 0, 28% 0, 28% 20%, 43% 20%, 43% 7%, 58% 7%, 58% 20%, 100% 20%, 100% 100%, 0 100%);
+}
+body[data-theme="night"] .card { border-radius: 28px 28px 42px 42px; box-shadow: 0 28px 90px #08090f99, inset 0 1px #ffe5c322; }
+body[data-theme="night"] h1 { font-family: "Itim", cursive; letter-spacing: .015em; }
+body[data-theme="night"] .soft-button, body[data-theme="night"] .music-button { border-radius: 14px; }
+body[data-theme="night"] .music-button { background: #745236; }
+body[data-theme="night"] .track-button { border-radius: 12px; }
+
+/* 2. Aurora Veil — violet polar lights and floating glass */
+body[data-theme="lavender"] {
+  --ink: #f5eaff; --muted: #c5b2de; --accent: #e1c2ff; --accent-soft: #55416f;
+  --surface: rgba(34, 24, 62, .64); --surface-border: rgba(223, 197, 255, .28); --glow: rgba(184, 135, 255, .38);
+  --page-bg: radial-gradient(ellipse at 18% 15%, #644b91 0, transparent 38%), radial-gradient(ellipse at 82% 85%, #3d5b83 0, transparent 42%), linear-gradient(145deg, #111326, #292044 60%, #17253b);
+}
+body[data-theme="lavender"] .sky::before {
+  inset: -15% -20% auto; height: 58%; opacity: .8; filter: blur(28px);
+  background: linear-gradient(112deg, transparent 12%, #8a62c655 28%, #5dd7c455 43%, #a26ee477 57%, #4d8fc355 72%, transparent 88%);
+  transform: rotate(-9deg); border-radius: 50%;
+}
+body[data-theme="lavender"] .sky::after {
+  width: 220px; height: 220px; left: -80px; bottom: -100px; border-radius: 50%;
+  border: 1px solid #d7b9ff44; box-shadow: 0 0 0 22px #d7b9ff0b, 0 0 0 48px #d7b9ff0a, 0 0 75px #a783ff22;
+}
+body[data-theme="lavender"] .moon { width: 76px; height: 76px; top: 12%; right: 16%; background: #f2e5ff; box-shadow: 0 0 45px #d9baff99, 0 0 110px #a77cff55; }
+body[data-theme="lavender"] .moon::after { display: none; }
+body[data-theme="lavender"] .card { border-radius: 38px; border: 1px solid #e4ceff3b; background: linear-gradient(145deg, #ffffff19, #a58bd00b); box-shadow: 0 25px 90px #08081788, inset 0 1px #ffffff35; backdrop-filter: blur(24px); }
+body[data-theme="lavender"] h1 { font-family: "Mali", sans-serif; font-weight: 500; letter-spacing: .04em; text-shadow: 0 0 28px #d3aaff88; }
+body[data-theme="lavender"] .soft-button, body[data-theme="lavender"] .music-button, body[data-theme="lavender"] .theme-button, body[data-theme="lavender"] .track-button { border-radius: 999px; backdrop-filter: blur(12px); }
+
+/* 3. Midnight Tide — deep sea, moon path and layered waves */
+body[data-theme="ocean"] {
+  --ink: #e2f5f2; --muted: #9bc5c1; --accent: #9ce3d7; --accent-soft: #205b63;
+  --surface: rgba(10, 39, 52, .78); --surface-border: rgba(137, 224, 213, .22); --glow: rgba(91, 218, 202, .28);
+  --page-bg: radial-gradient(ellipse at 52% 88%, #1d6b75 0, transparent 34%), linear-gradient(180deg, #071b31, #0d3549 58%, #15505a);
+}
+body[data-theme="ocean"] .moon { width: 68px; height: 68px; top: 10%; right: 17%; background: #e5fff1; box-shadow: 0 0 30px #a9ffe9aa, 0 0 95px #65e8d455; }
+body[data-theme="ocean"] .moon::after { display: none; }
+body[data-theme="ocean"] .sky::before {
+  left: -10%; right: -10%; bottom: -5%; height: 32%; opacity: .8;
+  background: repeating-radial-gradient(ellipse at 50% 0%, transparent 0 28px, #75d8cf22 30px 33px, transparent 35px 58px), linear-gradient(180deg, #0e4656aa, #062738);
+  border-radius: 50% 50% 0 0 / 18% 18% 0 0;
+}
+body[data-theme="ocean"] .sky::after {
+  width: 3px; height: 36vh; top: 22%; right: calc(17% + 32px); opacity: .55;
+  background: linear-gradient(180deg, #c7fff0aa, #72e5d000); filter: blur(9px);
+}
+body[data-theme="ocean"] .card { border-radius: 22px; border: 1px solid #8ce5d633; background: linear-gradient(160deg, #0c3345e8, #092534e8); box-shadow: 0 24px 75px #020e1bcc, inset 0 1px #b7fff022; }
+body[data-theme="ocean"] h1 { font-family: "Itim", cursive; letter-spacing: .06em; text-shadow: 0 0 28px #64daca77; }
+body[data-theme="ocean"] .soft-button, body[data-theme="ocean"] .music-button { border-radius: 10px 22px 10px 22px; }
+body[data-theme="ocean"] .music-button { background: #17616a; }
+body[data-theme="ocean"] .track-button { border-radius: 50%; border-color: #8ce5d655; }
+
+/* 4. City After Dark — indigo skyline and warm apartment windows */
+body[data-theme="dawn"] {
+  --ink: #fff0e6; --muted: #d2a9a1; --accent: #ffc49e; --accent-soft: #653e4c;
+  --surface: rgba(43, 30, 53, .84); --surface-border: rgba(255, 190, 161, .24); --glow: rgba(255, 142, 127, .32);
+  --page-bg: radial-gradient(ellipse at 78% 18%, #754b70 0, transparent 35%), linear-gradient(145deg, #17162e, #30233e 56%, #4a2c43);
+}
+body[data-theme="dawn"] .moon { width: 78px; height: 78px; top: 9%; right: 13%; background: #ffd8b1; box-shadow: 0 0 35px #ffb88c99, 0 0 90px #ff8d9c44; }
+body[data-theme="dawn"] .moon::after { display: none; }
+body[data-theme="dawn"] .sky::before {
+  left: 0; right: 0; bottom: 0; height: 25%; opacity: .95;
+  background: linear-gradient(180deg, transparent, #171526 16%), repeating-linear-gradient(90deg, #171526 0 34px, transparent 34px 42px, #211a30 42px 88px, transparent 88px 98px);
+  clip-path: polygon(0 35%, 7% 35%, 7% 5%, 15% 5%, 15% 42%, 23% 42%, 23% 0, 34% 0, 34% 52%, 43% 52%, 43% 20%, 53% 20%, 53% 45%, 62% 45%, 62% 8%, 72% 8%, 72% 36%, 81% 36%, 81% 15%, 90% 15%, 90% 48%, 100% 48%, 100% 100%, 0 100%);
+}
+body[data-theme="dawn"] .sky::after {
+  left: 0; right: 0; bottom: 0; height: 23%; opacity: .8;
+  background: repeating-linear-gradient(90deg, transparent 0 16px, #ffc48e 16px 19px, transparent 19px 42px);
+  clip-path: polygon(0 45%, 7% 45%, 7% 15%, 15% 15%, 15% 52%, 23% 52%, 23% 10%, 34% 10%, 34% 62%, 43% 62%, 43% 30%, 53% 30%, 53% 55%, 62% 55%, 62% 18%, 72% 18%, 72% 46%, 81% 46%, 81% 25%, 90% 25%, 90% 58%, 100% 58%, 100% 100%, 0 100%);
+}
+body[data-theme="dawn"] .card { border-radius: 18px; border: 1px solid #ffc49e38; background: linear-gradient(145deg, #38283fdc, #211d35ed); box-shadow: 0 25px 90px #09081799, inset 0 1px #ffd2b422; }
+body[data-theme="dawn"] h1 { font-family: "Itim", cursive; letter-spacing: .025em; text-shadow: 0 0 30px #ffae9c77; }
+body[data-theme="dawn"] .soft-button, body[data-theme="dawn"] .music-button { border-radius: 8px; }
+body[data-theme="dawn"] .music-button { background: #704456; }
+body[data-theme="dawn"] .track-button { border-radius: 8px; }
+body[data-theme="dawn"] .star { background: #ffd6b4; box-shadow: 0 0 9px #ffb99a; }
+
+@media (max-width: 480px) {
+  body[data-theme="night"] .moon { width: 62px; height: 62px; }
+  body[data-theme="night"] .moon::after { width: 56px; height: 56px; }
+  body[data-theme="lavender"] .moon, body[data-theme="ocean"] .moon, body[data-theme="dawn"] .moon { width: 56px; height: 56px; }
+}
