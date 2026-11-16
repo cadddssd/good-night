@@ -160,7 +160,11 @@ function loadTrack(index,autoplay=false){
 }
 musicButton.addEventListener("click",async()=>{
   if(audio.paused){
-    try{await audio.play();setMusicPlaying(true);musicStatus.textContent="กำลังเล่นเพลง 🎶";}
+    try{
+      if(audioContext && audioContext.state === "suspended") await audioContext.resume();
+      await audio.play();
+      setMusicPlaying(true);musicStatus.textContent="กำลังเล่นเพลง 🎶";
+    }
     catch(error){setMusicPlaying(false);musicStatus.textContent="เล่นเพลงไม่ได้ ตรวจสอบไฟล์ MP3 ในโฟลเดอร์ assets";console.error(error);}
   }else{audio.pause();setMusicPlaying(false);musicStatus.textContent="หยุดเพลงแล้ว";}
 });
@@ -168,14 +172,37 @@ prevTrackButton.addEventListener("click",()=>loadTrack(currentTrack-1,!audio.pau
 nextTrackButton.addEventListener("click",()=>loadTrack(currentTrack+1,!audio.paused));
 audio.addEventListener("ended",()=>loadTrack(currentTrack+1,true));
 audio.addEventListener("error",()=>{setMusicPlaying(false);musicStatus.textContent="ไม่พบไฟล์เพลง กรุณาตรวจสอบชื่อไฟล์และโฟลเดอร์ assets";});
+// ใช้ Web Audio GainNode ควบคุมความดังโดยตรง และ fallback เป็น audio.volume
+let audioContext = null;
+let gainNode = null;
+try {
+  const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+  if (AudioContextClass) {
+    audioContext = new AudioContextClass();
+    gainNode = audioContext.createGain();
+    const audioSource = audioContext.createMediaElementSource(audio);
+    audioSource.connect(gainNode);
+    gainNode.connect(audioContext.destination);
+    audio.volume = 1;
+  }
+} catch (error) {
+  console.warn("Web Audio volume control unavailable; using native volume.", error);
+  audioContext = null;
+  gainNode = null;
+}
+
 // ปรับระดับเสียงด้วยปุ่มและแถบเลื่อน พร้อมจดจำค่าที่เลือกไว้
 let currentVolume = 0.25;
-function setVolume(value){
+function setVolume(value) {
   const numericValue = Number(value);
   const volume = Math.round(Math.max(0, Math.min(1, numericValue)) * 20) / 20;
   currentVolume = volume;
   audio.muted = false;
-  audio.volume = volume;
+  if (gainNode && audioContext) {
+    gainNode.gain.setTargetAtTime(volume, audioContext.currentTime, 0.015);
+  } else {
+    audio.volume = volume;
+  }
   volumeSlider.value = String(volume);
   volumeValue.textContent = `${Math.round(volume * 100)}%`;
   try { localStorage.setItem("goodNightVolume", String(volume)); } catch {}
@@ -190,7 +217,7 @@ volumeSlider.addEventListener("input", () => setVolume(volumeSlider.value));
 volumeDownButton.addEventListener("click", () => setVolume(currentVolume - 0.05));
 volumeUpButton.addEventListener("click", () => setVolume(currentVolume + 0.05));
 audio.addEventListener("volumechange", () => {
-  if (Number.isFinite(audio.volume) && Math.abs(audio.volume - currentVolume) > 0.001) {
+  if (!gainNode && Number.isFinite(audio.volume) && Math.abs(audio.volume - currentVolume) > 0.001) {
     currentVolume = audio.volume;
     volumeSlider.value = String(currentVolume);
     volumeValue.textContent = `${Math.round(currentVolume * 100)}%`;
