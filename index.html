@@ -45,31 +45,13 @@
     </div>
     <p class="signature">ส่งความคิดถึงให้คืนนี้ 🌙</p>
 
-    <section class="cloud-guestbook" aria-labelledby="guestbookTitle">
-      <p class="guestbook-eyebrow">A little kindness from everyone</p>
-      <h2 id="guestbookTitle" class="guestbook-title">ก้อนเมฆฝากฝันดี ☁️</h2>
-      <p class="guestbook-intro">ฝากข้อความดี ๆ ให้ใครสักคนในค่ำคืนนี้</p>
-      <div class="guestbook-actions">
-        <button id="openGuestbookForm" class="guestbook-button guestbook-button-primary" type="button" aria-expanded="false" aria-controls="guestbookForm">☁️ บอกฝันดี</button>
-        <button id="toggleGuestbookMessages" class="guestbook-button" type="button" aria-expanded="false" aria-controls="guestbookMessages">✨ แสดงข้อความทั้งหมด</button>
-      </div>
-      <form id="guestbookForm" class="guestbook-form" hidden>
-        <label for="guestbookName">ชื่อผู้ส่ง <span>(ไม่บังคับ)</span></label>
-        <input id="guestbookName" name="display_name" type="text" maxlength="30" placeholder="ไม่ระบุชื่อก็ได้นะ">
-        <label for="guestbookMessage">ข้อความบอกฝันดี</label>
-        <textarea id="guestbookMessage" name="message" maxlength="300" rows="3" required placeholder="เขียนข้อความดี ๆ ฝากไว้บนก้อนเมฆ..."></textarea>
-        <div class="guestbook-form-footer">
-          <span id="guestbookCharCount">0/300</span>
-          <button id="sendGuestbookMessage" class="guestbook-button guestbook-button-primary" type="submit">ส่งข้อความ 💌</button>
-        </div>
-      </form>
-      <p id="guestbookStatus" class="guestbook-status" role="status" aria-live="polite">กำลังเตรียมก้อนเมฆ...</p>
-      <div id="guestbookMessages" class="guestbook-cloud-wall" aria-live="polite" hidden>
-        <div id="guestbookCloudList" class="guestbook-cloud-list"></div>
-        <p id="guestbookEmpty" class="guestbook-empty" hidden>ยังไม่มีก้อนเมฆข้อความ มาเป็นคนแรกที่ฝากคำฝันดีนะ ☁️</p>
-        <p id="guestbookCount" class="guestbook-count"></p>
-      </div>
-    </section>
+    <a class="cloud-guestbook-link" href="clouds.html">
+      <span class="cloud-link-icon" aria-hidden="true">☁️</span>
+      <span class="cloud-link-copy"><strong>แสดงก้อนเมฆบอกฝันดี</strong><small>อ่านข้อความดี ๆ จากทุกคนในค่ำคืนนี้</small></span>
+      <span class="cloud-link-arrow" aria-hidden="true">↗</span>
+    </a>
+
+ion>
 
   </main>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
