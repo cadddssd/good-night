@@ -139,3 +139,67 @@
   .cloud-moon, #cloudStars i { animation: none !important; }
   .cloud-item, .form-foot button { transition: none !important; }
 }
+
+
+/* Tiny sleepy cloud faces and rosy cheeks */
+.cloud-item { padding-top: 52px; }
+.cloud-face {
+  position: absolute;
+  z-index: 2;
+  top: 35px;
+  left: 50%;
+  width: 76px;
+  height: 25px;
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+.cloud-face i {
+  position: absolute;
+  top: 3px;
+  width: 5px;
+  height: 7px;
+  border-radius: 50%;
+  background: #53647d;
+  box-shadow: 0 1px 1px rgba(255,255,255,.65);
+}
+.cloud-face i:first-child { left: 25px; }
+.cloud-face i:nth-child(2) { right: 25px; }
+.cloud-face b {
+  position: absolute;
+  left: 50%;
+  top: 10px;
+  width: 7px;
+  height: 5px;
+  transform: translateX(-50%);
+  border-bottom: 1.7px solid #8a6474;
+  border-radius: 0 0 9px 9px;
+}
+.cloud-face em {
+  position: absolute;
+  top: 12px;
+  width: 13px;
+  height: 7px;
+  border-radius: 50%;
+  background: rgba(244,143,166,.48);
+  filter: blur(1px);
+}
+.cloud-face em:first-of-type { left: 10px; }
+.cloud-face em:last-of-type { right: 10px; }
+.cloud-item:nth-child(3n) .cloud-face i { height: 2px; top: 6px; border-radius: 0 0 8px 8px; }
+.cloud-item:nth-child(4n) .cloud-face b {
+  width: 5px; height: 5px; top: 9px;
+  border: 1.5px solid #8a6474; border-radius: 50%;
+}
+.cloud-item:nth-child(5n) .cloud-face { transform: translateX(-50%) rotate(-5deg); }
+.cloud-item:hover .cloud-face { animation: face-bounce .45s ease; }
+@keyframes face-bounce {
+  0%,100% { translate: 0 0; }
+  45% { translate: 0 -3px; }
+}
+@media (max-width:560px) {
+  .cloud-item { padding-top: 48px; }
+  .cloud-face { top: 31px; }
+}
+@media (prefers-reduced-motion:reduce) {
+  .cloud-item:hover .cloud-face { animation:none; }
+}
