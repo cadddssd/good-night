@@ -255,3 +255,118 @@ body[data-theme="dawn"] .star { background: #ffd6b4; box-shadow: 0 0 9px #ffb99a
   body[data-theme="night"] .moon::after { width: 56px; height: 56px; }
   body[data-theme="lavender"] .moon, body[data-theme="ocean"] .moon, body[data-theme="dawn"] .moon { width: 56px; height: 56px; }
 }
+
+
+/* Featured good-night message: make the wish the visual centerpiece */
+.message-wrap {
+  position: relative;
+  isolation: isolate;
+  width: min(100%, 440px);
+  min-height: 150px;
+  margin: 26px auto 18px;
+  padding: 28px 24px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--surface-border, #ffffff35);
+  border-radius: 28px;
+  background: linear-gradient(145deg, var(--message-surface, #ffffff16), transparent);
+  box-shadow: 0 16px 42px #05061038, inset 0 1px #ffffff20;
+}
+.message-wrap::before {
+  content: "✦";
+  position: absolute;
+  top: 10px;
+  left: 18px;
+  color: var(--message-accent, #ffe1ad);
+  font-size: 1rem;
+  opacity: .9;
+}
+.message-wrap::after {
+  content: "✦";
+  position: absolute;
+  right: 18px;
+  bottom: 10px;
+  color: var(--message-accent, #ffe1ad);
+  font-size: .8rem;
+  opacity: .7;
+}
+.message {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 30ch;
+  margin: 0;
+  color: var(--message-color, #fff4e7);
+  font-size: clamp(1.35rem, 4.7vw, 1.8rem);
+  font-weight: 600;
+  line-height: 1.65;
+  letter-spacing: .015em;
+  text-wrap: balance;
+  text-shadow: 0 2px 16px var(--message-glow, #fff0c533);
+}
+
+/* Moonlit Cabin: a warm handwritten note */
+body[data-theme="night"] {
+  --message-color: #ffedcf;
+  --message-accent: #f5c77f;
+  --message-glow: #f5bd6b55;
+  --message-surface: #bd87502b;
+}
+body[data-theme="night"] .message-wrap {
+  border-radius: 8px 26px 8px 26px;
+  border-color: #e9bc7955;
+  background: linear-gradient(120deg, #6b4b343d, #2b2425b8);
+  box-shadow: 0 15px 42px #09070a66, inset 0 0 24px #f2c27a0d;
+}
+body[data-theme="night"] .message-wrap::before { content: "☾"; font-size: 1.15rem; }
+
+/* Aurora Veil: luminous floating glass */
+body[data-theme="lavender"] {
+  --message-color: #fff0ff;
+  --message-accent: #dcbaff;
+  --message-glow: #c79cff88;
+  --message-surface: #c9a6ff20;
+}
+body[data-theme="lavender"] .message-wrap {
+  border-radius: 34px;
+  border-color: #d8bdff66;
+  background: linear-gradient(135deg, #ffffff20, #9d7bce18);
+  box-shadow: 0 0 35px #a67cff25, inset 0 1px #ffffff55;
+  backdrop-filter: blur(16px);
+}
+body[data-theme="lavender"] .message-wrap::before { content: "✧"; }
+
+/* Midnight Tide: a calm message floating on the water */
+body[data-theme="ocean"] {
+  --message-color: #dffff8;
+  --message-accent: #9ce8dc;
+  --message-glow: #6ce5d988;
+  --message-surface: #50b7b022;
+}
+body[data-theme="ocean"] .message-wrap {
+  border-radius: 48% 48% 22px 22px / 24% 24% 22px 22px;
+  border-color: #8ce5d655;
+  background: linear-gradient(180deg, #0d617044, #062a3c99);
+  box-shadow: 0 12px 40px #03141d77, inset 0 1px #c5fff044;
+}
+body[data-theme="ocean"] .message-wrap::before { content: "〜"; }
+
+/* City After Dark: glowing window sign */
+body[data-theme="dawn"] {
+  --message-color: #fff0e9;
+  --message-accent: #ffc39f;
+  --message-glow: #ff9d9d88;
+  --message-surface: #ffb18b1c;
+}
+body[data-theme="dawn"] .message-wrap {
+  border-radius: 14px;
+  border: 1px solid #ffc49e66;
+  background: linear-gradient(135deg, #7d4a644d, #251d39cc);
+  box-shadow: 0 0 0 4px #ffc49e0c, 0 16px 42px #09081777, inset 0 1px #ffd9c633;
+}
+body[data-theme="dawn"] .message-wrap::before { content: "♡"; }
+
+@media (max-width: 480px) {
+  .message-wrap { min-height: 138px; padding: 24px 18px; margin-top: 20px; }
+  .message { font-size: clamp(1.25rem, 5.2vw, 1.55rem); line-height: 1.6; }
+}
