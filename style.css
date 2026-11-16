@@ -49,3 +49,28 @@ button:disabled { opacity: .45; cursor: not-allowed; transform: none !important;
 .volume-panel[hidden] { display: none; }
 .volume-slider { width: 130px; accent-color: #f1b8df; cursor: pointer; }
 .volume-value { min-width: 38px; color: #e8d9ed; font-size: .78rem; text-align: right; }
+
+
+/* แอนิเมชันอีควอไลเซอร์ขณะเพลงกำลังเล่น */
+.equalizer { display: inline-flex; align-items: center; justify-content: center; gap: 2px; width: 0; height: 16px; opacity: 0; overflow: hidden; transition: width .25s ease, opacity .25s ease; }
+.equalizer i { display: block; width: 3px; height: 4px; border-radius: 3px; background: #ffe0f3; transform-origin: center; }
+.music-button.playing .equalizer { width: 17px; opacity: 1; }
+.music-button.playing .equalizer i { animation: equalize .75s ease-in-out infinite alternate; }
+.music-button.playing .equalizer i:nth-child(2) { animation-delay: -.5s; }
+.music-button.playing .equalizer i:nth-child(3) { animation-delay: -.2s; }
+.music-button.playing .equalizer i:nth-child(4) { animation-delay: -.65s; }
+.music-button.playing #musicIcon { animation: music-note 1.8s ease-in-out infinite; }
+@keyframes equalize {
+  from { height: 3px; opacity: .65; }
+  to { height: 15px; opacity: 1; }
+}
+@keyframes music-note {
+  0%, 100% { transform: translateY(0) rotate(0); }
+  25% { transform: translateY(-2px) rotate(-8deg); }
+  75% { transform: translateY(1px) rotate(8deg); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .music-button.playing .equalizer i,
+  .music-button.playing #musicIcon { animation: none; }
+  .music-button.playing .equalizer i { height: 7px; }
+}
