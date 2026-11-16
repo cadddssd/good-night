@@ -169,20 +169,31 @@ nextTrackButton.addEventListener("click",()=>loadTrack(currentTrack+1,!audio.pau
 audio.addEventListener("ended",()=>loadTrack(currentTrack+1,true));
 audio.addEventListener("error",()=>{setMusicPlaying(false);musicStatus.textContent="ไม่พบไฟล์เพลง กรุณาตรวจสอบชื่อไฟล์และโฟลเดอร์ assets";});
 // ปรับระดับเสียงด้วยปุ่มและแถบเลื่อน พร้อมจดจำค่าที่เลือกไว้
+let currentVolume = 0.25;
 function setVolume(value){
-  const volume=Math.max(0,Math.min(1,Number(value)));
-  audio.volume=volume;
-  volumeSlider.value=String(volume);
-  volumeValue.textContent=`${Math.round(volume*100)}%`;
-  try{localStorage.setItem("goodNightVolume",String(volume));}catch{}
+  const numericValue = Number(value);
+  const volume = Math.round(Math.max(0, Math.min(1, numericValue)) * 20) / 20;
+  currentVolume = volume;
+  audio.muted = false;
+  audio.volume = volume;
+  volumeSlider.value = String(volume);
+  volumeValue.textContent = `${Math.round(volume * 100)}%`;
+  try { localStorage.setItem("goodNightVolume", String(volume)); } catch {}
 }
-let savedVolume=.25;
-try{
-  const storedVolume=localStorage.getItem("goodNightVolume");
-  if(storedVolume!==null && Number.isFinite(Number(storedVolume))) savedVolume=Number(storedVolume);
-}catch{}
+let savedVolume = 0.25;
+try {
+  const storedVolume = localStorage.getItem("goodNightVolume");
+  if (storedVolume !== null && Number.isFinite(Number(storedVolume))) savedVolume = Number(storedVolume);
+} catch {}
 setVolume(savedVolume);
-volumeSlider.addEventListener("input",()=>setVolume(volumeSlider.value));
-volumeDownButton.addEventListener("click",()=>setVolume(audio.volume-.05));
-volumeUpButton.addEventListener("click",()=>setVolume(audio.volume+.05));
+volumeSlider.addEventListener("input", () => setVolume(volumeSlider.value));
+volumeDownButton.addEventListener("click", () => setVolume(currentVolume - 0.05));
+volumeUpButton.addEventListener("click", () => setVolume(currentVolume + 0.05));
+audio.addEventListener("volumechange", () => {
+  if (Number.isFinite(audio.volume) && Math.abs(audio.volume - currentVolume) > 0.001) {
+    currentVolume = audio.volume;
+    volumeSlider.value = String(currentVolume);
+    volumeValue.textContent = `${Math.round(currentVolume * 100)}%`;
+  }
+});
 loadTrack(0);
