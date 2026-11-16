@@ -71,8 +71,12 @@ const prevTrackButton = document.querySelector("#prevTrack");
 const nextTrackButton = document.querySelector("#nextTrack");
 const themeButton = document.querySelector("#themeBtn");
 
-// เพิ่มเพลงใหม่โดยอัปโหลดไฟล์ MP3 เข้าโฟลเดอร์ assets แล้วเพิ่มรายการใน array นี้
-const tracks = [{ title: "Starry Sky (Calm Dreamy Piano)", src: "assets/good-night.mp3" }];
+// เพลง MP3 ในโฟลเดอร์ assets
+const tracks = [
+  { title: "Study Rainy Night", src: "assets/alex-morgan-lofi-study-rainy-night-568166.mp3" },
+  { title: "Open Window", src: "assets/ornave-lofi-open-window-553420.mp3" },
+  { title: "Midnight Club", src: "assets/alex-morgan-lofi-midnight-club-568164.mp3" }
+];
 let currentTrack = 0;
 function todayKey() {
   const d = new Date();
@@ -135,7 +139,7 @@ function applyTheme(){document.body.dataset.theme=themes[themeIndex];themeButton
 themeButton.addEventListener("click",()=>{themeIndex=(themeIndex+1)%themes.length;applyTheme();});
 applyTheme();
 
-// เครื่องเล่นเพลงแบบ audio-only; เพิ่มเพลงได้ใน array tracks ด้านบน
+// เครื่องเล่นเพลงแบบ audio-only
 function setMusicPlaying(playing){
   musicButton.classList.toggle("playing",playing);
   musicButton.setAttribute("aria-pressed",String(playing));
