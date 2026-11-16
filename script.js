@@ -138,7 +138,7 @@ setInterval(makeHeart,1700);
 
 // เปลี่ยนธีมและจดจำค่าที่เลือกไว้ในอุปกรณ์นี้
 const themes=["night","lavender","ocean","dawn"];
-const themeNames={night:"โกโก้อุ่น",lavender:"ลาเวนเดอร์ละมุน",ocean:"โอเชียนครีม",dawn:"พีชยามเย็น"};
+const themeNames={night:"Moonlit Cabin · กระท่อมใต้แสงจันทร์",lavender:"Aurora Veil · แสงเหนือ",ocean:"Midnight Tide · ทะเลยามเที่ยงคืน",dawn:"City After Dark · เมืองยามค่ำ"};
 let themeIndex=Math.max(0,themes.indexOf(localStorage.getItem("goodNightTheme")||"night"));
 function applyTheme(){document.body.dataset.theme=themes[themeIndex];themeButton.textContent=`เปลี่ยนบรรยากาศ · ${themeNames[themes[themeIndex]]} 🌌`;saveStorage("goodNightTheme",themes[themeIndex]);}
 themeButton.addEventListener("click",()=>{themeIndex=(themeIndex+1)%themes.length;applyTheme();});
