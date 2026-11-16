@@ -239,3 +239,204 @@ audio.addEventListener("volumechange", () => {
   }
 });
 loadTrack(0);
+
+
+// Shared cloud guestbook powered by Supabase
+(() => {
+  const guestbook = {
+    url: "https://azsnbnfwkhntcagfkflp.supabase.co",
+    key: "sb_publishable_4mPvBrN2JL87lfdxFN_TGQ_ZUMO-4V9"
+  };
+  const root = document.querySelector(".cloud-guestbook");
+  if (!root) return;
+
+  const form = document.querySelector("#guestbookForm");
+  const openFormButton = document.querySelector("#openGuestbookForm");
+  const toggleMessagesButton = document.querySelector("#toggleGuestbookMessages");
+  const messagesPanel = document.querySelector("#guestbookMessages");
+  const cloudList = document.querySelector("#guestbookCloudList");
+  const status = document.querySelector("#guestbookStatus");
+  const nameInput = document.querySelector("#guestbookName");
+  const messageInput = document.querySelector("#guestbookMessage");
+  const charCount = document.querySelector("#guestbookCharCount");
+  const sendButton = document.querySelector("#sendGuestbookMessage");
+  const emptyState = document.querySelector("#guestbookEmpty");
+  const countLabel = document.querySelector("#guestbookCount");
+
+  if (!window.supabase?.createClient) {
+    status.textContent = "ระบบข้อความยังโหลดไม่สำเร็จ ลองรีเฟรชหน้าเว็บอีกครั้งนะ";
+    return;
+  }
+
+  const client = window.supabase.createClient(guestbook.url, guestbook.key);
+  const storedMessages = new Map();
+  let lastSentAt = 0;
+  let isLoading = false;
+
+  function updateCount() {
+    const count = storedMessages.size;
+    countLabel.textContent = `มีข้อความฝากไว้บนก้อนเมฆ ${count.toLocaleString("th-TH")} ข้อความ ☁️`;
+    emptyState.hidden = count > 0;
+  }
+
+  function formatDate(value) {
+    const date = new Date(value);
+    if (Number.isNaN(date.getTime())) return "";
+    return new Intl.DateTimeFormat("th-TH", {
+      dateStyle: "medium",
+      timeStyle: "short"
+    }).format(date);
+  }
+
+  function renderMessages() {
+    const sorted = [...storedMessages.values()].sort((a, b) =>
+      new Date(a.created_at).getTime() - new Date(b.created_at).getTime()
+    );
+    cloudList.replaceChildren();
+    for (const item of sorted) {
+      const cloud = document.createElement("article");
+      cloud.className = "guestbook-cloud";
+
+      const text = document.createElement("p");
+      text.className = "guestbook-cloud-message";
+      text.textContent = item.message;
+
+      const author = document.createElement("p");
+      author.className = "guestbook-cloud-author";
+      author.textContent = item.display_name ? `— ${item.display_name}` : "— ไม่ระบุชื่อ";
+
+      const time = document.createElement("time");
+      time.className = "guestbook-cloud-time";
+      time.dateTime = item.created_at;
+      time.textContent = formatDate(item.created_at);
+
+      cloud.append(text, author, time);
+      cloudList.append(cloud);
+    }
+    updateCount();
+  }
+
+  function addMessage(item) {
+    if (!item || item.id == null) return;
+    storedMessages.set(String(item.id), item);
+    renderMessages();
+  }
+
+  async function loadAllMessages() {
+    if (isLoading) return;
+    isLoading = true;
+    status.textContent = "กำลังรวบรวมข้อความจากก้อนเมฆ... ☁️";
+    try {
+      const pageSize = 500;
+      let from = 0;
+      while (true) {
+        const { data, error } = await client
+          .from("goodnight_messages")
+          .select("id,message,display_name,created_at")
+          .order("created_at", { ascending: true })
+          .order("id", { ascending: true })
+          .range(from, from + pageSize - 1);
+        if (error) throw error;
+        for (const item of data || []) addMessage(item);
+        if (!data || data.length < pageSize) break;
+        from += pageSize;
+      }
+      status.textContent = "ข้อความจากทุกคนพร้อมแล้ว 💙";
+    } catch (error) {
+      console.error("Guestbook load error:", error);
+      status.textContent = "โหลดข้อความไม่สำเร็จ ตรวจสอบการตั้งค่าตารางและ Data API ใน Supabase นะ";
+    } finally {
+      isLoading = false;
+    }
+  }
+
+  openFormButton.addEventListener("click", () => {
+    const opening = form.hidden;
+    form.hidden = !opening;
+    openFormButton.setAttribute("aria-expanded", String(opening));
+    if (opening) messageInput.focus();
+  });
+
+  toggleMessagesButton.addEventListener("click", () => {
+    const opening = messagesPanel.hidden;
+    messagesPanel.hidden = !opening;
+    toggleMessagesButton.setAttribute("aria-expanded", String(opening));
+    toggleMessagesButton.textContent = opening ? "☁️ ซ่อนข้อความ" : "✨ แสดงข้อความทั้งหมด";
+  });
+
+  messageInput.addEventListener("input", () => {
+    charCount.textContent = `${messageInput.value.length}/300`;
+  });
+
+  form.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    const message = messageInput.value.trim();
+    const displayName = nameInput.value.trim();
+    if (!message) {
+      status.textContent = "พิมพ์ข้อความก่อนส่งนะครับ ☁️";
+      messageInput.focus();
+      return;
+    }
+    if (message.length > 300 || displayName.length > 30) {
+      status.textContent = "ข้อความต้องไม่เกิน 300 ตัวอักษร และชื่อไม่เกิน 30 ตัวอักษรนะ";
+      return;
+    }
+    const now = Date.now();
+    if (now - lastSentAt < 10000) {
+      status.textContent = "รอสักครู่ก่อนส่งข้อความถัดไปนะครับ 💫";
+      return;
+    }
+
+    sendButton.disabled = true;
+    sendButton.textContent = "กำลังส่ง...";
+    status.textContent = "กำลังส่งข้อความขึ้นไปบนก้อนเมฆ ☁️";
+    try {
+      const { data, error } = await client
+        .from("goodnight_messages")
+        .insert({
+          message,
+          display_name: displayName || null
+        })
+        .select("id,message,display_name,created_at")
+        .single();
+      if (error) throw error;
+      lastSentAt = Date.now();
+      addMessage(data);
+      messageInput.value = "";
+      nameInput.value = "";
+      charCount.textContent = "0/300";
+      status.textContent = "ส่งข้อความสำเร็จแล้ว ขอให้คืนนี้เป็นคืนที่ดีนะ 💌";
+      messagesPanel.hidden = false;
+      toggleMessagesButton.setAttribute("aria-expanded", "true");
+      toggleMessagesButton.textContent = "☁️ ซ่อนข้อความ";
+      form.hidden = true;
+      openFormButton.setAttribute("aria-expanded", "false");
+    } catch (error) {
+      console.error("Guestbook send error:", error);
+      status.textContent = "ส่งข้อความไม่สำเร็จ ลองอีกครั้งนะครับ";
+    } finally {
+      sendButton.disabled = false;
+      sendButton.textContent = "ส่งข้อความ 💌";
+    }
+  });
+
+  client
+    .channel("goodnight-messages-live")
+    .on("postgres_changes", {
+      event: "INSERT",
+      schema: "public",
+      table: "goodnight_messages"
+    }, (payload) => {
+      addMessage(payload.new);
+      status.textContent = "มีข้อความฝันดีใหม่ลอยมาถึงแล้ว ✨";
+    })
+    .subscribe((state) => {
+      if (state === "SUBSCRIBED") {
+        status.textContent = "เชื่อมต่อก้อนเมฆแล้ว พร้อมรับข้อความจากทุกคน ☁️";
+      } else if (state === "CHANNEL_ERROR" || state === "TIMED_OUT") {
+        status.textContent = "การเชื่อมต่อสดขัดข้อง แต่ยังลองโหลดข้อความใหม่ได้";
+      }
+    });
+
+  loadAllMessages();
+})();
