@@ -60,108 +60,105 @@ const messages = [
 const messageEl = document.querySelector("#message");
 const dateLabel = document.querySelector("#dateLabel");
 const messageButton = document.querySelector("#newMessage");
+const messageStatus = document.querySelector("#messageStatus");
 const audio = document.querySelector("#goodNightMusic");
 const musicButton = document.querySelector("#musicBtn");
 const musicIcon = document.querySelector("#musicIcon");
 const musicText = document.querySelector("#musicText");
 const musicStatus = document.querySelector("#musicStatus");
+const trackTitle = document.querySelector("#trackTitle");
+const prevTrackButton = document.querySelector("#prevTrack");
+const nextTrackButton = document.querySelector("#nextTrack");
+const themeButton = document.querySelector("#themeBtn");
 
+// เพิ่มเพลงใหม่โดยอัปโหลดไฟล์ MP3 เข้าโฟลเดอร์ assets แล้วเพิ่มรายการใน array นี้
+const tracks = [{ title: "Starry Sky (Calm Dreamy Piano)", src: "assets/good-night.mp3" }];
+let currentTrack = 0;
 function todayKey() {
-  const now = new Date();
-  return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")}`;
+  const d = new Date();
+  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
 }
-
-// Keep a shuffled message bag locally: one daily pick, with no repeats until all are used.
-function dailyMessage() {
-  const key = "goodNightMessageCycle";
-  let state;
-  try { state = JSON.parse(localStorage.getItem(key) || "null"); } catch { state = null; }
-  if (!state || !Array.isArray(state.remaining) || !Array.isArray(state.order)) {
-    state = { remaining: [], order: [], today: "", message: "" };
-  }
-  if (state.today !== todayKey()) {
-    if (state.remaining.length === 0) {
-      state.remaining = messages.map((_, index) => index);
-      for (let i = state.remaining.length - 1; i > 0; i -= 1) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [state.remaining[i], state.remaining[j]] = [state.remaining[j], state.remaining[i]];
-      }
-    }
-    const index = state.remaining.pop();
-    state.today = todayKey();
-    state.message = messages[index];
-    state.order = state.remaining;
-    try { localStorage.setItem(key, JSON.stringify(state)); } catch { /* Private browsing may block storage. */ }
-  }
-  return state.message || messages[0];
+function readStorage(key, fallback) { try { return JSON.parse(localStorage.getItem(key)) ?? fallback; } catch { return fallback; } }
+function saveStorage(key, value) { try { localStorage.setItem(key, JSON.stringify(value)); } catch {} }
+function getMessageState() {
+  const state = readStorage("goodNightMessageHistory", null);
+  return state && state.date === todayKey() && Array.isArray(state.used) ? state : { date: todayKey(), used: [], current: null };
 }
-
+let messageState = getMessageState();
+function pickUnusedMessage() {
+  const available = messages.map((_,i)=>i).filter(i=>!messageState.used.includes(i));
+  if (!available.length) {
+    messageButton.disabled = true;
+    messageButton.textContent = "วันนี้อ่านข้อความครบแล้ว 💗";
+    messageStatus.textContent = "พรุ่งนี้กลับมาพบข้อความชุดใหม่นะ";
+    return null;
+  }
+  const index = available[Math.floor(Math.random()*available.length)];
+  messageState.used.push(index);
+  messageState.current = index;
+  saveStorage("goodNightMessageHistory", messageState);
+  return messages[index];
+}
 function showMessage(message) {
-  messageEl.animate([{ opacity: 0, transform: "translateY(5px)" }, { opacity: 1, transform: "translateY(0)" }], { duration: 450 });
+  messageEl.animate([{opacity:0,transform:"translateY(5px)"},{opacity:1,transform:"translateY(0)"}],{duration:450});
   messageEl.textContent = message;
 }
-
-showMessage(dailyMessage());
-dateLabel.textContent = new Intl.DateTimeFormat("th-TH", { dateStyle: "long" }).format(new Date());
-
-messageButton.addEventListener("click", () => {
-  const remaining = messages.filter((item) => item !== messageEl.textContent);
-  const next = remaining[Math.floor(Math.random() * remaining.length)];
-  showMessage(next || dailyMessage());
-  makeHeart();
-});
+if (messageState.current === null || !messages[messageState.current]) {
+  const first = pickUnusedMessage(); if (first) showMessage(first);
+} else showMessage(messages[messageState.current]);
+dateLabel.textContent = new Intl.DateTimeFormat("th-TH",{dateStyle:"long"}).format(new Date());
+messageButton.addEventListener("click",()=>{ const next=pickUnusedMessage(); if(next){showMessage(next);makeHeart();} });
 
 const starsLayer = document.querySelector("#stars");
-for (let i = 0; i < 75; i += 1) {
-  const star = document.createElement("i");
-  star.className = "star";
-  star.style.left = `${Math.random() * 100}%`;
-  star.style.top = `${Math.random() * 100}%`;
-  star.style.setProperty("--duration", `${2 + Math.random() * 4}s`);
-  star.style.animationDelay = `${Math.random() * 4}s`;
-  starsLayer.append(star);
+for(let i=0;i<75;i++){
+  const star=document.createElement("i"); star.className="star";
+  star.style.left=`${Math.random()*100}%`; star.style.top=`${Math.random()*100}%`;
+  star.style.setProperty("--duration",`${2+Math.random()*4}s`);
+  star.style.animationDelay=`${Math.random()*4}s`; starsLayer.append(star);
 }
-
-function makeHeart() {
-  const heart = document.createElement("span");
-  heart.className = "heart";
-  heart.textContent = ["♡", "♥", "✨"][Math.floor(Math.random() * 3)];
-  heart.style.left = `${10 + Math.random() * 80}%`;
-  heart.style.fontSize = `${16 + Math.random() * 18}px`;
-  heart.style.setProperty("--duration", `${5 + Math.random() * 4}s`);
-  heart.style.setProperty("--drift", `${Math.random() * 100 - 50}px`);
+function makeHeart(){
+  const heart=document.createElement("span"); heart.className="heart";
+  heart.textContent=["♡","♥","✨"][Math.floor(Math.random()*3)];
+  heart.style.left=`${10+Math.random()*80}%`; heart.style.fontSize=`${16+Math.random()*18}px`;
+  heart.style.setProperty("--duration",`${5+Math.random()*4}s`);
+  heart.style.setProperty("--drift",`${Math.random()*100-50}px`);
   document.querySelector("#floaties").append(heart);
-  heart.addEventListener("animationend", () => heart.remove(), { once: true });
+  heart.addEventListener("animationend",()=>heart.remove(),{once:true});
 }
-setInterval(makeHeart, 1700);
+setInterval(makeHeart,1700);
 
-function setMusicPlaying(playing) {
-  musicButton.classList.toggle("playing", playing);
-  musicButton.setAttribute("aria-pressed", String(playing));
-  musicIcon.textContent = playing ? "🎶" : "🎵";
-  musicText.textContent = playing ? "ปิดเพลง" : "เปิดเพลงพื้นหลัง";
+// เปลี่ยนธีมและจดจำค่าที่เลือกไว้ในอุปกรณ์นี้
+const themes=["night","lavender","ocean","dawn"];
+const themeNames={night:"ท้องฟ้ายามค่ำคืน",lavender:"ม่วงละมุน",ocean:"ทะเลยามค่ำ",dawn:"แสงสนธยา"};
+let themeIndex=Math.max(0,themes.indexOf(localStorage.getItem("goodNightTheme")||"night"));
+function applyTheme(){document.body.dataset.theme=themes[themeIndex];themeButton.textContent=`เปลี่ยนบรรยากาศ · ${themeNames[themes[themeIndex]]} 🌌`;saveStorage("goodNightTheme",themes[themeIndex]);}
+themeButton.addEventListener("click",()=>{themeIndex=(themeIndex+1)%themes.length;applyTheme();});
+applyTheme();
+
+// เครื่องเล่นเพลงแบบ audio-only; เพิ่มเพลงได้ใน array tracks ด้านบน
+function setMusicPlaying(playing){
+  musicButton.classList.toggle("playing",playing);
+  musicButton.setAttribute("aria-pressed",String(playing));
+  musicIcon.textContent=playing?"🎶":"🎵";
+  musicText.textContent=playing?"ปิดเพลง":"เปิดเพลงพื้นหลัง";
 }
-
-musicButton.addEventListener("click", async () => {
-  if (audio.paused) {
-    try {
-      await audio.play();
-      setMusicPlaying(true);
-      musicStatus.textContent = "กำลังเล่นเพลงพื้นหลัง 🎵";
-    } catch (error) {
-      setMusicPlaying(false);
-      musicStatus.textContent = "ยังไม่พบไฟล์เพลง — ดูวิธีเพิ่มไฟล์ในคำแนะนำ";
-      console.error("Audio playback failed:", error);
-    }
-  } else {
-    audio.pause();
-    setMusicPlaying(false);
-    musicStatus.textContent = "หยุดเพลงแล้ว";
-  }
+function loadTrack(index,autoplay=false){
+  currentTrack=(index+tracks.length)%tracks.length;
+  audio.src=tracks[currentTrack].src; trackTitle.textContent=tracks[currentTrack].title;
+  audio.load(); setMusicPlaying(false); musicStatus.textContent="พร้อมเปิดเพลง 🎵";
+  if(autoplay) audio.play().then(()=>{setMusicPlaying(true);musicStatus.textContent="กำลังเล่นเพลง 🎶";}).catch(()=>{
+    setMusicPlaying(false);musicStatus.textContent="เล่นเพลงไม่ได้ ตรวจสอบไฟล์ MP3 ในโฟลเดอร์ assets";
+  });
+}
+musicButton.addEventListener("click",async()=>{
+  if(audio.paused){
+    try{await audio.play();setMusicPlaying(true);musicStatus.textContent="กำลังเล่นเพลง 🎶";}
+    catch(error){setMusicPlaying(false);musicStatus.textContent="เล่นเพลงไม่ได้ ตรวจสอบไฟล์ MP3 ในโฟลเดอร์ assets";console.error(error);}
+  }else{audio.pause();setMusicPlaying(false);musicStatus.textContent="หยุดเพลงแล้ว";}
 });
-
-audio.volume = 0.25;
-audio.addEventListener("error", () => {
-  musicStatus.textContent = "ยังไม่พบไฟล์ assets/good-night.mp3";
-});
-
+prevTrackButton.addEventListener("click",()=>loadTrack(currentTrack-1,!audio.paused));
+nextTrackButton.addEventListener("click",()=>loadTrack(currentTrack+1,!audio.paused));
+audio.addEventListener("ended",()=>loadTrack(currentTrack+1,true));
+audio.addEventListener("error",()=>{setMusicPlaying(false);musicStatus.textContent="ไม่พบไฟล์เพลง กรุณาตรวจสอบชื่อไฟล์และโฟลเดอร์ assets";});
+audio.volume=.25;
+loadTrack(0);
