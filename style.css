@@ -370,3 +370,50 @@ body[data-theme="dawn"] .message-wrap::before { content: "♡"; }
   .message-wrap { min-height: 138px; padding: 24px 18px; margin-top: 20px; }
   .message { font-size: clamp(1.25rem, 5.2vw, 1.55rem); line-height: 1.6; }
 }
+
+
+/* Dreamy message decorations: gentle stars and drifting clouds */
+.message-wrap { overflow: visible; }
+.message-sparkle, .message-cloud {
+  position: absolute;
+  z-index: 0;
+  pointer-events: none;
+  user-select: none;
+}
+.message-sparkle {
+  color: var(--message-accent, #ffe1ad);
+  text-shadow: 0 0 10px var(--message-glow, #fff0c533);
+  animation: message-twinkle 3.2s ease-in-out infinite;
+}
+.sparkle-one { top: 17px; right: 25px; font-size: 1.25rem; }
+.sparkle-two { bottom: 18px; left: 27px; font-size: .95rem; animation-delay: -1.6s; }
+.message-cloud {
+  color: var(--message-accent, #ffe1ad);
+  opacity: .2;
+  font-family: sans-serif;
+  filter: drop-shadow(0 2px 7px var(--message-glow, #fff0c533));
+  animation: message-cloud-drift 8s ease-in-out infinite alternate;
+}
+.cloud-one { left: -13px; top: 18px; font-size: 2rem; }
+.cloud-two { right: -12px; bottom: 8px; font-size: 1.65rem; animation-delay: -4s; }
+.message { z-index: 2; }
+@keyframes message-twinkle {
+  0%, 100% { opacity: .45; transform: scale(.82) rotate(-8deg); }
+  50% { opacity: 1; transform: scale(1.18) rotate(12deg); }
+}
+@keyframes message-cloud-drift {
+  from { transform: translateX(-5px) translateY(1px); }
+  to { transform: translateX(7px) translateY(-4px); }
+}
+body[data-theme="night"] .message-cloud { color: #f5d39d; opacity: .24; }
+body[data-theme="lavender"] .message-cloud { color: #e4caff; opacity: .3; }
+body[data-theme="ocean"] .message-cloud { color: #a8f1e4; opacity: .24; }
+body[data-theme="dawn"] .message-cloud { color: #ffc4ad; opacity: .25; }
+@media (max-width: 480px) {
+  .cloud-one { left: -8px; font-size: 1.55rem; }
+  .cloud-two { right: -8px; font-size: 1.35rem; }
+  .sparkle-one { right: 17px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .message-sparkle, .message-cloud { animation: none; }
+}
