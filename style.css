@@ -74,3 +74,80 @@ button:disabled { opacity: .45; cursor: not-allowed; transform: none !important;
   .music-button.playing #musicIcon { animation: none; }
   .music-button.playing .equalizer i { height: 7px; }
 }
+
+
+/* Warm & Cozy UI: โครงสร้างเดิม แต่ปรับบรรยากาศให้ละมุนและอบอุ่น */
+:root { color-scheme: light; }
+body {
+  --ink: #60483e;
+  --muted: #92786c;
+  --accent: #b8795e;
+  --accent-soft: #f1d8c8;
+  --surface: rgba(255, 249, 241, .88);
+  --surface-border: rgba(130, 91, 71, .16);
+  --glow: rgba(225, 177, 142, .42);
+  --page-bg: radial-gradient(ellipse at 50% 100%, #f0c9a8 0, transparent 48%), linear-gradient(145deg, #f8e9d9, #e8c8ad 58%, #d9ad91);
+  color: var(--ink);
+  background: var(--page-bg);
+  transition: background .55s ease, color .35s ease;
+}
+body[data-theme="night"] {
+  --ink: #60483e; --muted: #92786c; --accent: #b8795e; --accent-soft: #f1d8c8;
+  --surface: rgba(255, 249, 241, .88); --surface-border: rgba(130, 91, 71, .16); --glow: rgba(225, 177, 142, .42);
+  --page-bg: radial-gradient(ellipse at 50% 100%, #efc9a9 0, transparent 48%), linear-gradient(145deg, #f8eadc, #e9cbb3 58%, #d8ad91);
+}
+body[data-theme="lavender"] {
+  --ink: #624d60; --muted: #967f91; --accent: #a77d9e; --accent-soft: #ead8e8;
+  --surface: rgba(255, 248, 252, .89); --surface-border: rgba(133, 99, 130, .17); --glow: rgba(207, 169, 204, .42);
+  --page-bg: radial-gradient(ellipse at 50% 100%, #e9cde3 0, transparent 48%), linear-gradient(145deg, #fbf0f5, #e9d6e5 58%, #d4b7d0);
+}
+body[data-theme="ocean"] {
+  --ink: #465e5b; --muted: #718c84; --accent: #648b80; --accent-soft: #d5e5dc;
+  --surface: rgba(248, 252, 245, .89); --surface-border: rgba(82, 126, 112, .17); --glow: rgba(166, 202, 183, .42);
+  --page-bg: radial-gradient(ellipse at 50% 100%, #c5dfd0 0, transparent 48%), linear-gradient(145deg, #f3f0df, #d8e5d7 58%, #a9c9bd);
+}
+body[data-theme="dawn"] {
+  --ink: #704d43; --muted: #a17b6d; --accent: #c77f68; --accent-soft: #f5d6c7;
+  --surface: rgba(255, 249, 241, .9); --surface-border: rgba(157, 100, 79, .17); --glow: rgba(244, 184, 151, .45);
+  --page-bg: radial-gradient(ellipse at 50% 100%, #f5c3a6 0, transparent 48%), linear-gradient(145deg, #fff0df, #f3d0b8 58%, #e5a98f);
+}
+.card {
+  color: var(--ink);
+  border: 1px solid var(--surface-border);
+  background: var(--surface);
+  box-shadow: 0 24px 70px rgba(105, 69, 49, .14), inset 0 1px rgba(255,255,255,.8);
+  backdrop-filter: blur(18px);
+  transition: background .45s ease, border-color .45s ease, box-shadow .45s ease;
+}
+.eyebrow { color: var(--accent); letter-spacing: .1em; }
+h1 { color: var(--ink); text-shadow: 0 5px 22px var(--glow); }
+.subtitle, .message { color: var(--ink); }
+.date-label, .message-status, .music-status, .track-title { color: var(--muted); }
+.signature { color: var(--accent); }
+.moon {
+  background: #fff4d9;
+  box-shadow: 0 0 32px rgba(255, 231, 185, .75), 0 0 85px var(--glow);
+}
+.moon::after { display: none; }
+.star { background: #fff8e7; box-shadow: 0 0 8px rgba(255, 247, 222, .95); }
+.soft-button, .music-button, .theme-button, .track-button {
+  color: var(--ink);
+  border: 1px solid var(--surface-border);
+  background: rgba(255,255,255,.58);
+  box-shadow: 0 5px 16px rgba(110, 75, 54, .06);
+}
+.soft-button:hover, .music-button:hover, .theme-button:hover, .track-button:hover {
+  background: var(--accent-soft);
+  box-shadow: 0 8px 22px var(--glow);
+}
+.music-button { background: var(--accent-soft); }
+.music-button.playing { background: var(--accent-soft); box-shadow: 0 0 0 4px var(--glow), 0 8px 22px var(--glow); }
+.equalizer i { background: var(--accent); }
+.music-credit { color: var(--muted); }
+.music-credit a { color: var(--accent); }
+.volume-toggle[aria-expanded="true"] { background: var(--accent-soft); border-color: var(--accent); }
+.volume-panel { border-color: var(--surface-border); background: var(--surface); box-shadow: 0 8px 24px rgba(110,75,54,.1); }
+.volume-slider { accent-color: var(--accent); }
+.volume-value { color: var(--muted); }
+.heart { color: var(--accent); }
+.theme-button { color: var(--accent); }
