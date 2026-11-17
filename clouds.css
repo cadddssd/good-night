@@ -355,3 +355,44 @@ h1 { color: #fff0d9; text-shadow: 0 0 24px rgba(255,204,160,.22); }
 
 /* Timestamp is intentionally omitted from cloud cards */
 .cloud-time, .cloud-item time { display: none !important; }
+
+/* Let each cloud grow with its message so long text stays readable */
+.cloud-list {
+  align-items: stretch;
+}
+.cloud-item {
+  height: auto;
+  min-height: 190px;
+  padding: 58px 18px 28px;
+  overflow: visible;
+}
+.cloud-item::before {
+  inset: 23px 0 4px;
+  border-radius: 46% 46% 42% 42% / 32% 32% 38% 38%;
+}
+.cloud-text {
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  padding: 0 5px;
+  overflow-wrap: anywhere;
+  word-break: normal;
+  font-size: .8rem;
+  line-height: 1.75;
+}
+.cloud-author {
+  max-width: 100%;
+  overflow-wrap: anywhere;
+}
+@media (max-width: 820px) {
+  .cloud-item { min-height: 180px; padding-inline: 13px; }
+  .cloud-text { font-size: .78rem; }
+}
+@media (max-width: 560px) {
+  .cloud-item { min-height: 170px; padding: 54px 12px 24px; }
+  .cloud-item::before { inset: 22px 0 4px; }
+  .cloud-text { padding-inline: 2px; font-size: .76rem; }
+}
+@media (max-width: 360px) {
+  .cloud-item { min-height: 150px; padding-inline: 18px; }
+}
