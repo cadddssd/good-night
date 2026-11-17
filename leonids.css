@@ -52,3 +52,74 @@ h1 span{font-size:.65em}
 @keyframes shake{0%,100%{transform:rotate(0)}20%{transform:rotate(-5deg) translateX(-5px)}40%{transform:rotate(5deg) translateX(5px)}60%{transform:rotate(-4deg) translateX(-3px)}80%{transform:rotate(3deg) translateX(3px)}}
 @media(max-width:480px){.experience{padding:18px 17px 24px}.intro{margin-top:7px}.wish-area{margin-top:22px}.letter{min-height:300px}.envelope{min-height:292px;padding-inline:14px}.letter-content{min-height:250px;padding-inline:9px}.moon{width:48px;height:48px;right:8%;top:5%}.constellation-one{left:0}.constellation-two{right:0}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.01ms!important}}
+
+/* A tiny magical reveal: glowing seal, starburst and one passing meteor */
+.wish-area { isolation: isolate; }
+.wish-area::before,
+.wish-area::after {
+  content: "";
+  position: absolute;
+  z-index: 5;
+  pointer-events: none;
+  opacity: 0;
+}
+.wish-area::before {
+  left: 50%;
+  top: 105px;
+  width: 230px;
+  height: 230px;
+  transform: translate(-50%,-50%) scale(.35);
+  background:
+    radial-gradient(circle, #fff8d9 0 1.5px, transparent 2.5px) 50% 0/100% 100%,
+    radial-gradient(circle, #ffe5ad 0 1px, transparent 2px) 0 50%/100% 100%,
+    radial-gradient(circle, #e8d6ff 0 1.5px, transparent 2.5px) 100% 50%/100% 100%,
+    radial-gradient(circle, #fff 0 1px, transparent 2px) 50% 100%/100% 100%;
+}
+.wish-area::after {
+  top: 70px;
+  left: 112%;
+  width: 145px;
+  height: 2px;
+  transform: rotate(-34deg);
+  transform-origin: right center;
+  background: linear-gradient(90deg,transparent,#d9e4ff99,#fff9df);
+  filter: drop-shadow(0 0 6px #fff0bd);
+}
+.wish-area.celebrating::before {
+  animation: star-burst .95s ease-out both;
+}
+.wish-area.celebrating::after {
+  animation: reveal-meteor 1.05s .08s ease-out both;
+}
+.letter.celebrating .letter-seal {
+  animation: seal-awaken .72s ease-in-out both;
+}
+.letter.celebrating .letter-glow {
+  animation: letter-aura .95s ease-out both;
+}
+@keyframes star-burst {
+  0% { opacity:0; transform:translate(-50%,-50%) scale(.25) rotate(0deg); }
+  25% { opacity:1; }
+  100% { opacity:0; transform:translate(-50%,-50%) scale(1.18) rotate(28deg); }
+}
+@keyframes reveal-meteor {
+  0% { opacity:0; left:112%; top:65px; }
+  12% { opacity:1; }
+  100% { opacity:0; left:-28%; top:230px; }
+}
+@keyframes seal-awaken {
+  0% { opacity:1; transform:translate(-50%,-50%) scale(1); box-shadow:0 3px 10px #755b7c66; }
+  45% { opacity:1; transform:translate(-50%,-50%) scale(1.28); box-shadow:0 0 8px 5px #ffe7adbb,0 0 28px 12px #f3c9ed88; }
+  100% { opacity:0; transform:translate(-50%,-20%) scale(.4); }
+}
+@keyframes letter-aura {
+  0% { opacity:.25; transform:scale(.7); }
+  45% { opacity:1; transform:scale(1.12); }
+  100% { opacity:.45; transform:scale(1); }
+}
+@media(prefers-reduced-motion:reduce) {
+  .wish-area.celebrating::before,
+  .wish-area.celebrating::after,
+  .letter.celebrating .letter-seal,
+  .letter.celebrating .letter-glow { animation:none!important; }
+}
