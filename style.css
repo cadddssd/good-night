@@ -764,3 +764,59 @@ body {
 .cloud-link-copy strong { font-size: .9rem; }
 .cloud-link-copy small { color: var(--muted); font-size: .7rem; }
 .cloud-link-arrow { font-size: 1.2rem; opacity: .7; }
+
+
+/* Cozy shooting stars — soft amber trails, occasional and unobtrusive */
+.shooting-star {
+  position: absolute;
+  z-index: 0;
+  width: var(--shooting-length, 118px);
+  height: 2px;
+  border-radius: 999px;
+  opacity: 0;
+  pointer-events: none;
+  transform: rotate(34deg);
+  transform-origin: left center;
+  background: linear-gradient(90deg, var(--shooting-color, #ffe0a8) 0%, rgba(255, 224, 168, .72) 22%, rgba(255, 224, 168, 0) 100%);
+  filter: drop-shadow(0 0 5px var(--shooting-color, #ffe0a8));
+  animation: cozy-shooting-star 1.35s cubic-bezier(.22,.62,.36,1) forwards;
+}
+.shooting-star::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #fff8e9;
+  box-shadow: 0 0 7px 2px var(--shooting-color, #ffe0a8), 0 0 16px var(--shooting-color, #ffe0a8);
+  transform: translateY(-50%);
+}
+@keyframes cozy-shooting-star {
+  0% { opacity: 0; transform: rotate(34deg) translate(0, 0) scaleX(.72); }
+  12% { opacity: .9; }
+  72% { opacity: .72; }
+  100% { opacity: 0; transform: rotate(34deg) translate(-245px, 0) scaleX(1); }
+}
+body[data-theme="lavender"] .shooting-star {
+  --shooting-color: #e8ceff;
+}
+body[data-theme="ocean"] .shooting-star {
+  --shooting-color: #b8eee4;
+}
+body[data-theme="dawn"] .shooting-star {
+  --shooting-color: #ffd0b4;
+}
+@media (max-width: 600px) {
+  .shooting-star { --shooting-length: 88px; }
+  @keyframes cozy-shooting-star {
+    0% { opacity: 0; transform: rotate(34deg) translate(0, 0) scaleX(.72); }
+    12% { opacity: .85; }
+    72% { opacity: .65; }
+    100% { opacity: 0; transform: rotate(34deg) translate(-175px, 0) scaleX(1); }
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .shooting-star { display: none !important; animation: none !important; }
+}
