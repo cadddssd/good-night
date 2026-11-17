@@ -506,3 +506,28 @@ loadTrack(0);
 
   loadAllMessages();
 })();
+
+
+// หิ่งห้อยแสงอุ่น ลอยช้า ๆ บริเวณขอบจอ
+(() => {
+  const layer = document.querySelector("#floaties");
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+  if (!layer || reduceMotion.matches) return;
+
+  const fireflyCount = 9;
+  for (let i = 0; i < fireflyCount; i++) {
+    const light = document.createElement("span");
+    light.className = "firefly";
+    light.setAttribute("aria-hidden", "true");
+    const leftSide = i % 2 === 0;
+    light.style.setProperty("--firefly-x", leftSide
+      ? `${2 + Math.random() * 13}%`
+      : `${85 + Math.random() * 12}%`);
+    light.style.setProperty("--firefly-y", `${12 + Math.random() * 76}%`);
+    light.style.setProperty("--firefly-size", `${2.5 + Math.random() * 2.5}px`);
+    light.style.setProperty("--firefly-duration", `${15 + Math.random() * 12}s`);
+    light.style.setProperty("--firefly-delay", `${-Math.random() * 18}s`);
+    light.style.setProperty("--firefly-drift", `${-18 + Math.random() * 36}px`);
+    layer.append(light);
+  }
+})();
