@@ -919,3 +919,31 @@ body[data-theme="dawn"] .shooting-star {
 .music-credit {
   display: none !important;
 }
+
+/* Special Leonids night experience link */
+.meteor-guestbook-link {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  width: min(100%, 390px);
+  margin: 13px auto 0;
+  padding: 13px 16px;
+  color: #fff4e8;
+  text-align: left;
+  text-decoration: none;
+  border: 1px solid rgba(255,224,180,.35);
+  border-radius: 18px;
+  background: linear-gradient(120deg, rgba(255,211,155,.16), rgba(190,164,255,.13));
+  box-shadow: 0 8px 28px rgba(10,8,30,.16), inset 0 1px rgba(255,255,255,.12);
+  transition: transform .25s ease, background .25s ease, box-shadow .25s ease;
+}
+.meteor-guestbook-link:hover {
+  transform: translateY(-3px);
+  background: linear-gradient(120deg, rgba(255,211,155,.25), rgba(190,164,255,.2));
+  box-shadow: 0 12px 32px rgba(10,8,30,.25), 0 0 22px rgba(255,220,170,.12);
+}
+.meteor-guestbook-link > span:first-child { font-size: 1.65rem; }
+.meteor-guestbook-link > span:nth-child(2) { display: grid; gap: 2px; flex: 1; }
+.meteor-guestbook-link strong { font-size: .9rem; font-weight: 600; }
+.meteor-guestbook-link small { color: #e5d7ee; font-size: .7rem; }
+.meteor-guestbook-link > span:last-child { color: #f9dfb7; font-size: 1.1rem; }
