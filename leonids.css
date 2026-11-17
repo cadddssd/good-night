@@ -249,3 +249,40 @@ h1 span{font-size:.65em}
 body.myth-open{overflow:hidden}
 @media(max-width:480px){.myth-dialog{padding:22px 16px 18px;border-radius:19px}.myth-list article{padding:10px}.myth-list p{font-size:.72rem}}
 @media(prefers-reduced-motion:reduce){.myth-modal,.myth-dialog,.myth-open-button{transition:none}}
+
+/* Moonlight storybook: illustrated, page-by-page reading experience */
+.storybook-dialog{width:min(760px,100%);padding:22px;max-height:88dvh;overflow:auto;background:radial-gradient(ellipse at 50% 0%,#78628a55,transparent 55%),linear-gradient(150deg,#202449,#17182f 76%,#30223d)}
+.storybook{position:relative;min-height:480px}
+.book-screen{display:none}.book-screen.is-visible{display:block;animation:book-screen-in .38s ease both}
+.book-cover{position:relative;min-height:455px;padding:35px 24px 24px;display:none;flex-direction:column;align-items:center;justify-content:center;text-align:center;overflow:hidden;border:1px solid #f2dcb477;border-radius:18px;background:radial-gradient(ellipse at 50% 18%,#c8a1b344,transparent 45%),linear-gradient(155deg,#1c2347,#443454 72%,#252340)}
+.book-cover.is-visible{display:flex}
+.cover-stars{position:absolute;top:20px;color:#f9e6c2;letter-spacing:.4em;opacity:.8}
+.cover-art{width:min(100%,440px);margin:18px auto 12px;filter:drop-shadow(0 12px 22px #05081788)}
+.cover-art svg,.story-illustration svg{display:block;width:100%;height:auto;border-radius:16px}
+.book-overline,.cover-foot,.page-topline,.story-chapter{color:#d7c4e9;font-size:.62rem;letter-spacing:.15em}
+.book-cover h2{margin:8px 0;color:#ffedce;font:600 clamp(2rem,6vw,2.8rem)/1.3 "Itim",cursive;text-shadow:0 0 25px #f8d8ff44}
+.cover-subtitle{margin:0 0 18px;color:#e2d7e9;font-size:.8rem}
+.book-primary,.book-restart{border:1px solid #f5dfbb99;border-radius:999px;padding:11px 24px;color:#45324f;background:linear-gradient(120deg,#ffe9c7,#e9c8e7);font:600 .86rem "Mali",sans-serif;cursor:pointer;box-shadow:0 7px 24px #08091d55}
+.book-primary span{padding-left:9px}.cover-foot{margin-top:22px;font-size:.55rem;opacity:.72}
+.book-pages{padding:4px 5px 0}
+.page-topline{display:flex;justify-content:space-between;align-items:center;margin:0 4px 13px}
+.story-page{display:none;min-height:390px;padding:19px 20px 24px;border:1px solid #e9d9c477;border-radius:16px;background:linear-gradient(145deg,#fff7e8,#f1e5e8 62%,#e6dced);color:#51455b;box-shadow:0 12px 35px #03061766}
+.story-page.is-current{display:block;animation:page-turn-in .38s ease both}
+.story-illustration{width:100%;margin:0 auto 15px;overflow:hidden;border-radius:16px;box-shadow:0 6px 18px #4b3c5a22}
+.story-chapter{margin:0 0 5px;color:#a17f9b;font-size:.58rem}
+.story-page h3{margin:0 0 10px;color:#74556f;font:600 clamp(1.35rem,4vw,1.8rem)/1.3 "Itim",cursive}
+.story-page>p:not(.story-chapter){font-size:.83rem;line-height:2;margin:0 0 10px}
+.story-page .story-whisper{margin-top:14px!important;padding:10px 13px;border-left:2px solid #c99bb6;border-radius:0 10px 10px 0;background:#e9d9e9aa;color:#846783;font: .9rem/1.8 "Itim",cursive}
+.book-navigation{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:14px 3px 0}
+.book-navigation button{border:1px solid #d9c5e777;border-radius:999px;padding:9px 14px;color:#f5e9fa;background:#ffffff12;font: .72rem "Mali",sans-serif;cursor:pointer}
+.book-navigation button:disabled{opacity:.3;cursor:default}
+.page-dots{color:#e8d8f0;font-size:.7rem;letter-spacing:.16em}
+.story-ending{text-align:center;min-height:390px;padding-top:40px}
+.ending-art{margin:10px 0 30px;color:#f8e5bd;font-size:3.2rem;text-shadow:0 0 22px #ffe4b677}
+.ending-art span{color:#e7c5f2;font-size:2rem}
+.final-whisper{text-align:center!important;font-size:1.08rem!important}
+.book-restart{margin-top:13px}
+@keyframes book-screen-in{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+@keyframes page-turn-in{from{opacity:.3;transform:translateX(16px) rotateY(-3deg)}to{opacity:1;transform:translateX(0) rotateY(0)}}
+@media(max-width:540px){.storybook-dialog{padding:18px 12px}.storybook{min-height:0}.book-cover{min-height:420px;padding:30px 15px 20px}.story-page{min-height:390px;padding:14px 13px 19px}.story-page>p:not(.story-chapter){font-size:.77rem;line-height:1.9}.book-navigation button{padding:9px 11px;font-size:.67rem}.page-dots{font-size:.6rem;letter-spacing:.08em}}
+@media(prefers-reduced-motion:reduce){.book-screen.is-visible,.story-page.is-current{animation:none}}
