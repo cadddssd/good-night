@@ -912,3 +912,10 @@ body[data-theme="dawn"] .shooting-star {
   .shooting-star--medium { --shooting-length: 88px; --shooting-travel: -205px; }
   .shooting-star--large { --shooting-length: 120px; --shooting-travel: -255px; }
 }
+
+/* ซ่อนข้อความสถานะและชื่อเพลงใต้เครื่องเล่นตามคำขอ */
+#trackTitle,
+#musicStatus,
+.music-credit {
+  display: none !important;
+}
