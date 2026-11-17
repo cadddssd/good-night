@@ -452,3 +452,46 @@ body.myth-open{overflow:hidden}
  .book-spread.turn-out-forward,.book-spread.turn-out-backward,
  .book-spread.turn-in-forward,.book-spread.turn-in-backward{animation:none!important}
 }
+
+
+/* Realistic single-leaf page turn: the left page stays still while one
+   continuous paper leaf turns over the spine to reveal its reverse side. */
+.book-pages{perspective:1800px;transform-style:preserve-3d}
+.book-spread.turning-spread{display:grid!important;position:relative;z-index:3;transform:none!important;animation:none!important}
+.book-spread.turn-under-forward,.book-spread.turn-under-backward{
+ display:grid!important;position:absolute!important;inset:0;z-index:1;transform:none!important;
+ animation:none!important;pointer-events:none;
+}
+.book-spread.turn-under-forward .turn-under-hidden,
+.book-spread.turn-under-backward .turn-under-hidden{visibility:hidden}
+.turn-leaf-source-hidden{visibility:hidden!important}
+.turn-leaf{
+ position:absolute;z-index:8;top:0;bottom:0;width:50%;transform-style:preserve-3d;
+ pointer-events:none;will-change:transform;
+}
+.turn-leaf-forward{right:0;transform-origin:left center;animation:single-leaf-forward .76s cubic-bezier(.48,.04,.24,1) both}
+.turn-leaf-backward{left:0;transform-origin:right center;animation:single-leaf-backward .76s cubic-bezier(.48,.04,.24,1) both}
+.turn-leaf-face{position:absolute;inset:0;overflow:hidden;backface-visibility:hidden;-webkit-backface-visibility:hidden;
+ background:linear-gradient(90deg,#d9c9c4 0,#fff8eb 7%,#f6ebea 100%);
+ box-shadow:0 8px 22px #17112735;transform-style:preserve-3d}
+.turn-leaf-face>.spread-page{position:absolute;inset:0;width:100%;height:100%;padding:15px 12px;overflow:hidden}
+.turn-leaf-face .story-page{display:block!important;min-height:438px;height:100%;padding:16px 17px 20px;border:0;border-radius:0;background:transparent;box-shadow:none}
+.turn-leaf-face .story-illustration svg{max-height:180px;object-fit:cover}
+.turn-leaf-back{transform:rotateY(180deg);background:linear-gradient(270deg,#d9c9c4 0,#fff8eb 7%,#f6ebea 100%)}
+.turn-leaf-back>.spread-page{background:linear-gradient(270deg,#d9c9c4,#fff8eb 9%,#f6ebea 100%)}
+.turn-leaf-forward{animation-name:single-leaf-forward}
+.turn-leaf-backward{animation-name:single-leaf-backward}
+@keyframes single-leaf-forward{from{transform:rotateY(0)}to{transform:rotateY(-180deg)}}
+@keyframes single-leaf-backward{from{transform:rotateY(0)}to{transform:rotateY(180deg)}}
+.spread-fade-out{opacity:0;transition:opacity .18s ease}
+.spread-fade-in{animation:book-screen-in .26s ease both}
+@media(max-width:700px){
+ .turn-leaf{display:none!important}
+ .book-spread.turn-under-forward,.book-spread.turn-under-backward{position:relative!important}
+ .book-spread.turn-under-forward .turn-under-hidden,
+ .book-spread.turn-under-backward .turn-under-hidden{visibility:visible}
+ .turn-leaf-source-hidden{visibility:visible!important}
+}
+@media(prefers-reduced-motion:reduce){
+ .turn-leaf,.spread-fade-out,.spread-fade-in{animation:none!important;transition:none!important}
+}
