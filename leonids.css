@@ -543,3 +543,12 @@ body.myth-open{overflow:hidden}
 @media(prefers-reduced-motion:reduce){
  .book-spread.spread-page-reveal{animation:none!important;clip-path:none!important}
 }
+
+
+/* The letter itself is the single, inviting wish interaction. */
+.letter[role="button"]{cursor:pointer;outline:none;-webkit-tap-highlight-color:transparent}
+.letter[role="button"]:focus-visible .envelope{outline:3px solid #ffe8bd;outline-offset:6px}
+.letter[role="button"]:not(.shaking):hover .envelope{
+ box-shadow:inset 0 2px 8px #fff9,0 18px 36px #05091d77,0 0 24px #ffe8bd22;
+}
+.letter[role="button"]:active .envelope{filter:brightness(1.035)}
