@@ -19,8 +19,15 @@ let lastWish=0;
 function reveal(){
  const now=Date.now();if(now-lastWish<1300)return;lastWish=now;
  let pick=Math.floor(Math.random()*wishes.length);if(wishes.length>1&&pick===lastWishIndex)pick=(pick+1)%wishes.length;lastWishIndex=pick;
- message.textContent=wishes[pick];letter.classList.remove("open","shaking");void letter.offsetWidth;letter.classList.add("shaking");setTimeout(()=>letter.classList.add("open"),360);
- status.textContent="ดวงดาวส่งคำอวยพรมาให้คุณแล้ว ✨";
+ message.textContent=wishes[pick];
+ const area=letter.closest(".wish-area");
+ letter.classList.remove("open","shaking","celebrating");
+ area.classList.remove("celebrating");
+ void letter.offsetWidth;
+ letter.classList.add("shaking","celebrating");
+ area.classList.add("celebrating");
+ setTimeout(()=>{letter.classList.remove("celebrating");letter.classList.add("open");area.classList.remove("celebrating")},720);
+ status.textContent="ตราดาวเปล่งประกาย... คำอวยพรกำลังเดินทางมา 🌠";
 }
 let lastWishIndex=-1;
 $("shakeButton").addEventListener("click",reveal);
