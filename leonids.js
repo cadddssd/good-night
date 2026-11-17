@@ -26,29 +26,50 @@ for(let i=0;i<145;i++){
  star.style.setProperty("--star-size",size+"px");
  star.style.setProperty("--star-dim",(.28+Math.random()*.52).toFixed(2));
  star.style.setProperty("--t",(2.1+Math.random()*4.8)+"s");
- star.style.setProperty("--star-delay",(-Math.random()*6)+"s");
+ star.style.styleDelay;
+ star.style.animationDelay=(-Math.random()*6)+"s";
  starField.append(star);
 }
-// Meteors glide diagonally across the entire viewport, not just around a few points.
-const meteorCount=30;
-for(let i=0;i<meteorCount;i++){
+// Meteors arrive in natural-looking waves, with a quiet pause between showers.
+const reducedMotion=window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+function launchMeteor(){
+ if(reducedMotion||document.hidden)return;
  const meteor=document.createElement("i");
- const bright=Math.random()<.18;
+ const bright=Math.random()<.16;
  meteor.className="meteor"+(bright?" meteor--bright":"");
- const startX=18+Math.random()*112;
- const startY=-18+Math.random()*62;
+ const startX=12+Math.random()*112;
+ const startY=-18+Math.random()*42;
+ const duration=3.1+Math.random()*1.9;
  meteor.style.left=startX+"vw";
  meteor.style.top=startY+"vh";
- meteor.style.setProperty("--length",(75+Math.random()*(bright?155:100))+"px");
- meteor.style.setProperty("--thickness",bright?"2.2px":"1.1px");
+ meteor.style.setProperty("--length",(85+Math.random()*(bright?165:105))+"px");
+ meteor.style.setProperty("--thickness",bright?"2.3px":"1.15px");
  meteor.style.setProperty("--head",bright?"5px":"3px");
- meteor.style.setProperty("--dx",(-65-Math.random()*65)+"vw");
- meteor.style.setProperty("--dy",(72+Math.random()*52)+"vh");
- meteor.style.setProperty("--duration",(5.2+Math.random()*5.8)+"s");
- meteor.style.setProperty("--delay",(-Math.random()*11)+"s");
- meteor.style.setProperty("--opacity",bright?".98":(.48+Math.random()*.35).toFixed(2));
+ meteor.style.setProperty("--dx",(-58-Math.random()*72)+"vw");
+ meteor.style.setProperty("--dy",(72+Math.random()*43)+"vh");
+ meteor.style.setProperty("--duration",duration+"s");
+ meteor.style.setProperty("--opacity",bright?".98":(.48+Math.random()*.34).toFixed(2));
  meteorField.append(meteor);
+ setTimeout(()=>meteor.remove(),duration*1000+100);
 }
+function meteorShowerWave(){
+ if(reducedMotion)return;
+ if(!document.hidden){
+  const count=5+Math.floor(Math.random()*5);
+  for(let i=0;i<count;i++){
+   setTimeout(launchMeteor,i*(145+Math.random()*155));
+  }
+ }
+ const pause=6500+Math.random()*5500;
+ setTimeout(meteorShowerWave,pause);
+}
+setTimeout(meteorShowerWave,900);
+document.addEventListener("visibilitychange",()=>{
+ if(!document.hidden&&!reducedMotion) {
+  // Resume with a small burst after returning to the page.
+  setTimeout(()=>{if(!document.hidden)meteorShowerWave()},700);
+ }
+});
 let lastWish=0;
 function reveal(){
  const now=Date.now();if(now-lastWish<1300)return;lastWish=now;
