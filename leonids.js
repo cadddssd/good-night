@@ -26,7 +26,6 @@ for(let i=0;i<145;i++){
  star.style.setProperty("--star-size",size+"px");
  star.style.setProperty("--star-dim",(.28+Math.random()*.52).toFixed(2));
  star.style.setProperty("--t",(2.1+Math.random()*4.8)+"s");
- star.style.styleDelay;
  star.style.animationDelay=(-Math.random()*6)+"s";
  starField.append(star);
 }
@@ -64,12 +63,6 @@ function meteorShowerWave(){
  setTimeout(meteorShowerWave,pause);
 }
 setTimeout(meteorShowerWave,900);
-document.addEventListener("visibilitychange",()=>{
- if(!document.hidden&&!reducedMotion) {
-  // Resume with a small burst after returning to the page.
-  setTimeout(()=>{if(!document.hidden)meteorShowerWave()},700);
- }
-});
 let lastWish=0;
 function reveal(){
  const now=Date.now();if(now-lastWish<1300)return;lastWish=now;
