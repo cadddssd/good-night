@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Itim&family=Mali:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="leonids.css?v=meteor-shower-waves-5">
+  <link rel="stylesheet" href="leonids.css?v=leonids-myth-popup-1">
 </head>
 <body>
   <div class="universe" aria-hidden="true">
@@ -48,6 +48,30 @@
         <button class="shake-button" id="shakeButton" type="button">เขย่าจดหมายรับคำอวยพร 💌</button>
       </div>
     </section>
+    <section class="myth-section" aria-label="ตำนานและความเชื่อเกี่ยวกับดาวตก">
+      <p class="myth-kicker">MYTHS &amp; WISHES</p>
+      <button class="myth-open-button" id="mythOpen" type="button">✧ ตำนานและความเชื่อใต้แสงดาว</button>
+      <p class="myth-caption">เรื่องเล่าจากผู้คนใต้ท้องฟ้าในหลากหลายวัฒนธรรม</p>
+    </section>
+    <div class="myth-modal" id="mythModal" aria-hidden="true">
+      <div class="myth-backdrop" data-myth-close></div>
+      <section class="myth-dialog" role="dialog" aria-modal="true" aria-labelledby="mythTitle" tabindex="-1">
+        <button class="myth-close" id="mythClose" type="button" aria-label="ปิดหน้าต่าง">×</button>
+        <p class="myth-kicker">STORIES WRITTEN IN THE SKY</p>
+        <h2 id="mythTitle">ตำนานและความเชื่อใต้แสงดาว 🌠</h2>
+        <p class="myth-intro">เมื่อผู้คนมองเห็นแสงวาบบนท้องฟ้า พวกเขาก็ถักทอเรื่องราวและความหมายให้กับช่วงเวลาสั้น ๆ นั้น</p>
+        <div class="myth-list">
+          <article><span>✨</span><div><h3>คำอธิษฐานจากดาวตก</h3><p>ความเชื่อที่แพร่หลายในหลายพื้นที่บอกว่า หากเห็นดาวตกให้รีบอธิษฐานขอพร ราวกับเป็นช่วงเวลาที่เราจะฝากความหวังไว้กับท้องฟ้า</p></div></article>
+          <article><span>🕊️</span><div><h3>การเดินทางของดวงวิญญาณ</h3><p>เรื่องเล่าบางวัฒนธรรมเชื่อมโยงดาวตกกับดวงวิญญาณหรือผู้ที่จากไป เป็นภาพแทนของการเดินทางและการระลึกถึง</p></div></article>
+          <article><span>🌾</span><div><h3>สัญญาณแห่งความอุดมสมบูรณ์</h3><p>ในความเชื่อพื้นบ้านบางชุมชน ดาวตกถูกเชื่อมโยงกับฝน ความอุดมสมบูรณ์ และความหวังให้ชีวิตดำเนินไปอย่างร่มเย็น</p></div></article>
+          <article><span>🌙</span><div><h3>ลางบอกการเปลี่ยนแปลง</h3><p>บางเรื่องเล่ามองดาวตกเป็นสัญญาณของเหตุการณ์ที่กำลังจะมาถึง ทั้งเรื่องดีและเรื่องร้าย ความหมายจึงแตกต่างกันไปตามท้องถิ่น</p></div></article>
+          <article><span>💫</span><div><h3>ข้อความจากฟากฟ้า</h3><p>บางตำนานมองแสงบนท้องฟ้าเป็นการทักทายหรือสัญญาณจากเทพเจ้า สิ่งศักดิ์สิทธิ์ หรือโลกเบื้องบน</p></div></article>
+          <article><span>⭐</span><div><h3>สัญลักษณ์แห่งโชคดี</h3><p>การได้เห็นดาวตกเป็นช่วงเวลาหายากที่บางคนถือเป็นสัญลักษณ์ของความโชคดีและโอกาสใหม่ ๆ</p></div></article>
+        </div>
+        <p class="myth-note">เรื่องเล่าเหล่านี้เป็นความเชื่อทางวัฒนธรรม ไม่ใช่ข้อพิสูจน์ทางวิทยาศาสตร์ และเป็นความเชื่อเกี่ยวกับดาวตกโดยทั่วไป ไม่ได้จำเพาะกับ Leonids</p>
+        <p class="myth-closing">“ขอให้ทุกคำอธิษฐานของคุณ มีโอกาสได้ผลิบานเป็นความจริง”</p>
+      </section>
+    </div>
     <p class="closing">ขอให้คำอธิษฐานเล็ก ๆ ของคุณ ได้พบกับคืนที่แสนใจดี 🌙</p>
   </main>
   <script src="leonids.js"></script>
