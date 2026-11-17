@@ -123,3 +123,28 @@ h1 span{font-size:.65em}
   .letter.celebrating .letter-seal,
   .letter.celebrating .letter-glow { animation:none!important; }
 }
+
+/* Leonids meteor shower: three radiant clusters behind the letter */
+.meteor-field { z-index: 0; }
+.meteor-cluster { position:absolute; inset:0; overflow:hidden; }
+.meteor {
+  position:absolute; width:var(--length,105px); height:var(--thickness,2px);
+  border-radius:50%; opacity:0; transform:rotate(var(--angle,-35deg)); transform-origin:right center;
+  background:linear-gradient(90deg,transparent 0%,var(--trail,#c9d9ff88) 70%,#fff9e8 100%);
+  filter:drop-shadow(0 0 5px var(--glow,#d5dfff));
+  animation:leonid-flight var(--duration,4s) linear var(--delay,0s) infinite;
+}
+.meteor::after {
+  content:""; position:absolute; right:-1px; top:50%; width:var(--head,4px); height:var(--head,4px);
+  border-radius:50%; transform:translateY(-50%); background:#fffdf0;
+  box-shadow:0 0 8px 3px var(--glow,#d5dfff);
+}
+.meteor--bright { filter:drop-shadow(0 0 8px #fff0c7) drop-shadow(0 0 15px #b9caff); }
+@keyframes leonid-flight {
+  0% { opacity:0; translate:0 0; }
+  7% { opacity:var(--opacity,.8); }
+  68% { opacity:var(--opacity,.8); }
+  100% { opacity:0; translate:var(--dx,-300px) var(--dy,230px); }
+}
+@media(max-width:600px) { .meteor { width:calc(var(--length,105px) * .78); } }
+@media(prefers-reduced-motion:reduce) { .meteor { animation:none!important; opacity:.55; } }
