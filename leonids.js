@@ -17,7 +17,7 @@ const $=id=>document.getElementById(id);
 const letter=$("wishLetter"),message=$("wishMessage"),hint=$("letterHint"),status=$("shakeStatus");
 const starField=$("starField"),meteorField=$("meteorField");
 // A full viewport of softly twinkling stars.
-for(let i=0;i<145;i++){
+for(let i=0;i<75;i++){
  const star=document.createElement("i");
  star.className="star";
  star.style.left=(Math.random()*100)+"%";
