@@ -396,3 +396,70 @@ h1 { color: #fff0d9; text-shadow: 0 0 24px rgba(255,204,160,.22); }
 @media (max-width: 360px) {
   .cloud-item { min-height: 150px; padding-inline: 18px; }
 }
+
+/* Dreamy puffy cloud silhouette: soft cartoon puffs with a plush 3D finish */
+.cloud-item {
+  isolation: isolate;
+  overflow: visible;
+  min-height: 196px;
+  padding: 64px 20px 28px;
+  filter: drop-shadow(0 13px 15px rgba(16, 18, 42, .2));
+}
+.cloud-item::before {
+  inset: 35px 5px 7px;
+  border: 1px solid rgba(255,255,255,.72);
+  border-radius: 46% 46% 43% 43% / 45% 45% 42% 42%;
+  background:
+    radial-gradient(ellipse at 28% 18%, rgba(255,255,255,.98) 0 12%, transparent 43%),
+    linear-gradient(155deg, #fff 0%, var(--cloud, #f7e8ed) 76%);
+  box-shadow:
+    -24px -15px 0 -7px var(--cloud, #f7e8ed),
+    24px -17px 0 -6px var(--cloud, #f7e8ed),
+    -46px 1px 0 -13px var(--cloud, #f7e8ed),
+    46px 1px 0 -13px var(--cloud, #f7e8ed),
+    inset 0 -9px 16px rgba(104, 91, 132, .07),
+    inset 0 5px 10px rgba(255,255,255,.82);
+}
+.cloud-item::after {
+  top: 9px;
+  width: 82px;
+  height: 70px;
+  border: 1px solid rgba(255,255,255,.65);
+  border-radius: 50%;
+  background: radial-gradient(circle at 34% 25%, #fff 0 13%, var(--cloud, #f7e8ed) 75%);
+  box-shadow:
+    -35px 27px 0 -7px var(--cloud, #f7e8ed),
+    35px 27px 0 -7px var(--cloud, #f7e8ed),
+    0 0 20px rgba(255,255,255,.22);
+}
+.cloud-face {
+  top: 42px;
+  z-index: 3;
+}
+.cloud-text {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 30ch;
+  padding: 0 5px;
+  font-size: .82rem;
+  line-height: 1.72;
+  overflow-wrap: anywhere;
+}
+.cloud-author {
+  position: relative;
+  z-index: 2;
+  max-width: 100%;
+  overflow-wrap: anywhere;
+}
+@media (max-width: 820px) {
+  .cloud-item { min-height: 188px; padding: 62px 17px 26px; }
+  .cloud-text { font-size: .79rem; }
+}
+@media (max-width: 560px) {
+  .cloud-item { min-height: 176px; padding: 58px 18px 24px; }
+  .cloud-item::before { inset: 34px 4px 6px; }
+  .cloud-item::after { top: 8px; }
+  .cloud-face { top: 39px; }
+  .cloud-text { font-size: .77rem; }
+}
