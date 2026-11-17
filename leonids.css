@@ -520,3 +520,26 @@ body.myth-open{overflow:hidden}
 .spread-fade-out{opacity:0;transition:opacity .19s ease!important;}
 .spread-fade-in{animation:spread-soft-reveal .32s ease both!important;}
 @keyframes spread-soft-reveal{from{opacity:0}to{opacity:1}}
+
+
+/* Stable page reveal: the paper itself stays fixed; only its visible edge travels. */
+.book-pages{perspective:none!important;transform-style:flat!important}
+.book-spread,.book-spread.is-current{
+ transform:none!important;
+ transform-style:flat!important;
+ backface-visibility:visible!important;
+}
+.turn-leaf{display:none!important}
+.spread-fade-out,.spread-fade-in{animation:none!important;transition:none!important}
+.book-spread.spread-page-reveal{
+ clip-path:inset(0 0 0 100%);
+ animation:book-page-enter .52s cubic-bezier(.22,.72,.25,1) forwards!important;
+ will-change:clip-path;
+}
+@keyframes book-page-enter{
+ from{clip-path:inset(0 0 0 100%)}
+ to{clip-path:inset(0 0 0 0)}
+}
+@media(prefers-reduced-motion:reduce){
+ .book-spread.spread-page-reveal{animation:none!important;clip-path:none!important}
+}
