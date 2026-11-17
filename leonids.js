@@ -78,7 +78,13 @@ function reveal(){
  status.textContent="ตราดาวเปล่งประกาย... คำอวยพรกำลังเดินทางมา 🌠";
 }
 let lastWishIndex=-1;
-$("shakeButton").addEventListener("click",reveal);
+letter.addEventListener("click",reveal);
+letter.addEventListener("keydown",event=>{
+ if(event.key==="Enter"||event.key===" "){
+  event.preventDefault();
+  reveal();
+ }
+});
 const mythModal=$("mythModal"),mythOpen=$("mythOpen"),mythClose=$("mythClose");
 const bookStart=$("bookStart"),bookPages=$("bookPages"),spreadItems=[...document.querySelectorAll(".book-spread")];
 const bookCover=document.querySelector('.book-cover'),bookPagesScreen=document.querySelector('.book-pages');
