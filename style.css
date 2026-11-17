@@ -871,3 +871,44 @@ body[data-theme="dawn"] .shooting-star {
   .firefly { display: none !important; animation: none !important; }
   .shooting-star { display: none !important; animation: none !important; }
 }
+
+
+/* Natural variation: shooting stars in three gentle sizes */
+.shooting-star {
+  width: var(--shooting-length, 118px);
+  height: var(--shooting-thickness, 2px);
+}
+.shooting-star::before {
+  width: var(--shooting-head-size, 5px);
+  height: var(--shooting-head-size, 5px);
+}
+.shooting-star--small {
+  --shooting-length: 70px;
+  --shooting-thickness: 1px;
+  --shooting-head-size: 3px;
+  --shooting-travel: -175px;
+  opacity: .78;
+}
+.shooting-star--medium {
+  --shooting-length: 118px;
+  --shooting-thickness: 2px;
+  --shooting-head-size: 5px;
+  --shooting-travel: -285px;
+}
+.shooting-star--large {
+  --shooting-length: 165px;
+  --shooting-thickness: 2.5px;
+  --shooting-head-size: 7px;
+  --shooting-travel: -360px;
+}
+@keyframes cozy-shooting-star {
+  0% { opacity: 0; transform: rotate(34deg) translate(0, 0) scaleX(.65); }
+  10% { opacity: .95; }
+  68% { opacity: .72; }
+  100% { opacity: 0; transform: rotate(34deg) translate(var(--shooting-travel, -285px), 0) scaleX(1); }
+}
+@media (max-width: 600px) {
+  .shooting-star--small { --shooting-length: 54px; --shooting-travel: -125px; }
+  .shooting-star--medium { --shooting-length: 88px; --shooting-travel: -205px; }
+  .shooting-star--large { --shooting-length: 120px; --shooting-travel: -255px; }
+}
