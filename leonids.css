@@ -1,4 +1,558 @@
-undefined
+*{box-sizing:border-box}
+:root{color-scheme:dark;font-family:"Mali",sans-serif}
+body{margin:0;min-height:100vh;min-height:100dvh;overflow-x:hidden;color:#fff5e9;background:#080d24}
+.universe,.star-field,.meteor-field{position:fixed;inset:0;overflow:hidden;pointer-events:none}
+.universe{background:radial-gradient(ellipse at 50% 85%,#42335e66,transparent 52%),linear-gradient(155deg,#080d24,#171b3b 56%,#302746)}
+.nebula{position:absolute;width:80vw;height:60vw;left:10%;top:18%;border-radius:50%;background:radial-gradient(ellipse,#78639b20,transparent 68%);filter:blur(22px)}
+.moon{position:absolute;right:12%;top:8%;width:65px;height:65px;border-radius:50%;background:#fff0ca;box-shadow:0 0 28px #ffe8ae77,0 0 90px #f7d7ff25}
+.star{position:absolute;width:2px;height:2px;border-radius:50%;background:#fff5d9;box-shadow:0 0 8px 2px #fff1c855;animation:twinkle var(--t,3s) ease-in-out infinite alternate}
+.meteor{position:absolute;top:var(--top);left:var(--left);width:var(--length,130px);height:2px;opacity:0;transform:rotate(-35deg);transform-origin:right center;background:linear-gradient(90deg,transparent,#c9d9ff55,#fff5d7);filter:drop-shadow(0 0 5px #cbdcff);animation:meteor-flight var(--duration,1.7s) ease-out var(--delay,0s) infinite}
+.meteor:after{content:"";position:absolute;right:0;top:-2px;width:5px;height:5px;border-radius:50%;background:#fff9e8;box-shadow:0 0 12px 4px #d5dfff}
+.experience{position:relative;z-index:1;width:min(760px,100%);min-height:100vh;margin:auto;padding:24px 22px 30px;display:flex;flex-direction:column;align-items:center}
+.back-link{align-self:flex-start;color:#d8cce9;text-decoration:none;font-size:.82rem;padding:8px 0}
+.back-link:hover{color:#fff0c8}
+.intro{text-align:center;margin:10px 0 0}
+.eyebrow{margin:0 0 7px;color:#d6b9e9;font-size:.68rem;letter-spacing:.18em}
+h1{margin:0;font:600 clamp(2.5rem,9vw,4.1rem)/1.1 "Itim",cursive;color:#fff0d4;text-shadow:0 0 28px #f8d8ff55}
+h1 span{font-size:.65em}
+.intro>p:not(.eyebrow){margin:12px 0 7px;color:#e8dff0;font-size:.95rem}
+.date-note{display:inline-block;color:#c6b6d9;font-size:.72rem}
+.wish-area{position:relative;width:min(100%,500px);margin:28px auto 0;display:flex;flex-direction:column;align-items:center}
+.letter{position:relative;width:min(100%,390px);min-height:330px;display:grid;place-items:center;perspective:1000px;filter:drop-shadow(0 22px 35px #03061788)}
+.letter-glow{position:absolute;inset:15%;border-radius:50%;background:#f8dcae22;filter:blur(35px)}
+.envelope{position:relative;width:100%;min-height:315px;padding:25px 20px 18px;border:1px solid #fff3d777;border-radius:20px;background:linear-gradient(145deg,#fff4dd,#e9d4c8 58%,#d8c4db);box-shadow:inset 0 2px 8px #fff9,0 14px 30px #05091d66;overflow:hidden;transform:rotate(-1deg);transition:transform .55s ease}
+.envelope:before,.envelope:after{content:"";position:absolute;z-index:1;bottom:-2px;width:52%;height:58%;background:linear-gradient(145deg,#e9d3d1,#cbb7d2);opacity:.72}
+.envelope:before{left:-2px;clip-path:polygon(0 0,100% 100%,0 100%)}
+.envelope:after{right:-2px;clip-path:polygon(100% 0,100% 100%,0 100%)}
+.envelope-flap{position:absolute;z-index:2;left:0;top:0;width:100%;height:48%;background:linear-gradient(160deg,#fff7e8,#ead7dc);clip-path:polygon(0 0,100% 0,50% 100%);transform-origin:top;transition:transform .7s ease;filter:drop-shadow(0 4px 3px #79647a22)}
+.letter-seal{position:absolute;z-index:3;top:37%;left:50%;width:39px;height:39px;display:grid;place-items:center;transform:translate(-50%,-50%);border-radius:50%;color:#fff2d4;background:linear-gradient(145deg,#c78caa,#8e719f);box-shadow:0 3px 10px #755b7c66;font-size:1.2rem;transition:opacity .3s,transform .4s}
+.letter-content{position:relative;z-index:4;min-height:270px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;color:#55465d;padding:40px 14px 20px}
+.letter-kicker{color:#a17f9b;font-size:.62rem;letter-spacing:.2em}
+.letter-title{margin:8px 0 14px;font-size:1.25rem;font-weight:600;color:#75566f}
+.letter-hint{font-size:.83rem;line-height:1.8;color:#89778e}
+.wish-message{display:none;margin:0;max-width:31ch;font-size:1.02rem;line-height:1.9;color:#59465d;font-weight:500}
+.wish-signature{margin-top:14px;color:#a17f9b;font-size:.7rem}
+.letter.open .envelope{transform:rotate(0deg) translateY(3px)}
+.letter.open .envelope-flap{transform:rotateX(180deg);z-index:0}
+.letter.open .letter-seal{opacity:0;transform:translate(-50%,-20%) scale(.4)}
+.letter.open .letter-hint{display:none}
+.letter.open .wish-message{display:block;animation:wish-appear .8s .2s both}
+.action-area{width:100%;display:flex;flex-direction:column;align-items:center;gap:10px;margin-top:19px}
+#shakeStatus{min-height:1.5em;margin:0;color:#e7d9ef;text-align:center;font-size:.8rem;line-height:1.6}
+.shake-button{border:1px solid #ffe8bd88;border-radius:999px;padding:13px 24px;color:#3c2b4d;background:linear-gradient(120deg,#ffe9c7,#e9c8e7);font:600 .95rem "Mali",sans-serif;box-shadow:0 8px 25px #f3d5ef25;cursor:pointer;transition:transform .2s,box-shadow .2s}
+.shake-button:hover{transform:translateY(-3px);box-shadow:0 12px 30px #f3d5ef40}
+.motion-button{border:0;padding:6px 12px;color:#c6b7d8;background:transparent;font: .72rem "Mali",sans-serif;cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+.closing{margin:22px 0 0;color:#c8b9d9;text-align:center;font-size:.75rem;line-height:1.8}
+.constellation{position:absolute;color:#ffeac2;text-shadow:0 0 14px #ffe5b9;animation:twinkle 3s ease-in-out infinite alternate}
+.constellation-one{left:4%;top:24%;font-size:2rem}.constellation-two{right:4%;bottom:26%;font-size:1.5rem;animation-delay:-1.2s}
+@keyframes twinkle{from{opacity:.25;transform:scale(.7)}to{opacity:1;transform:scale(1.2)}}
+@keyframes meteor-flight{0%{opacity:0;transform:translate3d(0,0,0) rotate(-35deg)}8%{opacity:1}55%{opacity:.85}100%{opacity:0;transform:translate3d(-55vw,55vh,0) rotate(-35deg)}}
+@keyframes wish-appear{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+.letter.shaking{animation:shake .55s ease}
+@keyframes shake{0%,100%{transform:rotate(0)}20%{transform:rotate(-5deg) translateX(-5px)}40%{transform:rotate(5deg) translateX(5px)}60%{transform:rotate(-4deg) translateX(-3px)}80%{transform:rotate(3deg) translateX(3px)}}
+@media(max-width:480px){.experience{padding:18px 17px 24px}.intro{margin-top:7px}.wish-area{margin-top:22px}.letter{min-height:300px}.envelope{min-height:292px;padding-inline:14px}.letter-content{min-height:250px;padding-inline:9px}.moon{width:48px;height:48px;right:8%;top:5%}.constellation-one{left:0}.constellation-two{right:0}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.01ms!important}}
+
+/* A tiny magical reveal: glowing seal, starburst and one passing meteor */
+.wish-area { isolation: isolate; }
+.wish-area::before,
+.wish-area::after {
+  content: "";
+  position: absolute;
+  z-index: 5;
+  pointer-events: none;
+  opacity: 0;
+}
+.wish-area::before {
+  left: 50%;
+  top: 105px;
+  width: 230px;
+  height: 230px;
+  transform: translate(-50%,-50%) scale(.35);
+  background:
+    radial-gradient(circle, #fff8d9 0 1.5px, transparent 2.5px) 50% 0/100% 100%,
+    radial-gradient(circle, #ffe5ad 0 1px, transparent 2px) 0 50%/100% 100%,
+    radial-gradient(circle, #e8d6ff 0 1.5px, transparent 2.5px) 100% 50%/100% 100%,
+    radial-gradient(circle, #fff 0 1px, transparent 2px) 50% 100%/100% 100%;
+}
+.wish-area::after {
+  top: 70px;
+  left: 112%;
+  width: 145px;
+  height: 2px;
+  transform: rotate(-34deg);
+  transform-origin: right center;
+  background: linear-gradient(90deg,transparent,#d9e4ff99,#fff9df);
+  filter: drop-shadow(0 0 6px #fff0bd);
+}
+.wish-area.celebrating::before {
+  animation: star-burst .95s ease-out both;
+}
+.wish-area.celebrating::after {
+  animation: reveal-meteor 1.05s .08s ease-out both;
+}
+.letter.celebrating .letter-seal {
+  animation: seal-awaken .72s ease-in-out both;
+}
+.letter.celebrating .letter-glow {
+  animation: letter-aura .95s ease-out both;
+}
+@keyframes star-burst {
+  0% { opacity:0; transform:translate(-50%,-50%) scale(.25) rotate(0deg); }
+  25% { opacity:1; }
+  100% { opacity:0; transform:translate(-50%,-50%) scale(1.18) rotate(28deg); }
+}
+@keyframes reveal-meteor {
+  0% { opacity:0; left:112%; top:65px; }
+  12% { opacity:1; }
+  100% { opacity:0; left:-28%; top:230px; }
+}
+@keyframes seal-awaken {
+  0% { opacity:1; transform:translate(-50%,-50%) scale(1); box-shadow:0 3px 10px #755b7c66; }
+  45% { opacity:1; transform:translate(-50%,-50%) scale(1.28); box-shadow:0 0 8px 5px #ffe7adbb,0 0 28px 12px #f3c9ed88; }
+  100% { opacity:0; transform:translate(-50%,-20%) scale(.4); }
+}
+@keyframes letter-aura {
+  0% { opacity:.25; transform:scale(.7); }
+  45% { opacity:1; transform:scale(1.12); }
+  100% { opacity:.45; transform:scale(1); }
+}
+@media(prefers-reduced-motion:reduce) {
+  .wish-area.celebrating::before,
+  .wish-area.celebrating::after,
+  .letter.celebrating .letter-seal,
+  .letter.celebrating .letter-glow { animation:none!important; }
+}
+
+/* Leonids meteor shower: three radiant clusters behind the letter */
+.meteor-field { z-index: 0; }
+.meteor-cluster { position:absolute; inset:0; overflow:hidden; }
+.meteor {
+  position:absolute; width:var(--length,105px); height:var(--thickness,2px);
+  border-radius:50%; opacity:0; transform:rotate(var(--angle,-35deg)); transform-origin:right center;
+  background:linear-gradient(90deg,transparent 0%,var(--trail,#c9d9ff88) 70%,#fff9e8 100%);
+  filter:drop-shadow(0 0 5px var(--glow,#d5dfff));
+  animation:leonid-flight var(--duration,4s) linear var(--delay,0s) infinite;
+}
+.meteor::after {
+  content:""; position:absolute; right:-1px; top:50%; width:var(--head,4px); height:var(--head,4px);
+  border-radius:50%; transform:translateY(-50%); background:#fffdf0;
+  box-shadow:0 0 8px 3px var(--glow,#d5dfff);
+}
+.meteor--bright { filter:drop-shadow(0 0 8px #fff0c7) drop-shadow(0 0 15px #b9caff); }
+@keyframes leonid-flight {
+  0% { opacity:0; translate:0 0; }
+  7% { opacity:var(--opacity,.8); }
+  68% { opacity:var(--opacity,.8); }
+  100% { opacity:0; translate:var(--dx,-300px) var(--dy,230px); }
+}
+@media(max-width:600px) { .meteor { width:calc(var(--length,105px) * .78); } }
+@media(prefers-reduced-motion:reduce) { .meteor { animation:none!important; opacity:.55; } }
+
+/* Full-screen, smooth Leonids streaks with soft twinkling stars */
+.star-field { z-index: 0; }
+.meteor-field { z-index: 0; }
+.star {
+  width:var(--star-size,2px);
+  height:var(--star-size,2px);
+  opacity:var(--star-dim,.65);
+  animation:star-glimmer var(--t,3.5s) ease-in-out var(--star-delay,0s) infinite;
+  will-change:opacity,transform;
+}
+@keyframes star-glimmer {
+  0%,100% { opacity:var(--star-dim,.65); transform:scale(.72); filter:brightness(.85); }
+  48% { opacity:1; transform:scale(1.55); filter:brightness(1.5); }
+}
+.meteor {
+  top:var(--top);
+  left:var(--left);
+  width:var(--length,120px);
+  height:var(--thickness,1.5px);
+  border-radius:999px;
+  opacity:0;
+  transform:translate3d(0,0,0) rotate(-35deg);
+  transform-origin:left center;
+  background:linear-gradient(90deg,#fffdf0 0%,#e7efffbb 12%,#c9d9ff55 48%,transparent 100%);
+  filter:drop-shadow(0 0 4px #dce8ff88);
+  animation:meteor-cross var(--duration,6s) cubic-bezier(.35,.02,.62,.98) var(--delay,0s) infinite;
+  will-change:transform,opacity;
+}
+.meteor::after {
+  content:"";
+  position:absolute;
+  left:0;
+  top:50%;
+  right:auto;
+  width:var(--head,4px);
+  height:var(--head,4px);
+  border-radius:50%;
+  transform:translateY(-50%);
+  background:#fffdf2;
+  box-shadow:0 0 7px 3px #fff0c6aa,0 0 17px 5px #cbdcff66;
+}
+.meteor--bright {
+  filter:drop-shadow(0 0 7px #fff0c7) drop-shadow(0 0 17px #b9caff99);
+}
+@keyframes meteor-cross {
+  0% { opacity:0; transform:translate3d(0,0,0) rotate(-35deg); }
+  5% { opacity:var(--opacity,.78); }
+  76% { opacity:var(--opacity,.78); }
+  100% { opacity:0; transform:translate3d(var(--dx,-80vw),var(--dy,90vh),0) rotate(-35deg); }
+}
+@media(max-width:600px) {
+  .meteor { width:calc(var(--length,120px) * .78); }
+  .meteor--bright { filter:drop-shadow(0 0 5px #fff0c7); }
+}
+@media(prefers-reduced-motion:reduce) {
+  .star { animation:none!important; opacity:.75; }
+  .meteor { animation:none!important; opacity:0!important; }
+}
+
+/* Natural meteor-shower rhythm: short bursts separated by quiet sky */
+.meteor {
+  animation: meteor-wave-flight var(--duration,3.6s) cubic-bezier(.18,.62,.28,1) var(--delay,0s) 1 both;
+  transform-origin:left center;
+  will-change:transform,opacity;
+}
+@keyframes meteor-wave-flight {
+  0% { opacity:0; transform:translate3d(0,0,0) rotate(-35deg); }
+  8% { opacity:var(--opacity,.8); }
+  72% { opacity:var(--opacity,.8); }
+  100% { opacity:0; transform:translate3d(var(--dx,-80vw),var(--dy,85vh),0) rotate(-35deg); }
+}
+.star { will-change:opacity,transform; }
+@media(prefers-reduced-motion:reduce) {
+  .meteor { animation:none!important; opacity:0!important; }
+}
+
+/* Myths & wishes popup */
+.myth-section{position:relative;z-index:2;margin:22px auto 4px;text-align:center}
+.myth-kicker{margin:0 0 8px;color:#d8c2ee;font-size:.62rem;letter-spacing:.2em}
+.myth-open-button{border:1px solid #e8d6ff77;border-radius:999px;padding:11px 20px;color:#f7eaff;background:linear-gradient(120deg,#5c4a79cc,#34345fcc);font:500 .86rem "Mali",sans-serif;box-shadow:0 6px 22px #c9a9ff20;cursor:pointer;transition:transform .2s,box-shadow .2s}
+.myth-open-button:hover{transform:translateY(-2px);box-shadow:0 9px 28px #c9a9ff38}
+.myth-caption{margin:8px 0 0;color:#bfb3d2;font-size:.68rem}
+.myth-modal{position:fixed;inset:0;z-index:20;display:grid;place-items:center;padding:18px;opacity:0;visibility:hidden;transition:opacity .25s,visibility .25s}
+.myth-modal.is-open{opacity:1;visibility:visible}
+.myth-backdrop{position:absolute;inset:0;background:#050817d9;backdrop-filter:blur(8px)}
+.myth-dialog{position:relative;width:min(590px,100%);max-height:min(82dvh,760px);overflow:auto;padding:27px 24px 22px;border:1px solid #e6d4ff55;border-radius:24px;background:radial-gradient(ellipse at 50% 0%,#76618a55,transparent 55%),linear-gradient(155deg,#1d2143,#17172f 75%,#29213e);box-shadow:0 24px 80px #0009;color:#f7efff;transform:translateY(14px) scale(.98);transition:transform .25s}
+.myth-modal.is-open .myth-dialog{transform:translateY(0) scale(1)}
+.myth-close{position:sticky;float:right;top:0;margin:-12px -9px 0 8px;width:34px;height:34px;border:1px solid #fff3;border-radius:50%;color:#f7eaff;background:#ffffff12;font-size:1.45rem;line-height:1;cursor:pointer}
+.myth-dialog h2{margin:3px 28px 9px 0;color:#ffe9c8;font:600 clamp(1.35rem,5vw,1.8rem)/1.3 "Itim",cursive}
+.myth-intro{margin:0 0 17px;color:#d5c9e3;font-size:.8rem;line-height:1.8}
+.myth-list{display:grid;gap:10px}
+.myth-list article{display:grid;grid-template-columns:32px 1fr;gap:10px;padding:12px;border:1px solid #ffffff13;border-radius:15px;background:#ffffff08}
+.myth-list article>span{font-size:1.25rem}
+.myth-list h3{margin:0 0 4px;color:#f6dfc3;font-size:.84rem}
+.myth-list p{margin:0;color:#d3c9df;font-size:.75rem;line-height:1.75}
+.myth-note{margin:15px 0 0;color:#a99cb9;font-size:.66rem;line-height:1.7}
+.myth-closing{margin:13px 0 0;color:#f4d9b5;text-align:center;font:1rem "Itim",cursive;line-height:1.7}
+body.myth-open{overflow:hidden}
+@media(max-width:480px){.myth-dialog{padding:22px 16px 18px;border-radius:19px}.myth-list article{padding:10px}.myth-list p{font-size:.72rem}}
+@media(prefers-reduced-motion:reduce){.myth-modal,.myth-dialog,.myth-open-button{transition:none}}
+
+/* Moonlight storybook: illustrated, page-by-page reading experience */
+.storybook-dialog{width:min(760px,100%);padding:22px;max-height:88dvh;overflow:auto;background:radial-gradient(ellipse at 50% 0%,#78628a55,transparent 55%),linear-gradient(150deg,#202449,#17182f 76%,#30223d)}
+.storybook{position:relative;min-height:480px}
+.book-screen{display:none}.book-screen.is-visible{display:block;animation:book-screen-in .38s ease both}
+.book-cover{position:relative;min-height:455px;padding:35px 24px 24px;display:none;flex-direction:column;align-items:center;justify-content:center;text-align:center;overflow:hidden;border:1px solid #f2dcb477;border-radius:18px;background:radial-gradient(ellipse at 50% 18%,#c8a1b344,transparent 45%),linear-gradient(155deg,#1c2347,#443454 72%,#252340)}
+.book-cover.is-visible{display:flex}
+.cover-stars{position:absolute;top:20px;color:#f9e6c2;letter-spacing:.4em;opacity:.8}
+.cover-art{width:min(100%,440px);margin:18px auto 12px;filter:drop-shadow(0 12px 22px #05081788)}
+.cover-art svg,.story-illustration svg{display:block;width:100%;height:auto;border-radius:16px}
+.book-overline,.cover-foot,.page-topline,.story-chapter{color:#d7c4e9;font-size:.62rem;letter-spacing:.15em}
+.book-cover h2{margin:8px 0;color:#ffedce;font:600 clamp(2rem,6vw,2.8rem)/1.3 "Itim",cursive;text-shadow:0 0 25px #f8d8ff44}
+.cover-subtitle{margin:0 0 18px;color:#e2d7e9;font-size:.8rem}
+.book-primary,.book-restart{border:1px solid #f5dfbb99;border-radius:999px;padding:11px 24px;color:#45324f;background:linear-gradient(120deg,#ffe9c7,#e9c8e7);font:600 .86rem "Mali",sans-serif;cursor:pointer;box-shadow:0 7px 24px #08091d55}
+.book-primary span{padding-left:9px}.cover-foot{margin-top:22px;font-size:.55rem;opacity:.72}
+.book-pages{padding:4px 5px 0}
+.page-topline{display:flex;justify-content:space-between;align-items:center;margin:0 4px 13px}
+.story-page{display:none;min-height:390px;padding:19px 20px 24px;border:1px solid #e9d9c477;border-radius:16px;background:linear-gradient(145deg,#fff7e8,#f1e5e8 62%,#e6dced);color:#51455b;box-shadow:0 12px 35px #03061766}
+.story-page.is-current{display:block;animation:page-turn-in .38s ease both}
+.story-illustration{width:100%;margin:0 auto 15px;overflow:hidden;border-radius:16px;box-shadow:0 6px 18px #4b3c5a22}
+.story-chapter{margin:0 0 5px;color:#a17f9b;font-size:.58rem}
+.story-page h3{margin:0 0 10px;color:#74556f;font:600 clamp(1.35rem,4vw,1.8rem)/1.3 "Itim",cursive}
+.story-page>p:not(.story-chapter){font-size:.83rem;line-height:2;margin:0 0 10px}
+.story-page .story-whisper{margin-top:14px!important;padding:10px 13px;border-left:2px solid #c99bb6;border-radius:0 10px 10px 0;background:#e9d9e9aa;color:#846783;font: .9rem/1.8 "Itim",cursive}
+.book-navigation{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:14px 3px 0}
+.book-navigation button{border:1px solid #d9c5e777;border-radius:999px;padding:9px 14px;color:#f5e9fa;background:#ffffff12;font: .72rem "Mali",sans-serif;cursor:pointer}
+.book-navigation button:disabled{opacity:.3;cursor:default}
+.page-dots{color:#e8d8f0;font-size:.7rem;letter-spacing:.16em}
+.story-ending{text-align:center;min-height:390px;padding-top:40px}
+.ending-art{margin:10px 0 30px;color:#f8e5bd;font-size:3.2rem;text-shadow:0 0 22px #ffe4b677}
+.ending-art span{color:#e7c5f2;font-size:2rem}
+.final-whisper{text-align:center!important;font-size:1.08rem!important}
+.book-restart{margin-top:13px}
+@keyframes book-screen-in{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+@keyframes page-turn-in{from{opacity:.3;transform:translateX(16px) rotateY(-3deg)}to{opacity:1;transform:translateX(0) rotateY(0)}}
+@media(max-width:540px){.storybook-dialog{padding:18px 12px}.storybook{min-height:0}.book-cover{min-height:420px;padding:30px 15px 20px}.story-page{min-height:390px;padding:14px 13px 19px}.story-page>p:not(.story-chapter){font-size:.77rem;line-height:1.9}.book-navigation button{padding:9px 11px;font-size:.67rem}.page-dots{font-size:.6rem;letter-spacing:.08em}}
+@media(prefers-reduced-motion:reduce){.book-screen.is-visible,.story-page.is-current{animation:none}}
+
+
+/* Realistic page-turn: hinged paper, edge shadow and reverse turn */
+.book-pages { perspective: 1800px; transform-style:preserve-3d; }
+.story-page {
+  transform-origin:left center;
+  backface-visibility:hidden;
+  transform-style:preserve-3d;
+  box-shadow: inset 9px 0 15px #78617a0b, 0 12px 35px #03061766;
+}
+.story-page.turn-out-forward { display:block; animation:paper-turn-forward .52s cubic-bezier(.55,.08,.25,1) both; pointer-events:none; }
+.story-page.turn-out-backward { display:block; transform-origin:right center; animation:paper-turn-backward .52s cubic-bezier(.55,.08,.25,1) both; pointer-events:none; }
+.story-page.turn-in-forward { display:block; animation:paper-arrive-forward .52s cubic-bezier(.2,.7,.25,1) both; }
+.story-page.turn-in-backward { display:block; transform-origin:right center; animation:paper-arrive-backward .52s cubic-bezier(.2,.7,.25,1) both; }
+.story-page.turn-out-forward::after,
+.story-page.turn-out-backward::after {
+  content:"";
+  position:absolute;
+  inset:0;
+  border-radius:inherit;
+  pointer-events:none;
+  background:linear-gradient(90deg,#34244300 40%,#34244366 100%);
+  opacity:0;
+  animation:paper-edge-shadow .52s ease both;
+}
+.story-page { position:relative; }
+@keyframes paper-turn-forward {
+  0% { transform:rotateY(0); filter:brightness(1); }
+  45% { filter:brightness(.82); }
+  100% { transform:rotateY(-88deg); filter:brightness(.68); }
+}
+@keyframes paper-arrive-forward {
+  0% { transform:rotateY(88deg); filter:brightness(.72); }
+  55% { filter:brightness(.9); }
+  100% { transform:rotateY(0); filter:brightness(1); }
+}
+@keyframes paper-turn-backward {
+  0% { transform:rotateY(0); filter:brightness(1); }
+  45% { filter:brightness(.82); }
+  100% { transform:rotateY(88deg); filter:brightness(.68); }
+}
+@keyframes paper-arrive-backward {
+  0% { transform:rotateY(-88deg); filter:brightness(.72); }
+  55% { filter:brightness(.9); }
+  100% { transform:rotateY(0); filter:brightness(1); }
+}
+@keyframes paper-edge-shadow {
+  0%,100% { opacity:0; }
+  45% { opacity:.55; }
+}
+.book-navigation button:not(:disabled):active { transform:translateY(1px) scale(.98); }
+.myth-close { z-index:10; cursor:pointer; pointer-events:auto; }
+@media(prefers-reduced-motion:reduce) {
+  .story-page.turn-out-forward,.story-page.turn-out-backward,
+  .story-page.turn-in-forward,.story-page.turn-in-backward { animation:none!important; }
+  .story-page.turn-out-forward,.story-page.turn-out-backward { display:none!important; }
+}
+
+
+/* Open-book two-page spreads */
+.storybook-dialog{width:min(1120px,100%);padding:24px;max-height:92dvh}
+.book-pages{perspective:2200px;padding:4px 2px 0}
+.book-spread{
+ display:none;
+ grid-template-columns:minmax(0,1fr) minmax(0,1fr);
+ position:relative;
+ min-height:470px;
+ transform-style:preserve-3d;
+ border-radius:12px;
+ filter:drop-shadow(0 18px 30px #03061770);
+}
+.book-spread.is-current{display:grid}
+.spread-page{min-width:0;position:relative;padding:15px 12px;background:linear-gradient(90deg,#d8c8c2,#fff8eb 9%,#f6ebea 100%);overflow:hidden}
+.spread-left{border-radius:12px 0 0 12px;box-shadow:inset -13px 0 18px #53415a12,inset 0 0 0 1px #b99f9a55}
+.spread-right{border-radius:0 12px 12px 0;background:linear-gradient(270deg,#d9c9c6,#fff8eb 9%,#f6ebea 100%);box-shadow:inset 13px 0 18px #53415a12,inset 0 0 0 1px #b99f9a55}
+.spread-page .story-page{display:block;min-height:438px;height:100%;padding:16px 17px 20px;border:0;border-radius:0;background:transparent;box-shadow:none;animation:none}
+.spread-page .story-illustration{margin-bottom:12px}
+.spread-page .story-illustration svg{max-height:180px;object-fit:cover}
+.spread-page .story-page h3{font-size:clamp(1.2rem,2vw,1.7rem)}
+.spread-page .story-page>p:not(.story-chapter){font-size:clamp(.72rem,1.1vw,.85rem);line-height:1.85}
+.spread-page .story-whisper{font-size:.82rem!important}
+.spread-left:after,.spread-right:after{content:"";position:absolute;top:0;bottom:0;width:14px;pointer-events:none}
+.spread-left:after{right:0;background:linear-gradient(90deg,transparent,#49394b18)}
+.spread-right:after{left:0;background:linear-gradient(90deg,#49394b18,transparent)}
+.book-spread.turn-out-forward{display:grid;animation:spread-turn-forward .62s cubic-bezier(.55,.08,.25,1) both;transform-origin:right center;pointer-events:none}
+.book-spread.turn-in-forward{display:grid;animation:spread-arrive-forward .62s cubic-bezier(.2,.7,.25,1) both;transform-origin:right center}
+.book-spread.turn-out-backward{display:grid;animation:spread-turn-backward .62s cubic-bezier(.55,.08,.25,1) both;transform-origin:left center;pointer-events:none}
+.book-spread.turn-in-backward{display:grid;animation:spread-arrive-backward .62s cubic-bezier(.2,.7,.25,1) both;transform-origin:left center}
+@keyframes spread-turn-forward{0%{transform:rotateY(0);filter:brightness(1)}45%{filter:brightness(.78)}100%{transform:rotateY(-88deg);filter:brightness(.65)}}
+@keyframes spread-arrive-forward{0%{transform:rotateY(88deg);filter:brightness(.7)}100%{transform:rotateY(0);filter:brightness(1)}}
+@keyframes spread-turn-backward{0%{transform:rotateY(0);filter:brightness(1)}45%{filter:brightness(.78)}100%{transform:rotateY(88deg);filter:brightness(.65)}}
+@keyframes spread-arrive-backward{0%{transform:rotateY(-88deg);filter:brightness(.7)}100%{transform:rotateY(0);filter:brightness(1)}}
+.story-blank{text-align:center;display:flex!important;flex-direction:column;justify-content:center;align-items:center}
+.blank-moon{font-size:4rem;color:#c49eaa;margin-bottom:22px;text-shadow:0 0 24px #b58ba988}
+@media(max-width:700px){
+ .storybook-dialog{padding:18px 12px}
+ .book-spread{grid-template-columns:1fr;gap:0;min-height:0}
+ .spread-page{padding:10px;border-radius:12px!important}
+ .spread-left{border-radius:12px 12px 0 0!important;box-shadow:inset 0 -12px 16px #53415a10}
+ .spread-right{border-radius:0 0 12px 12px!important;box-shadow:inset 0 12px 16px #53415a10}
+ .spread-left:after,.spread-right:after{display:none}
+ .spread-page .story-page{min-height:0;padding:14px 13px 18px}
+ .spread-page .story-illustration svg{max-height:none}
+ .spread-page .story-page>p:not(.story-chapter){font-size:.78rem;line-height:1.9}
+ .book-spread.turn-out-forward,.book-spread.turn-out-backward,.book-spread.turn-in-forward,.book-spread.turn-in-backward{transform-origin:center}
+}
+@media(prefers-reduced-motion:reduce){.book-spread.turn-out-forward,.book-spread.turn-in-forward,.book-spread.turn-out-backward,.book-spread.turn-in-backward{animation:none!important}}
+
+
+/* Refined book turn: the next spread waits underneath, then swings up
+   from behind around the spine instead of sliding in from below. */
+.book-pages{
+ position:relative;
+ isolation:isolate;
+ transform-style:preserve-3d;
+ perspective:2600px;
+}
+.book-spread{
+ width:100%;
+ backface-visibility:hidden;
+ transform-style:preserve-3d;
+}
+.book-spread.turn-out-forward,
+.book-spread.turn-out-backward,
+.book-spread.turn-in-forward,
+.book-spread.turn-in-backward{
+ position:absolute;
+ inset:0;
+ width:100%;
+ min-height:100%;
+ display:grid;
+}
+.book-spread.turn-out-forward{z-index:4;transform-origin:0% 50%;animation:leaf-away-forward .76s cubic-bezier(.62,.02,.28,1) both}
+.book-spread.turn-in-forward{z-index:2;transform-origin:0% 50%;animation:leaf-from-behind-forward .76s cubic-bezier(.2,.72,.2,1) both}
+.book-spread.turn-out-backward{z-index:4;transform-origin:100% 50%;animation:leaf-away-backward .76s cubic-bezier(.62,.02,.28,1) both}
+.book-spread.turn-in-backward{z-index:2;transform-origin:100% 50%;animation:leaf-from-behind-backward .76s cubic-bezier(.2,.72,.2,1) both}
+@keyframes leaf-away-forward{
+ 0%{transform:rotateY(0deg);filter:brightness(1)}
+ 35%{filter:brightness(.88)}
+ 100%{transform:rotateY(-180deg);filter:brightness(.72)}
+}
+@keyframes leaf-from-behind-forward{
+ 0%{transform:rotateY(180deg);filter:brightness(.72)}
+ 65%{filter:brightness(.94)}
+ 100%{transform:rotateY(0deg);filter:brightness(1)}
+}
+@keyframes leaf-away-backward{
+ 0%{transform:rotateY(0deg);filter:brightness(1)}
+ 35%{filter:brightness(.88)}
+ 100%{transform:rotateY(180deg);filter:brightness(.72)}
+}
+@keyframes leaf-from-behind-backward{
+ 0%{transform:rotateY(-180deg);filter:brightness(.72)}
+ 65%{filter:brightness(.94)}
+ 100%{transform:rotateY(0deg);filter:brightness(1)}
+}
+@media(max-width:700px){
+ .book-spread.turn-out-forward,.book-spread.turn-out-backward,
+ .book-spread.turn-in-forward,.book-spread.turn-in-backward{
+  min-height:0;
+ }
+}
+@media(prefers-reduced-motion:reduce){
+ .book-spread.turn-out-forward,.book-spread.turn-out-backward,
+ .book-spread.turn-in-forward,.book-spread.turn-in-backward{animation:none!important}
+}
+
+
+/* Realistic single-leaf page turn: the left page stays still while one
+   continuous paper leaf turns over the spine to reveal its reverse side. */
+.book-pages{perspective:1800px;transform-style:preserve-3d}
+.book-spread.turning-spread{display:grid!important;position:relative;z-index:3;transform:none!important;animation:none!important}
+.book-spread.turn-under-forward,.book-spread.turn-under-backward{
+ display:grid!important;position:absolute!important;inset:0;z-index:1;transform:none!important;
+ animation:none!important;pointer-events:none;
+}
+.book-spread.turn-under-forward .turn-under-hidden,
+.book-spread.turn-under-backward .turn-under-hidden{visibility:hidden}
+.turn-leaf-source-hidden{visibility:hidden!important}
+.turn-leaf{
+ position:absolute;z-index:8;top:0;bottom:0;width:50%;transform-style:preserve-3d;
+ pointer-events:none;will-change:transform;
+}
+.turn-leaf-forward{right:0;transform-origin:left center;animation:single-leaf-forward .76s cubic-bezier(.48,.04,.24,1) both}
+.turn-leaf-backward{left:0;transform-origin:right center;animation:single-leaf-backward .76s cubic-bezier(.48,.04,.24,1) both}
+.turn-leaf-face{position:absolute;inset:0;overflow:hidden;backface-visibility:hidden;-webkit-backface-visibility:hidden;
+ background:linear-gradient(90deg,#d9c9c4 0,#fff8eb 7%,#f6ebea 100%);
+ box-shadow:0 8px 22px #17112735;transform-style:preserve-3d}
+.turn-leaf-face>.spread-page{position:absolute;inset:0;width:100%;height:100%;padding:15px 12px;overflow:hidden}
+.turn-leaf-face .story-page{display:block!important;min-height:438px;height:100%;padding:16px 17px 20px;border:0;border-radius:0;background:transparent;box-shadow:none}
+.turn-leaf-face .story-illustration svg{max-height:180px;object-fit:cover}
+.turn-leaf-back{transform:rotateY(180deg);background:linear-gradient(270deg,#d9c9c4 0,#fff8eb 7%,#f6ebea 100%)}
+.turn-leaf-back>.spread-page{background:linear-gradient(270deg,#d9c9c4,#fff8eb 9%,#f6ebea 100%)}
+.turn-leaf-forward{animation-name:single-leaf-forward}
+.turn-leaf-backward{animation-name:single-leaf-backward}
+@keyframes single-leaf-forward{from{transform:rotateY(0)}to{transform:rotateY(-180deg)}}
+@keyframes single-leaf-backward{from{transform:rotateY(0)}to{transform:rotateY(180deg)}}
+.spread-fade-out{opacity:0;transition:opacity .18s ease}
+.spread-fade-in{animation:book-screen-in .26s ease both}
+@media(max-width:700px){
+ .turn-leaf{display:none!important}
+ .book-spread.turn-under-forward,.book-spread.turn-under-backward{position:relative!important}
+ .book-spread.turn-under-forward .turn-under-hidden,
+ .book-spread.turn-under-backward .turn-under-hidden{visibility:visible}
+ .turn-leaf-source-hidden{visibility:visible!important}
+}
+@media(prefers-reduced-motion:reduce){
+ .turn-leaf,.spread-fade-out,.spread-fade-in{animation:none!important;transition:none!important}
+}
+
+
+/* Keep the turning paper at the exact measured size of one printed page. */
+.turn-leaf{box-sizing:border-box;max-width:50%;overflow:visible}
+.turn-leaf-face{box-sizing:border-box;width:100%;height:100%;min-width:0;min-height:0}
+.turn-leaf-face>.spread-page{box-sizing:border-box;width:100%!important;height:100%!important;min-width:0!important;max-width:100%!important}
+.turn-leaf-face .story-page{box-sizing:border-box;width:100%;max-width:100%;min-width:0;min-height:0!important;height:100%!important;overflow:hidden}
+.turn-leaf-face .story-illustration{width:100%;max-width:100%;height:auto;max-height:180px;overflow:hidden}
+.turn-leaf-face .story-illustration svg{display:block;width:100%!important;max-width:100%!important;height:auto!important;max-height:180px;object-fit:contain}
+.turn-leaf-face .story-page>p{max-width:100%;overflow-wrap:anywhere}
+
+
+/* Keep the turning leaf aligned to the full book height without perspective stretch. */
+.book-pages{perspective:3200px}
+.turn-leaf{top:0;bottom:auto;max-width:none;}
+.turn-leaf-face{height:100%;min-height:0;max-height:100%;}
+
+
+/* Stable page change: disable 3D leaf transforms that distort page height/content. */
+.book-pages{perspective:none!important;transform-style:flat!important;}
+.book-spread,.book-spread.is-current{transform:none!important;transform-style:flat!important;backface-visibility:visible!important;}
+.turn-leaf{display:none!important;}
+.spread-fade-out{opacity:0;transition:opacity .19s ease!important;}
+.spread-fade-in{animation:spread-soft-reveal .32s ease both!important;}
+@keyframes spread-soft-reveal{from{opacity:0}to{opacity:1}}
+
+
+/* Stable page reveal: the paper itself stays fixed; only its visible edge travels. */
+.book-pages{perspective:none!important;transform-style:flat!important}
+.book-spread,.book-spread.is-current{
+ transform:none!important;
+ transform-style:flat!important;
+ backface-visibility:visible!important;
+}
+.turn-leaf{display:none!important}
+.spread-fade-out,.spread-fade-in{animation:none!important;transition:none!important}
+.book-spread.spread-page-reveal{
+ clip-path:inset(0 0 0 100%);
+ animation:book-page-enter .9s cubic-bezier(.22,.68,.2,1) forwards!important;
+ will-change:clip-path;
+}
+@keyframes book-page-enter{
+ from{clip-path:inset(0 0 0 100%)}
+ to{clip-path:inset(0 0 0 0)}
+}
+@media(prefers-reduced-motion:reduce){
+ .book-spread.spread-page-reveal{animation:none!important;clip-path:none!important}
+}
+
+
+/* The letter itself is the single, inviting wish interaction. */
+.letter[role="button"]{cursor:pointer;outline:none;-webkit-tap-highlight-color:transparent}
+.letter[role="button"]:focus-visible .envelope{outline:3px solid #ffe8bd;outline-offset:6px}
+.letter[role="button"]:not(.shaking):hover .envelope{
+ box-shadow:inset 0 2px 8px #fff9,0 18px 36px #05091d77,0 0 24px #ffe8bd22;
+}
+.letter[role="button"]:active .envelope{filter:brightness(1.035)}
+
 
 /* Gentle hover delight for the interactive wish letter (mouse/trackpad only). */
 @media (hover:hover) and (pointer:fine) {
@@ -29,4 +583,97 @@ undefined
 }
 @media (prefers-reduced-motion: reduce) {
   .letter[role="button"] { transition: none!important; }
+}
+
+/* Open letter: soften the envelope and give the wish a clear reading focus. */
+.letter.open {
+  min-height: 352px;
+  filter: drop-shadow(0 24px 38px #03061799);
+}
+.letter.open .envelope {
+  min-height: 342px;
+  padding: 18px 17px;
+  border-color: #fff0d9;
+  border-radius: 23px;
+  background:
+    radial-gradient(ellipse at 50% 0%, #fff9e9 0%, transparent 62%),
+    linear-gradient(145deg,#fff8e9 0%,#f5e9e8 58%,#eadff0 100%);
+  box-shadow:
+    inset 0 0 0 5px #ffffff55,
+    inset 0 0 0 6px #c9a9b833,
+    0 18px 38px #05091d55,
+    0 0 34px #ffe8bd22;
+}
+.letter.open .envelope:before,
+.letter.open .envelope:after {
+  opacity: .12;
+}
+.letter.open .envelope-flap {
+  opacity: 0;
+  transition: opacity .35s ease, transform .7s ease;
+}
+.letter.open .letter-content {
+  min-height: 292px;
+  padding: 35px 22px 25px;
+  border: 1px solid #cbaec277;
+  border-radius: 17px;
+  background: linear-gradient(160deg,#fffdf5 0%,#fff5e9 58%,#f8edf5 100%);
+  box-shadow: 0 7px 22px #8b6c8520, inset 0 1px 0 #fff;
+}
+.letter.open .letter-content:before {
+  content: "✦  ✧  ✦";
+  display: block;
+  margin: 0 0 12px;
+  color: #c59ab0;
+  font-size: .78rem;
+  letter-spacing: .35em;
+}
+.letter.open .letter-kicker {
+  color: #a27b9b;
+  font-size: .65rem;
+  font-weight: 600;
+  letter-spacing: .22em;
+}
+.letter.open .letter-title {
+  margin: 7px 0 15px;
+  color: #987b98;
+  font-size: .82rem;
+  font-weight: 500;
+}
+.letter.open .wish-message {
+  display: block;
+  width: min(100%, 34ch);
+  max-width: 34ch;
+  margin: 0 auto;
+  padding: 15px 16px;
+  border: 1px solid #e7d2dc;
+  border-radius: 14px;
+  color: #563b59;
+  background: linear-gradient(135deg,#fffaf0,#f8edf4);
+  box-shadow: 0 5px 16px #b99ab522, inset 0 1px 0 #fff;
+  font-size: clamp(1.12rem, 3.8vw, 1.34rem);
+  font-weight: 600;
+  line-height: 1.9;
+  letter-spacing: .005em;
+  text-wrap: pretty;
+  animation: wish-focus-in .8s .18s both;
+}
+.letter.open .wish-signature {
+  margin-top: 16px;
+  color: #a17f9b;
+  font-size: .72rem;
+  letter-spacing: .04em;
+}
+@keyframes wish-focus-in {
+  from { opacity: 0; transform: translateY(10px) scale(.97); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+@media(max-width:480px) {
+  .letter.open { min-height: 332px; }
+  .letter.open .envelope { min-height: 322px; padding: 13px 11px; }
+  .letter.open .letter-content { min-height: 282px; padding: 30px 12px 20px; }
+  .letter.open .wish-message { padding: 13px 12px; line-height: 1.85; }
+}
+@media(prefers-reduced-motion:reduce) {
+  .letter.open .wish-message { animation: none!important; }
 }
