@@ -16,40 +16,39 @@ const wishes=[
 const $=id=>document.getElementById(id);
 const letter=$("wishLetter"),message=$("wishMessage"),hint=$("letterHint"),status=$("shakeStatus");
 const starField=$("starField"),meteorField=$("meteorField");
-for(let i=0;i<115;i++){
- const star=document.createElement("i");star.className="star";
- star.style.left=Math.random()*100+"%";star.style.top=Math.random()*100+"%";
- star.style.setProperty("--t",(2+Math.random()*4)+"s");
- star.style.animationDelay=(-Math.random()*5)+"s";starField.append(star);
+// A full viewport of softly twinkling stars.
+for(let i=0;i<145;i++){
+ const star=document.createElement("i");
+ star.className="star";
+ star.style.left=(Math.random()*100)+"%";
+ star.style.top=(Math.random()*100)+"%";
+ const size=.8+Math.random()*2.1;
+ star.style.setProperty("--star-size",size+"px");
+ star.style.setProperty("--star-dim",(.28+Math.random()*.52).toFixed(2));
+ star.style.setProperty("--t",(2.1+Math.random()*4.8)+"s");
+ star.style.setProperty("--star-delay",(-Math.random()*6)+"s");
+ starField.append(star);
 }
-// Three radiant regions create overlapping, staggered fans of shooting stars.
-[
- {x:76,y:13,count:9,spread:44},
- {x:91,y:42,count:7,spread:38},
- {x:48,y:7,count:8,spread:34}
-].forEach((radiant,groupIndex)=>{
- const cluster=document.createElement("div");cluster.className="meteor-cluster";meteorField.append(cluster);
- for(let i=0;i<radiant.count;i++){
-  const meteor=document.createElement("i");
-  const bright=(i===1||i===6);meteor.className="meteor"+(bright?" meteor--bright":"");
-  const angle=-58+Math.random()*radiant.spread;
-  const distance=170+Math.random()*280;
-  const radians=angle*Math.PI/180;
-  meteor.style.left=(radiant.x+(Math.random()-.5)*5)+"%";
-  meteor.style.top=(radiant.y+(Math.random()-.5)*7)+"%";
-  meteor.style.setProperty("--angle",angle+"deg");
-  meteor.style.setProperty("--dx",(-Math.cos(radians)*distance)+"px");
-  meteor.style.setProperty("--dy",(Math.sin(Math.abs(radians))*distance*.82)+"px");
-  meteor.style.setProperty("--length",(55+Math.random()*105)+"px");
-  meteor.style.setProperty("--thickness",bright?"2.5px":"1.2px");
-  meteor.style.setProperty("--head",bright?"5px":"3px");
-  meteor.style.setProperty("--duration",(3.8+Math.random()*4.8)+"s");
-  meteor.style.setProperty("--delay",(-Math.random()*7-groupIndex*.8)+"s");
-  meteor.style.setProperty("--opacity",bright?".98":".72");
-  cluster.append(meteor);
- }
-});
-
+// Meteors glide diagonally across the entire viewport, not just around a few points.
+const meteorCount=30;
+for(let i=0;i<meteorCount;i++){
+ const meteor=document.createElement("i");
+ const bright=Math.random()<.18;
+ meteor.className="meteor"+(bright?" meteor--bright":"");
+ const startX=18+Math.random()*112;
+ const startY=-18+Math.random()*62;
+ meteor.style.left=startX+"vw";
+ meteor.style.top=startY+"vh";
+ meteor.style.setProperty("--length",(75+Math.random()*(bright?155:100))+"px");
+ meteor.style.setProperty("--thickness",bright?"2.2px":"1.1px");
+ meteor.style.setProperty("--head",bright?"5px":"3px");
+ meteor.style.setProperty("--dx",(-65-Math.random()*65)+"vw");
+ meteor.style.setProperty("--dy",(72+Math.random()*52)+"vh");
+ meteor.style.setProperty("--duration",(5.2+Math.random()*5.8)+"s");
+ meteor.style.setProperty("--delay",(-Math.random()*11)+"s");
+ meteor.style.setProperty("--opacity",bright?".98":(.48+Math.random()*.35).toFixed(2));
+ meteorField.append(meteor);
+}
 let lastWish=0;
 function reveal(){
  const now=Date.now();if(now-lastWish<1300)return;lastWish=now;
