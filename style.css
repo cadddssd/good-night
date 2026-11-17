@@ -947,3 +947,59 @@ body[data-theme="dawn"] .shooting-star {
 .meteor-guestbook-link strong { font-size: .9rem; font-weight: 600; }
 .meteor-guestbook-link small { color: #e5d7ee; font-size: .7rem; }
 .meteor-guestbook-link > span:last-child { color: #f9dfb7; font-size: 1.1rem; }
+
+/* Keep both night experience links aligned in one row */
+.night-feature-links {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  width: 100%;
+  margin: 14px auto 0;
+}
+.night-feature-links .cloud-guestbook-link,
+.night-feature-links .meteor-guestbook-link {
+  width: 100%;
+  min-width: 0;
+  min-height: 68px;
+  margin: 0;
+  padding: 11px 13px;
+  gap: 9px;
+}
+.night-feature-links .cloud-link-icon,
+.night-feature-links .meteor-guestbook-link > span:first-child {
+  flex: 0 0 auto;
+  font-size: 1.4rem;
+}
+.night-feature-links .cloud-link-copy strong,
+.night-feature-links .meteor-guestbook-link strong {
+  font-size: .78rem;
+  line-height: 1.35;
+}
+.night-feature-links .cloud-link-copy small,
+.night-feature-links .meteor-guestbook-link small {
+  font-size: .62rem;
+  line-height: 1.4;
+}
+.night-feature-links .cloud-link-arrow,
+.night-feature-links .meteor-guestbook-link > span:last-child {
+  flex: 0 0 auto;
+  font-size: .95rem;
+}
+@media (max-width: 600px) {
+  .night-feature-links { gap: 8px; margin-top: 12px; }
+  .night-feature-links .cloud-guestbook-link,
+  .night-feature-links .meteor-guestbook-link { padding: 10px 9px; gap: 6px; border-radius: 15px; }
+  .night-feature-links .cloud-link-icon,
+  .night-feature-links .meteor-guestbook-link > span:first-child { font-size: 1.2rem; }
+  .night-feature-links .cloud-link-copy strong,
+  .night-feature-links .meteor-guestbook-link strong { font-size: .68rem; }
+  .night-feature-links .cloud-link-copy small,
+  .night-feature-links .meteor-guestbook-link small { font-size: .56rem; }
+}
+@media (max-width: 360px) {
+  .night-feature-links { gap: 6px; }
+  .night-feature-links .cloud-guestbook-link,
+  .night-feature-links .meteor-guestbook-link { padding-inline: 7px; }
+  .night-feature-links .cloud-link-copy small,
+  .night-feature-links .meteor-guestbook-link small { display: none; }
+}
