@@ -393,3 +393,62 @@ body.myth-open{overflow:hidden}
  .book-spread.turn-out-forward,.book-spread.turn-out-backward,.book-spread.turn-in-forward,.book-spread.turn-in-backward{transform-origin:center}
 }
 @media(prefers-reduced-motion:reduce){.book-spread.turn-out-forward,.book-spread.turn-in-forward,.book-spread.turn-out-backward,.book-spread.turn-in-backward{animation:none!important}}
+
+
+/* Refined book turn: the next spread waits underneath, then swings up
+   from behind around the spine instead of sliding in from below. */
+.book-pages{
+ position:relative;
+ isolation:isolate;
+ transform-style:preserve-3d;
+ perspective:2600px;
+}
+.book-spread{
+ width:100%;
+ backface-visibility:hidden;
+ transform-style:preserve-3d;
+}
+.book-spread.turn-out-forward,
+.book-spread.turn-out-backward,
+.book-spread.turn-in-forward,
+.book-spread.turn-in-backward{
+ position:absolute;
+ inset:0;
+ width:100%;
+ min-height:100%;
+ display:grid;
+}
+.book-spread.turn-out-forward{z-index:4;transform-origin:0% 50%;animation:leaf-away-forward .76s cubic-bezier(.62,.02,.28,1) both}
+.book-spread.turn-in-forward{z-index:2;transform-origin:0% 50%;animation:leaf-from-behind-forward .76s cubic-bezier(.2,.72,.2,1) both}
+.book-spread.turn-out-backward{z-index:4;transform-origin:100% 50%;animation:leaf-away-backward .76s cubic-bezier(.62,.02,.28,1) both}
+.book-spread.turn-in-backward{z-index:2;transform-origin:100% 50%;animation:leaf-from-behind-backward .76s cubic-bezier(.2,.72,.2,1) both}
+@keyframes leaf-away-forward{
+ 0%{transform:rotateY(0deg);filter:brightness(1)}
+ 35%{filter:brightness(.88)}
+ 100%{transform:rotateY(-180deg);filter:brightness(.72)}
+}
+@keyframes leaf-from-behind-forward{
+ 0%{transform:rotateY(180deg);filter:brightness(.72)}
+ 65%{filter:brightness(.94)}
+ 100%{transform:rotateY(0deg);filter:brightness(1)}
+}
+@keyframes leaf-away-backward{
+ 0%{transform:rotateY(0deg);filter:brightness(1)}
+ 35%{filter:brightness(.88)}
+ 100%{transform:rotateY(180deg);filter:brightness(.72)}
+}
+@keyframes leaf-from-behind-backward{
+ 0%{transform:rotateY(-180deg);filter:brightness(.72)}
+ 65%{filter:brightness(.94)}
+ 100%{transform:rotateY(0deg);filter:brightness(1)}
+}
+@media(max-width:700px){
+ .book-spread.turn-out-forward,.book-spread.turn-out-backward,
+ .book-spread.turn-in-forward,.book-spread.turn-in-backward{
+  min-height:0;
+ }
+}
+@media(prefers-reduced-motion:reduce){
+ .book-spread.turn-out-forward,.book-spread.turn-out-backward,
+ .book-spread.turn-in-forward,.book-spread.turn-in-backward{animation:none!important}
+}
