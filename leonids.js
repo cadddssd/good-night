@@ -80,32 +80,30 @@ function reveal(){
 let lastWishIndex=-1;
 $("shakeButton").addEventListener("click",reveal);
 const mythModal=$("mythModal"),mythOpen=$("mythOpen"),mythClose=$("mythClose");
-const bookStart=$("bookStart"),bookPages=$("bookPages"),pageItems=[...document.querySelectorAll(".story-page")];
+const bookStart=$("bookStart"),bookPages=$("bookPages"),spreadItems=[...document.querySelectorAll(".book-spread")];
 const bookCover=document.querySelector('.book-cover'),bookPagesScreen=document.querySelector('.book-pages');
 const bookPrev=$("bookPrev"),bookNext=$("bookNext"),bookPageCount=$("bookPageCount"),pageDots=$("pageDots");
-let currentBookPage=0;
+let currentSpread=0;
 let pageTurning=false;
-const TURN_MS=540;
+const TURN_MS=640;
 function showBookScreen(screen){
  bookCover.classList.toggle("is-visible",screen==="cover");
  bookPagesScreen.classList.toggle("is-visible",screen==="pages");
 }
-function renderBookPage(){
- pageItems.forEach((page,index)=>page.classList.toggle("is-current",index===currentBookPage));
- bookPageCount.textContent=(currentBookPage+1)+" / "+pageItems.length;
- pageDots.textContent=pageItems.map((_,index)=>index===currentBookPage?"●":"○").join(" ");
- bookPrev.disabled=currentBookPage===0||pageTurning;
- bookNext.disabled=currentBookPage===pageItems.length-1||pageTurning;
- bookNext.textContent=currentBookPage===pageItems.length-1?"จบบทอ่าน":"หน้าถัดไป →";
+function renderBookSpread(){
+ spreadItems.forEach((spread,index)=>spread.classList.toggle("is-current",index===currentSpread));
+ bookPageCount.textContent=(currentSpread+1)+" / "+spreadItems.length+" คู่หน้า";
+ pageDots.textContent=spreadItems.map((_,index)=>index===currentSpread?"●":"○").join(" ");
+ bookPrev.disabled=currentSpread===0||pageTurning;
+ bookNext.disabled=currentSpread===spreadItems.length-1||pageTurning;
+ bookNext.textContent=currentSpread===spreadItems.length-1?"จบบทอ่าน":"พลิกหน้าถัดไป →";
 }
-function turnBookPage(direction){
+function turnBookSpread(direction){
  if(pageTurning)return;
- const nextIndex=currentBookPage+direction;
- if(nextIndex<0||nextIndex>=pageItems.length)return;
- const outgoing=pageItems[currentBookPage];
- const incoming=pageItems[nextIndex];
- pageTurning=true;
- bookPrev.disabled=true;bookNext.disabled=true;
+ const nextIndex=currentSpread+direction;
+ if(nextIndex<0||nextIndex>=spreadItems.length)return;
+ const outgoing=spreadItems[currentSpread],incoming=spreadItems[nextIndex];
+ pageTurning=true;bookPrev.disabled=true;bookNext.disabled=true;
  outgoing.classList.remove("turn-in-forward","turn-in-backward","turn-out-forward","turn-out-backward");
  incoming.classList.remove("turn-in-forward","turn-in-backward","turn-out-forward","turn-out-backward");
  incoming.classList.remove("is-current");
@@ -114,18 +112,18 @@ function turnBookPage(direction){
  if(window.matchMedia("(prefers-reduced-motion: reduce)").matches){
   outgoing.classList.remove("is-current","turn-out-forward","turn-out-backward");
   incoming.classList.remove("turn-in-forward","turn-in-backward");
-  currentBookPage=nextIndex;pageTurning=false;renderBookPage();return;
+  currentSpread=nextIndex;pageTurning=false;renderBookSpread();return;
  }
  window.setTimeout(()=>{
   outgoing.classList.remove("is-current","turn-out-forward","turn-out-backward");
   incoming.classList.remove("turn-in-forward","turn-in-backward");
-  currentBookPage=nextIndex;pageTurning=false;renderBookPage();
+  currentSpread=nextIndex;pageTurning=false;renderBookSpread();
  },TURN_MS);
 }
-bookStart.addEventListener("click",()=>{currentBookPage=0;renderBookPage();showBookScreen("pages")});
-bookPrev.addEventListener("click",()=>turnBookPage(-1));
-bookNext.addEventListener("click",()=>turnBookPage(1));
-$("bookRestart").addEventListener("click",()=>{if(pageTurning)return;currentBookPage=0;renderBookPage();showBookScreen("cover")});
+bookStart.addEventListener("click",()=>{currentSpread=0;renderBookSpread();showBookScreen("pages")});
+bookPrev.addEventListener("click",()=>turnBookSpread(-1));
+bookNext.addEventListener("click",()=>turnBookSpread(1));
+$("bookRestart").addEventListener("click",()=>{if(pageTurning)return;currentSpread=0;renderBookSpread();showBookScreen("cover")});
 
 function openMyths(){
  showBookScreen("cover");
