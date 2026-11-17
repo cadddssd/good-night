@@ -172,7 +172,10 @@ setInterval(makeHeart,1700);
   function showShootingStar() {
     if (activeStar || reduceMotion.matches) return;
     const star = document.createElement("span");
-    star.className = "shooting-star";
+    // สุ่มขนาดแบบถ่วงน้ำหนัก: ดาวเล็กพบบ่อย ดาวใหญ่พบได้นาน ๆ ครั้ง
+    const sizeRoll = Math.random();
+    const size = sizeRoll < 0.55 ? "small" : sizeRoll < 0.87 ? "medium" : "large";
+    star.className = `shooting-star shooting-star--${size}`;
     star.setAttribute("aria-hidden", "true");
     star.style.left = `${58 + Math.random() * 38}%`;
     star.style.top = `${8 + Math.random() * 42}%`;
