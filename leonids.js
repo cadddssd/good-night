@@ -79,4 +79,21 @@ function reveal(){
 }
 let lastWishIndex=-1;
 $("shakeButton").addEventListener("click",reveal);
+const mythModal=$("mythModal"),mythOpen=$("mythOpen"),mythClose=$("mythClose");
+function openMyths(){
+ mythModal.classList.add("is-open");
+ mythModal.setAttribute("aria-hidden","false");
+ document.body.classList.add("myth-open");
+ mythClose.focus();
+}
+function closeMyths(){
+ mythModal.classList.remove("is-open");
+ mythModal.setAttribute("aria-hidden","true");
+ document.body.classList.remove("myth-open");
+ mythOpen.focus();
+}
+mythOpen.addEventListener("click",openMyths);
+mythClose.addEventListener("click",closeMyths);
+mythModal.addEventListener("click",event=>{if(event.target.hasAttribute("data-myth-close"))closeMyths()});
+document.addEventListener("keydown",event=>{if(event.key==="Escape"&&mythModal.classList.contains("is-open"))closeMyths()});
 })();
