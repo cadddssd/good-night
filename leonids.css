@@ -1,0 +1,54 @@
+*{box-sizing:border-box}
+:root{color-scheme:dark;font-family:"Mali",sans-serif}
+body{margin:0;min-height:100vh;min-height:100dvh;overflow-x:hidden;color:#fff5e9;background:#080d24}
+.universe,.star-field,.meteor-field{position:fixed;inset:0;overflow:hidden;pointer-events:none}
+.universe{background:radial-gradient(ellipse at 50% 85%,#42335e66,transparent 52%),linear-gradient(155deg,#080d24,#171b3b 56%,#302746)}
+.nebula{position:absolute;width:80vw;height:60vw;left:10%;top:18%;border-radius:50%;background:radial-gradient(ellipse,#78639b20,transparent 68%);filter:blur(22px)}
+.moon{position:absolute;right:12%;top:8%;width:65px;height:65px;border-radius:50%;background:#fff0ca;box-shadow:0 0 28px #ffe8ae77,0 0 90px #f7d7ff25}
+.star{position:absolute;width:2px;height:2px;border-radius:50%;background:#fff5d9;box-shadow:0 0 8px 2px #fff1c855;animation:twinkle var(--t,3s) ease-in-out infinite alternate}
+.meteor{position:absolute;top:var(--top);left:var(--left);width:var(--length,130px);height:2px;opacity:0;transform:rotate(-35deg);transform-origin:right center;background:linear-gradient(90deg,transparent,#c9d9ff55,#fff5d7);filter:drop-shadow(0 0 5px #cbdcff);animation:meteor-flight var(--duration,1.7s) ease-out var(--delay,0s) infinite}
+.meteor:after{content:"";position:absolute;right:0;top:-2px;width:5px;height:5px;border-radius:50%;background:#fff9e8;box-shadow:0 0 12px 4px #d5dfff}
+.experience{position:relative;z-index:1;width:min(760px,100%);min-height:100vh;margin:auto;padding:24px 22px 30px;display:flex;flex-direction:column;align-items:center}
+.back-link{align-self:flex-start;color:#d8cce9;text-decoration:none;font-size:.82rem;padding:8px 0}
+.back-link:hover{color:#fff0c8}
+.intro{text-align:center;margin:10px 0 0}
+.eyebrow{margin:0 0 7px;color:#d6b9e9;font-size:.68rem;letter-spacing:.18em}
+h1{margin:0;font:600 clamp(2.5rem,9vw,4.1rem)/1.1 "Itim",cursive;color:#fff0d4;text-shadow:0 0 28px #f8d8ff55}
+h1 span{font-size:.65em}
+.intro>p:not(.eyebrow){margin:12px 0 7px;color:#e8dff0;font-size:.95rem}
+.date-note{display:inline-block;color:#c6b6d9;font-size:.72rem}
+.wish-area{position:relative;width:min(100%,500px);margin:28px auto 0;display:flex;flex-direction:column;align-items:center}
+.letter{position:relative;width:min(100%,390px);min-height:330px;display:grid;place-items:center;perspective:1000px;filter:drop-shadow(0 22px 35px #03061788)}
+.letter-glow{position:absolute;inset:15%;border-radius:50%;background:#f8dcae22;filter:blur(35px)}
+.envelope{position:relative;width:100%;min-height:315px;padding:25px 20px 18px;border:1px solid #fff3d777;border-radius:20px;background:linear-gradient(145deg,#fff4dd,#e9d4c8 58%,#d8c4db);box-shadow:inset 0 2px 8px #fff9,0 14px 30px #05091d66;overflow:hidden;transform:rotate(-1deg);transition:transform .55s ease}
+.envelope:before,.envelope:after{content:"";position:absolute;z-index:1;bottom:-2px;width:52%;height:58%;background:linear-gradient(145deg,#e9d3d1,#cbb7d2);opacity:.72}
+.envelope:before{left:-2px;clip-path:polygon(0 0,100% 100%,0 100%)}
+.envelope:after{right:-2px;clip-path:polygon(100% 0,100% 100%,0 100%)}
+.envelope-flap{position:absolute;z-index:2;left:0;top:0;width:100%;height:48%;background:linear-gradient(160deg,#fff7e8,#ead7dc);clip-path:polygon(0 0,100% 0,50% 100%);transform-origin:top;transition:transform .7s ease;filter:drop-shadow(0 4px 3px #79647a22)}
+.letter-seal{position:absolute;z-index:3;top:37%;left:50%;width:39px;height:39px;display:grid;place-items:center;transform:translate(-50%,-50%);border-radius:50%;color:#fff2d4;background:linear-gradient(145deg,#c78caa,#8e719f);box-shadow:0 3px 10px #755b7c66;font-size:1.2rem;transition:opacity .3s,transform .4s}
+.letter-content{position:relative;z-index:4;min-height:270px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;color:#55465d;padding:40px 14px 20px}
+.letter-kicker{color:#a17f9b;font-size:.62rem;letter-spacing:.2em}
+.letter-title{margin:8px 0 14px;font-size:1.25rem;font-weight:600;color:#75566f}
+.letter-hint{font-size:.83rem;line-height:1.8;color:#89778e}
+.wish-message{display:none;margin:0;max-width:31ch;font-size:1.02rem;line-height:1.9;color:#59465d;font-weight:500}
+.wish-signature{margin-top:14px;color:#a17f9b;font-size:.7rem}
+.letter.open .envelope{transform:rotate(0deg) translateY(3px)}
+.letter.open .envelope-flap{transform:rotateX(180deg);z-index:0}
+.letter.open .letter-seal{opacity:0;transform:translate(-50%,-20%) scale(.4)}
+.letter.open .letter-hint{display:none}
+.letter.open .wish-message{display:block;animation:wish-appear .8s .2s both}
+.action-area{width:100%;display:flex;flex-direction:column;align-items:center;gap:10px;margin-top:19px}
+#shakeStatus{min-height:1.5em;margin:0;color:#e7d9ef;text-align:center;font-size:.8rem;line-height:1.6}
+.shake-button{border:1px solid #ffe8bd88;border-radius:999px;padding:13px 24px;color:#3c2b4d;background:linear-gradient(120deg,#ffe9c7,#e9c8e7);font:600 .95rem "Mali",sans-serif;box-shadow:0 8px 25px #f3d5ef25;cursor:pointer;transition:transform .2s,box-shadow .2s}
+.shake-button:hover{transform:translateY(-3px);box-shadow:0 12px 30px #f3d5ef40}
+.motion-button{border:0;padding:6px 12px;color:#c6b7d8;background:transparent;font: .72rem "Mali",sans-serif;cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+.closing{margin:22px 0 0;color:#c8b9d9;text-align:center;font-size:.75rem;line-height:1.8}
+.constellation{position:absolute;color:#ffeac2;text-shadow:0 0 14px #ffe5b9;animation:twinkle 3s ease-in-out infinite alternate}
+.constellation-one{left:4%;top:24%;font-size:2rem}.constellation-two{right:4%;bottom:26%;font-size:1.5rem;animation-delay:-1.2s}
+@keyframes twinkle{from{opacity:.25;transform:scale(.7)}to{opacity:1;transform:scale(1.2)}}
+@keyframes meteor-flight{0%{opacity:0;transform:translate3d(0,0,0) rotate(-35deg)}8%{opacity:1}55%{opacity:.85}100%{opacity:0;transform:translate3d(-55vw,55vh,0) rotate(-35deg)}}
+@keyframes wish-appear{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+.letter.shaking{animation:shake .55s ease}
+@keyframes shake{0%,100%{transform:rotate(0)}20%{transform:rotate(-5deg) translateX(-5px)}40%{transform:rotate(5deg) translateX(5px)}60%{transform:rotate(-4deg) translateX(-3px)}80%{transform:rotate(3deg) translateX(3px)}}
+@media(max-width:480px){.experience{padding:18px 17px 24px}.intro{margin-top:7px}.wish-area{margin-top:22px}.letter{min-height:300px}.envelope{min-height:292px;padding-inline:14px}.letter-content{min-height:250px;padding-inline:9px}.moon{width:48px;height:48px;right:8%;top:5%}.constellation-one{left:0}.constellation-two{right:0}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.01ms!important}}
