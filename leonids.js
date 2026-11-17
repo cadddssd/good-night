@@ -80,7 +80,29 @@ function reveal(){
 let lastWishIndex=-1;
 $("shakeButton").addEventListener("click",reveal);
 const mythModal=$("mythModal"),mythOpen=$("mythOpen"),mythClose=$("mythClose");
+const bookStart=$("bookStart"),bookPages=$("bookPages"),pageItems=[...document.querySelectorAll(".story-page")];
+const bookCover=document.querySelector('.book-cover'),bookPagesScreen=document.querySelector('.book-pages');
+const bookPrev=$("bookPrev"),bookNext=$("bookNext"),bookPageCount=$("bookPageCount"),pageDots=$("pageDots");
+let currentBookPage=0;
+function showBookScreen(screen){
+ bookCover.classList.toggle("is-visible",screen==="cover");
+ bookPagesScreen.classList.toggle("is-visible",screen==="pages");
+}
+function renderBookPage(){
+ pageItems.forEach((page,index)=>page.classList.toggle("is-current",index===currentBookPage));
+ bookPageCount.textContent=(currentBookPage+1)+" / 6";
+ pageDots.textContent=pageItems.map((_,index)=>index===currentBookPage?"●":"○").join(" ");
+ bookPrev.disabled=currentBookPage===0;
+ bookNext.disabled=currentBookPage===pageItems.length-1;
+ bookNext.textContent=currentBookPage===pageItems.length-1?"จบบทอ่าน":"หน้าถัดไป →";
+}
+bookStart.addEventListener("click",()=>{currentBookPage=0;renderBookPage();showBookScreen("pages")});
+bookPrev.addEventListener("click",()=>{if(currentBookPage>0){currentBookPage--;renderBookPage()}});
+bookNext.addEventListener("click",()=>{if(currentBookPage<pageItems.length-1){currentBookPage++;renderBookPage()}});
+$("bookRestart").addEventListener("click",()=>{currentBookPage=0;renderBookPage();showBookScreen("cover")});
+
 function openMyths(){
+ showBookScreen("cover");
  mythModal.classList.add("is-open");
  mythModal.setAttribute("aria-hidden","false");
  document.body.classList.add("myth-open");
@@ -88,6 +110,7 @@ function openMyths(){
 }
 function closeMyths(){
  mythModal.classList.remove("is-open");
+ showBookScreen("cover");
  mythModal.setAttribute("aria-hidden","true");
  document.body.classList.remove("myth-open");
  mythOpen.focus();
