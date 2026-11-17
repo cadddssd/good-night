@@ -851,7 +851,7 @@ body[data-theme="dawn"] .shooting-star {
 
 /* A quicker, lighter meteor pass */
 .shooting-star {
-  animation-duration: .82s;
+  animation-duration: 1.35s;
 }
 @keyframes cozy-shooting-star {
   0% { opacity: 0; transform: rotate(34deg) translate(0, 0) scaleX(.65); }
