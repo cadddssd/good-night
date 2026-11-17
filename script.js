@@ -162,7 +162,7 @@ setInterval(makeHeart,1700);
 
   function scheduleNext() {
     if (reduceMotion.matches) return;
-    const delay = 6500 + Math.random() * 6500;
+    const delay = 3000 + Math.random() * 3500;
     timer = window.setTimeout(() => {
       if (!document.hidden) showShootingStar();
       scheduleNext();
