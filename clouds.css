@@ -291,9 +291,9 @@ h1 { color: #fff0d9; text-shadow: 0 0 24px rgba(255,204,160,.22); }
 }
 
 
-/* Balanced five-cloud wall: keep cards compact even when there is only one message */
+/* Balanced four-cloud wall: keep cards compact even when there is only one message */
 .cloud-list {
-  grid-template-columns: repeat(5, minmax(0, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   align-items: stretch;
   justify-items: stretch;
   gap: 22px 16px;
@@ -306,7 +306,7 @@ h1 { color: #fff0d9; text-shadow: 0 0 24px rgba(255,204,160,.22); }
   rotate: 0deg;
 }
 .cloud-item:only-child {
-  grid-column: 3;
+  grid-column: 2 / span 2;
 }
 .cloud-item::before {
   inset: 24px 3px 5px;
