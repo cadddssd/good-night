@@ -104,60 +104,23 @@ function turnBookSpread(direction){
  if(nextIndex<0||nextIndex>=spreadItems.length)return;
  const outgoing=spreadItems[currentSpread],incoming=spreadItems[nextIndex];
  pageTurning=true;bookPrev.disabled=true;bookNext.disabled=true;
- const reduced=window.matchMedia("(prefers-reduced-motion: reduce)").matches;
- const mobile=window.matchMedia("(max-width: 700px)").matches;
- if(reduced){currentSpread=nextIndex;pageTurning=false;renderBookSpread();return;}
- if(mobile){
-  outgoing.classList.add("spread-fade-out");
-  window.setTimeout(()=>{
-   currentSpread=nextIndex;renderBookSpread();
-   incoming.classList.add("spread-fade-in");
-   window.setTimeout(()=>{outgoing.classList.remove("spread-fade-out");incoming.classList.remove("spread-fade-in");pageTurning=false;renderBookSpread();},260);
-  },180);
-  return;
+ if(window.matchMedia("(prefers-reduced-motion: reduce)").matches){
+  currentSpread=nextIndex;pageTurning=false;renderBookSpread();return;
  }
- const frontSource=outgoing.querySelector(direction>0?".spread-right":".spread-left");
- const backSource=incoming.querySelector(direction>0?".spread-left":".spread-right");
- const underPage=incoming.querySelector(direction>0?".spread-right":".spread-left");
- incoming.classList.add("is-current",direction>0?"turn-under-forward":"turn-under-backward");
- outgoing.classList.add("turning-spread");
- if(direction>0) incoming.querySelector(".spread-left").classList.add("turn-under-hidden");
- else incoming.querySelector(".spread-right").classList.add("turn-under-hidden");
- frontSource.classList.add("turn-leaf-source-hidden");
- const spreadRect=outgoing.getBoundingClientRect();
- const leaf=document.createElement("div");
- leaf.className="turn-leaf "+(direction>0?"turn-leaf-forward":"turn-leaf-backward");
- // Size the turning sheet from the complete book spread, not the cloned page.
- // This keeps its top and bottom edges locked to the book throughout rotation.
- const leafWidth=spreadRect.width/2;
- leaf.style.width=leafWidth+"px";
- leaf.style.height=spreadRect.height+"px";
- leaf.style.top="0px";
- leaf.style.bottom="auto";
- leaf.style.left=(direction>0?leafWidth:0)+"px";
- leaf.style.right="auto";
- const front=document.createElement("div"),back=document.createElement("div");
- front.className="turn-leaf-face turn-leaf-front";
- back.className="turn-leaf-face turn-leaf-back";
- const frontClone=frontSource.cloneNode(true);
- const backClone=backSource.cloneNode(true);
- [frontClone,backClone].forEach(page=>{
-  page.style.position="absolute";page.style.inset="0";page.style.width="100%";
-  page.style.height="100%";page.style.minWidth="0";page.style.boxSizing="border-box";
- });
- front.append(frontClone);
- back.append(backClone);
- leaf.append(front,back);
- outgoing.append(leaf);
- const finish=()=>{
-  leaf.remove();
-  frontSource.classList.remove("turn-leaf-source-hidden");
-  incoming.classList.remove("turn-under-forward","turn-under-backward");
-  incoming.querySelectorAll(".turn-under-hidden").forEach(el=>el.classList.remove("turn-under-hidden"));
-  outgoing.classList.remove("turning-spread");
-  currentSpread=nextIndex;pageTurning=false;renderBookSpread();
- };
- window.setTimeout(finish,760);
+ // Use a fixed-layout dissolve instead of a 3D cloned leaf.
+ // This keeps the paper dimensions and all printed content perfectly still.
+ outgoing.classList.add("spread-fade-out");
+ window.setTimeout(()=>{
+  currentSpread=nextIndex;
+  renderBookSpread();
+  incoming.classList.add("spread-fade-in");
+  window.setTimeout(()=>{
+   outgoing.classList.remove("spread-fade-out");
+   incoming.classList.remove("spread-fade-in");
+   pageTurning=false;
+   renderBookSpread();
+  },320);
+ },190);
 }
 bookStart.addEventListener("click",()=>{currentSpread=0;renderBookSpread();showBookScreen("pages")});
 bookPrev.addEventListener("click",()=>turnBookSpread(-1));
