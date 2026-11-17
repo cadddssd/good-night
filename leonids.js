@@ -125,14 +125,16 @@ function turnBookSpread(direction){
  else incoming.querySelector(".spread-right").classList.add("turn-under-hidden");
  frontSource.classList.add("turn-leaf-source-hidden");
  const spreadRect=outgoing.getBoundingClientRect();
- const pageRect=frontSource.getBoundingClientRect();
  const leaf=document.createElement("div");
  leaf.className="turn-leaf "+(direction>0?"turn-leaf-forward":"turn-leaf-backward");
- leaf.style.width=pageRect.width+"px";
- leaf.style.height=pageRect.height+"px";
- leaf.style.top=(pageRect.top-spreadRect.top)+"px";
+ // Size the turning sheet from the complete book spread, not the cloned page.
+ // This keeps its top and bottom edges locked to the book throughout rotation.
+ const leafWidth=spreadRect.width/2;
+ leaf.style.width=leafWidth+"px";
+ leaf.style.height=spreadRect.height+"px";
+ leaf.style.top="0px";
  leaf.style.bottom="auto";
- leaf.style.left=(pageRect.left-spreadRect.left)+"px";
+ leaf.style.left=(direction>0?leafWidth:0)+"px";
  leaf.style.right="auto";
  const front=document.createElement("div"),back=document.createElement("div");
  front.className="turn-leaf-face turn-leaf-front";
