@@ -17,16 +17,16 @@ const $=id=>document.getElementById(id);
 const letter=$("wishLetter"),message=$("wishMessage"),hint=$("letterHint"),status=$("shakeStatus");
 const starField=$("starField"),meteorField=$("meteorField");
 // A full viewport of softly twinkling stars.
-for(let i=0;i<75;i++){
+for(let i=0;i<28;i++){
  const star=document.createElement("i");
  star.className="star";
  star.style.left=(Math.random()*100)+"%";
  star.style.top=(Math.random()*100)+"%";
- const size=.8+Math.random()*2.1;
+ const size=.55+Math.random()*.95;
  star.style.setProperty("--star-size",size+"px");
- star.style.setProperty("--star-dim",(.28+Math.random()*.52).toFixed(2));
- star.style.setProperty("--t",(2.1+Math.random()*4.8)+"s");
- star.style.animationDelay=(-Math.random()*6)+"s";
+ star.style.setProperty("--star-dim",(.08+Math.random()*.12).toFixed(2));
+ star.style.setProperty("--t",(4.5+Math.random()*4)+"s");
+ star.style.animationDelay=(-Math.random()*8)+"s";
  starField.append(star);
 }
 // Meteors arrive in natural-looking waves, with a quiet pause between showers.
