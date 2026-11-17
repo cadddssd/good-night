@@ -207,3 +207,20 @@ h1 span{font-size:.65em}
   .star { animation:none!important; opacity:.75; }
   .meteor { animation:none!important; opacity:0!important; }
 }
+
+/* Natural meteor-shower rhythm: short bursts separated by quiet sky */
+.meteor {
+  animation: meteor-wave-flight var(--duration,3.6s) cubic-bezier(.18,.62,.28,1) var(--delay,0s) 1 both;
+  transform-origin:left center;
+  will-change:transform,opacity;
+}
+@keyframes meteor-wave-flight {
+  0% { opacity:0; transform:translate3d(0,0,0) rotate(-35deg); }
+  8% { opacity:var(--opacity,.8); }
+  72% { opacity:var(--opacity,.8); }
+  100% { opacity:0; transform:translate3d(var(--dx,-80vw),var(--dy,85vh),0) rotate(-35deg); }
+}
+.star { will-change:opacity,transform; }
+@media(prefers-reduced-motion:reduce) {
+  .meteor { animation:none!important; opacity:0!important; }
+}
