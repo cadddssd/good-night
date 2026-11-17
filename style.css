@@ -1003,3 +1003,32 @@ body[data-theme="dawn"] .shooting-star {
   .night-feature-links .cloud-link-copy small,
   .night-feature-links .meteor-guestbook-link small { display: none; }
 }
+
+/* Keep feature button headings on a single line */
+.night-feature-links .cloud-link-copy,
+.night-feature-links .meteor-guestbook-link > span:nth-child(2) {
+  min-width: 0;
+}
+.night-feature-links .cloud-link-copy strong,
+.night-feature-links .meteor-guestbook-link strong {
+  display: block;
+  white-space: nowrap;
+  word-break: keep-all;
+  overflow-wrap: normal;
+  font-size: .72rem;
+  letter-spacing: -.025em;
+}
+@media (max-width: 600px) {
+  .night-feature-links .cloud-link-copy strong,
+  .night-feature-links .meteor-guestbook-link strong {
+    font-size: clamp(.57rem, 2.35vw, .68rem);
+    letter-spacing: -.04em;
+  }
+}
+@media (max-width: 360px) {
+  .night-feature-links .cloud-link-copy strong,
+  .night-feature-links .meteor-guestbook-link strong {
+    font-size: .56rem;
+    letter-spacing: -.045em;
+  }
+}
