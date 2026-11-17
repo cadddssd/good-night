@@ -85,7 +85,7 @@ const bookCover=document.querySelector('.book-cover'),bookPagesScreen=document.q
 const bookPrev=$("bookPrev"),bookNext=$("bookNext"),bookPageCount=$("bookPageCount"),pageDots=$("pageDots");
 let currentSpread=0;
 let pageTurning=false;
-const TURN_MS=640;
+const TURN_MS=780;
 function showBookScreen(screen){
  bookCover.classList.toggle("is-visible",screen==="cover");
  bookPagesScreen.classList.toggle("is-visible",screen==="pages");
