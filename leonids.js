@@ -116,7 +116,7 @@ function turnBookSpread(direction){
   incoming.classList.remove("spread-page-reveal");
   pageTurning=false;
   renderBookSpread();
- },520);
+ },900);
 }
 bookStart.addEventListener("click",()=>{currentSpread=0;renderBookSpread();showBookScreen("pages")});
 bookPrev.addEventListener("click",()=>turnBookSpread(-1));
