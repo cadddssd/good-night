@@ -107,20 +107,16 @@ function turnBookSpread(direction){
  if(window.matchMedia("(prefers-reduced-motion: reduce)").matches){
   currentSpread=nextIndex;pageTurning=false;renderBookSpread();return;
  }
- // Use a fixed-layout dissolve instead of a 3D cloned leaf.
- // This keeps the paper dimensions and all printed content perfectly still.
- outgoing.classList.add("spread-fade-out");
+ // Reveal the next spread with a right-to-left paper-like wipe.
+ // Only the spread's clipping boundary moves; text and illustrations stay still.
+ currentSpread=nextIndex;
+ renderBookSpread();
+ incoming.classList.add("spread-page-reveal");
  window.setTimeout(()=>{
-  currentSpread=nextIndex;
+  incoming.classList.remove("spread-page-reveal");
+  pageTurning=false;
   renderBookSpread();
-  incoming.classList.add("spread-fade-in");
-  window.setTimeout(()=>{
-   outgoing.classList.remove("spread-fade-out");
-   incoming.classList.remove("spread-fade-in");
-   pageTurning=false;
-   renderBookSpread();
-  },320);
- },190);
+ },520);
 }
 bookStart.addEventListener("click",()=>{currentSpread=0;renderBookSpread();showBookScreen("pages")});
 bookPrev.addEventListener("click",()=>turnBookSpread(-1));
