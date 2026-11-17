@@ -104,21 +104,44 @@ function turnBookSpread(direction){
  if(nextIndex<0||nextIndex>=spreadItems.length)return;
  const outgoing=spreadItems[currentSpread],incoming=spreadItems[nextIndex];
  pageTurning=true;bookPrev.disabled=true;bookNext.disabled=true;
- outgoing.classList.remove("turn-in-forward","turn-in-backward","turn-out-forward","turn-out-backward");
- incoming.classList.remove("turn-in-forward","turn-in-backward","turn-out-forward","turn-out-backward");
- incoming.classList.remove("is-current");
- outgoing.classList.add(direction>0?"turn-out-forward":"turn-out-backward");
- incoming.classList.add("is-current",direction>0?"turn-in-forward":"turn-in-backward");
- if(window.matchMedia("(prefers-reduced-motion: reduce)").matches){
-  outgoing.classList.remove("is-current","turn-out-forward","turn-out-backward");
-  incoming.classList.remove("turn-in-forward","turn-in-backward");
-  currentSpread=nextIndex;pageTurning=false;renderBookSpread();return;
+ const reduced=window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+ const mobile=window.matchMedia("(max-width: 700px)").matches;
+ if(reduced){currentSpread=nextIndex;pageTurning=false;renderBookSpread();return;}
+ if(mobile){
+  outgoing.classList.add("spread-fade-out");
+  window.setTimeout(()=>{
+   currentSpread=nextIndex;renderBookSpread();
+   incoming.classList.add("spread-fade-in");
+   window.setTimeout(()=>{outgoing.classList.remove("spread-fade-out");incoming.classList.remove("spread-fade-in");pageTurning=false;renderBookSpread();},260);
+  },180);
+  return;
  }
- window.setTimeout(()=>{
-  outgoing.classList.remove("is-current","turn-out-forward","turn-out-backward");
-  incoming.classList.remove("turn-in-forward","turn-in-backward");
+ const frontSource=outgoing.querySelector(direction>0?".spread-right":".spread-left");
+ const backSource=incoming.querySelector(direction>0?".spread-left":".spread-right");
+ const underPage=incoming.querySelector(direction>0?".spread-right":".spread-left");
+ incoming.classList.add("is-current",direction>0?"turn-under-forward":"turn-under-backward");
+ outgoing.classList.add("turning-spread");
+ if(direction>0) incoming.querySelector(".spread-left").classList.add("turn-under-hidden");
+ else incoming.querySelector(".spread-right").classList.add("turn-under-hidden");
+ frontSource.classList.add("turn-leaf-source-hidden");
+ const leaf=document.createElement("div");
+ leaf.className="turn-leaf "+(direction>0?"turn-leaf-forward":"turn-leaf-backward");
+ const front=document.createElement("div"),back=document.createElement("div");
+ front.className="turn-leaf-face turn-leaf-front";
+ back.className="turn-leaf-face turn-leaf-back";
+ front.append(frontSource.cloneNode(true));
+ back.append(backSource.cloneNode(true));
+ leaf.append(front,back);
+ outgoing.append(leaf);
+ const finish=()=>{
+  leaf.remove();
+  frontSource.classList.remove("turn-leaf-source-hidden");
+  incoming.classList.remove("turn-under-forward","turn-under-backward");
+  incoming.querySelectorAll(".turn-under-hidden").forEach(el=>el.classList.remove("turn-under-hidden"));
+  outgoing.classList.remove("turning-spread");
   currentSpread=nextIndex;pageTurning=false;renderBookSpread();
- },TURN_MS);
+ };
+ window.setTimeout(finish,760);
 }
 bookStart.addEventListener("click",()=>{currentSpread=0;renderBookSpread();showBookScreen("pages")});
 bookPrev.addEventListener("click",()=>turnBookSpread(-1));
