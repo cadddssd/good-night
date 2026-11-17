@@ -224,3 +224,28 @@ h1 span{font-size:.65em}
 @media(prefers-reduced-motion:reduce) {
   .meteor { animation:none!important; opacity:0!important; }
 }
+
+/* Myths & wishes popup */
+.myth-section{position:relative;z-index:2;margin:22px auto 4px;text-align:center}
+.myth-kicker{margin:0 0 8px;color:#d8c2ee;font-size:.62rem;letter-spacing:.2em}
+.myth-open-button{border:1px solid #e8d6ff77;border-radius:999px;padding:11px 20px;color:#f7eaff;background:linear-gradient(120deg,#5c4a79cc,#34345fcc);font:500 .86rem "Mali",sans-serif;box-shadow:0 6px 22px #c9a9ff20;cursor:pointer;transition:transform .2s,box-shadow .2s}
+.myth-open-button:hover{transform:translateY(-2px);box-shadow:0 9px 28px #c9a9ff38}
+.myth-caption{margin:8px 0 0;color:#bfb3d2;font-size:.68rem}
+.myth-modal{position:fixed;inset:0;z-index:20;display:grid;place-items:center;padding:18px;opacity:0;visibility:hidden;transition:opacity .25s,visibility .25s}
+.myth-modal.is-open{opacity:1;visibility:visible}
+.myth-backdrop{position:absolute;inset:0;background:#050817d9;backdrop-filter:blur(8px)}
+.myth-dialog{position:relative;width:min(590px,100%);max-height:min(82dvh,760px);overflow:auto;padding:27px 24px 22px;border:1px solid #e6d4ff55;border-radius:24px;background:radial-gradient(ellipse at 50% 0%,#76618a55,transparent 55%),linear-gradient(155deg,#1d2143,#17172f 75%,#29213e);box-shadow:0 24px 80px #0009;color:#f7efff;transform:translateY(14px) scale(.98);transition:transform .25s}
+.myth-modal.is-open .myth-dialog{transform:translateY(0) scale(1)}
+.myth-close{position:sticky;float:right;top:0;margin:-12px -9px 0 8px;width:34px;height:34px;border:1px solid #fff3;border-radius:50%;color:#f7eaff;background:#ffffff12;font-size:1.45rem;line-height:1;cursor:pointer}
+.myth-dialog h2{margin:3px 28px 9px 0;color:#ffe9c8;font:600 clamp(1.35rem,5vw,1.8rem)/1.3 "Itim",cursive}
+.myth-intro{margin:0 0 17px;color:#d5c9e3;font-size:.8rem;line-height:1.8}
+.myth-list{display:grid;gap:10px}
+.myth-list article{display:grid;grid-template-columns:32px 1fr;gap:10px;padding:12px;border:1px solid #ffffff13;border-radius:15px;background:#ffffff08}
+.myth-list article>span{font-size:1.25rem}
+.myth-list h3{margin:0 0 4px;color:#f6dfc3;font-size:.84rem}
+.myth-list p{margin:0;color:#d3c9df;font-size:.75rem;line-height:1.75}
+.myth-note{margin:15px 0 0;color:#a99cb9;font-size:.66rem;line-height:1.7}
+.myth-closing{margin:13px 0 0;color:#f4d9b5;text-align:center;font:1rem "Itim",cursive;line-height:1.7}
+body.myth-open{overflow:hidden}
+@media(max-width:480px){.myth-dialog{padding:22px 16px 18px;border-radius:19px}.myth-list article{padding:10px}.myth-list p{font-size:.72rem}}
+@media(prefers-reduced-motion:reduce){.myth-modal,.myth-dialog,.myth-open-button{transition:none}}
