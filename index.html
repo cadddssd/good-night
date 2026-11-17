@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Itim&family=Mali:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=closer-night-links-1">
+  <link rel="stylesheet" href="style.css?v=night-links-inline-1">
 </head>
 <body>
   <div class="sky" aria-hidden="true"><div class="moon"></div><div id="stars"></div><div id="floaties"></div></div>
@@ -44,17 +44,18 @@
     </div>
     <p class="signature">ส่งความคิดถึงให้คืนนี้ 🌙</p>
 
-    <a class="cloud-guestbook-link" href="clouds.html" target="_blank" rel="noopener noreferrer">
-      <span class="cloud-link-icon" aria-hidden="true">☁️</span>
-      <span class="cloud-link-copy"><strong>แสดงก้อนเมฆบอกฝันดี</strong><small>อ่านข้อความดี ๆ จากทุกคนในค่ำคืนนี้</small></span>
-      <span class="cloud-link-arrow" aria-hidden="true">↗</span>
-    </a>
-
-    <a class="meteor-guestbook-link" href="leonids.html">
-      <span aria-hidden="true">🌠</span>
-      <span><strong>ชมฝนดาวตก ลีโอนิดส์</strong><small>รับคำอวยพรพิเศษจากดวงดาวคืนนี้</small></span>
-      <span aria-hidden="true">↗</span>
-    </a>
+    <div class="night-feature-links">
+      <a class="cloud-guestbook-link" href="clouds.html" target="_blank" rel="noopener noreferrer">
+        <span class="cloud-link-icon" aria-hidden="true">☁️</span>
+        <span class="cloud-link-copy"><strong>แสดงก้อนเมฆบอกฝันดี</strong><small>อ่านข้อความดี ๆ จากทุกคนในค่ำคืนนี้</small></span>
+        <span class="cloud-link-arrow" aria-hidden="true">↗</span>
+      </a>
+      <a class="meteor-guestbook-link" href="leonids.html">
+        <span aria-hidden="true">🌠</span>
+        <span><strong>ชมฝนดาวตก ลีโอนิดส์</strong><small>รับคำอวยพรพิเศษจากดวงดาวคืนนี้</small></span>
+        <span aria-hidden="true">↗</span>
+      </a>
+    </div>
 
   </main>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
