@@ -145,6 +145,72 @@ function makeHeart(){
 }
 setInterval(makeHeart,1700);
 
+// ดาวตกโทนอุ่น: ปรากฏเป็นครั้งคราว ไม่รบกวนข้อความหรือเพลง
+(() => {
+  const layer = document.querySelector("#floaties");
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+  if (!layer || reduceMotion.matches) return;
+
+  let timer = null;
+  let activeStar = null;
+  const colors = {
+    night: "#ffe0a8",
+    lavender: "#e8ceff",
+    ocean: "#b8eee4",
+    dawn: "#ffd0b4"
+  };
+
+  function scheduleNext() {
+    if (reduceMotion.matches) return;
+    const delay = 6500 + Math.random() * 6500;
+    timer = window.setTimeout(() => {
+      if (!document.hidden) showShootingStar();
+      scheduleNext();
+    }, delay);
+  }
+
+  function showShootingStar() {
+    if (activeStar || reduceMotion.matches) return;
+    const star = document.createElement("span");
+    star.className = "shooting-star";
+    star.setAttribute("aria-hidden", "true");
+    star.style.left = `${58 + Math.random() * 38}%`;
+    star.style.top = `${8 + Math.random() * 42}%`;
+    const theme = document.body.dataset.theme || "night";
+    star.style.setProperty("--shooting-color", colors[theme] || colors.night);
+    layer.append(star);
+    activeStar = star;
+    star.addEventListener("animationend", () => {
+      star.remove();
+      if (activeStar === star) activeStar = null;
+    }, { once: true });
+  }
+
+  reduceMotion.addEventListener?.("change", event => {
+    if (event.matches) {
+      window.clearTimeout(timer);
+      activeStar?.remove();
+      activeStar = null;
+    } else if (!timer) {
+      scheduleNext();
+    }
+  });
+
+  document.addEventListener("visibilitychange", () => {
+    if (document.hidden) {
+      window.clearTimeout(timer);
+      timer = null;
+      activeStar?.remove();
+      activeStar = null;
+    } else if (!timer && !reduceMotion.matches) {
+      scheduleNext();
+    }
+  });
+
+  scheduleNext();
+})();
+
+
 // เปลี่ยนธีมและจดจำค่าที่เลือกไว้ในอุปกรณ์นี้
 const themes=["night","lavender","ocean","dawn"];
 const themeNames={night:"Moonlit Cabin · กระท่อมใต้แสงจันทร์",lavender:"Aurora Veil · แสงเหนือ",ocean:"Midnight Tide · ทะเลยามเที่ยงคืน",dawn:"City After Dark · เมืองยามค่ำ"};
