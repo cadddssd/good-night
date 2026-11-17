@@ -124,13 +124,27 @@ function turnBookSpread(direction){
  if(direction>0) incoming.querySelector(".spread-left").classList.add("turn-under-hidden");
  else incoming.querySelector(".spread-right").classList.add("turn-under-hidden");
  frontSource.classList.add("turn-leaf-source-hidden");
+ const spreadRect=outgoing.getBoundingClientRect();
+ const pageRect=frontSource.getBoundingClientRect();
  const leaf=document.createElement("div");
  leaf.className="turn-leaf "+(direction>0?"turn-leaf-forward":"turn-leaf-backward");
+ leaf.style.width=pageRect.width+"px";
+ leaf.style.height=pageRect.height+"px";
+ leaf.style.top=(pageRect.top-spreadRect.top)+"px";
+ leaf.style.bottom="auto";
+ leaf.style.left=(pageRect.left-spreadRect.left)+"px";
+ leaf.style.right="auto";
  const front=document.createElement("div"),back=document.createElement("div");
  front.className="turn-leaf-face turn-leaf-front";
  back.className="turn-leaf-face turn-leaf-back";
- front.append(frontSource.cloneNode(true));
- back.append(backSource.cloneNode(true));
+ const frontClone=frontSource.cloneNode(true);
+ const backClone=backSource.cloneNode(true);
+ [frontClone,backClone].forEach(page=>{
+  page.style.position="absolute";page.style.inset="0";page.style.width="100%";
+  page.style.height="100%";page.style.minWidth="0";page.style.boxSizing="border-box";
+ });
+ front.append(frontClone);
+ back.append(backClone);
  leaf.append(front,back);
  outgoing.append(leaf);
  const finish=()=>{
