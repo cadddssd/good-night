@@ -820,3 +820,54 @@ body[data-theme="dawn"] .shooting-star {
 @media (prefers-reduced-motion: reduce) {
   .shooting-star { display: none !important; animation: none !important; }
 }
+
+
+/* Cozy fireflies: tiny warm lights drifting slowly along the screen edges */
+.firefly {
+  position: absolute;
+  width: var(--firefly-size, 4px);
+  height: var(--firefly-size, 4px);
+  left: var(--firefly-x);
+  top: var(--firefly-y);
+  border-radius: 50%;
+  pointer-events: none;
+  opacity: 0;
+  background: #ffe8a8;
+  box-shadow: 0 0 5px 2px #ffd77a99, 0 0 13px 4px #ffc96b55;
+  animation:
+    cozy-firefly-float var(--firefly-duration, 18s) ease-in-out var(--firefly-delay, 0s) infinite,
+    cozy-firefly-glow 3.8s ease-in-out var(--firefly-delay, 0s) infinite alternate;
+}
+@keyframes cozy-firefly-float {
+  0%, 100% { opacity: .08; transform: translate3d(0, 0, 0); }
+  18% { opacity: .78; }
+  50% { opacity: .38; transform: translate3d(var(--firefly-drift, 12px), -24px, 0); }
+  78% { opacity: .72; }
+}
+@keyframes cozy-firefly-glow {
+  from { filter: brightness(.8); }
+  to { filter: brightness(1.35); }
+}
+
+/* A quicker, lighter meteor pass */
+.shooting-star {
+  animation-duration: .82s;
+}
+@keyframes cozy-shooting-star {
+  0% { opacity: 0; transform: rotate(34deg) translate(0, 0) scaleX(.65); }
+  10% { opacity: .95; }
+  68% { opacity: .72; }
+  100% { opacity: 0; transform: rotate(34deg) translate(-285px, 0) scaleX(1); }
+}
+@media (max-width: 600px) {
+  @keyframes cozy-shooting-star {
+    0% { opacity: 0; transform: rotate(34deg) translate(0, 0) scaleX(.65); }
+    10% { opacity: .9; }
+    68% { opacity: .68; }
+    100% { opacity: 0; transform: rotate(34deg) translate(-205px, 0) scaleX(1); }
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .firefly { display: none !important; animation: none !important; }
+  .shooting-star { display: none !important; animation: none !important; }
+}
