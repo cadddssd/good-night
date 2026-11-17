@@ -84,22 +84,48 @@ const bookStart=$("bookStart"),bookPages=$("bookPages"),pageItems=[...document.q
 const bookCover=document.querySelector('.book-cover'),bookPagesScreen=document.querySelector('.book-pages');
 const bookPrev=$("bookPrev"),bookNext=$("bookNext"),bookPageCount=$("bookPageCount"),pageDots=$("pageDots");
 let currentBookPage=0;
+let pageTurning=false;
+const TURN_MS=540;
 function showBookScreen(screen){
  bookCover.classList.toggle("is-visible",screen==="cover");
  bookPagesScreen.classList.toggle("is-visible",screen==="pages");
 }
 function renderBookPage(){
  pageItems.forEach((page,index)=>page.classList.toggle("is-current",index===currentBookPage));
- bookPageCount.textContent=(currentBookPage+1)+" / 6";
+ bookPageCount.textContent=(currentBookPage+1)+" / "+pageItems.length;
  pageDots.textContent=pageItems.map((_,index)=>index===currentBookPage?"●":"○").join(" ");
- bookPrev.disabled=currentBookPage===0;
- bookNext.disabled=currentBookPage===pageItems.length-1;
+ bookPrev.disabled=currentBookPage===0||pageTurning;
+ bookNext.disabled=currentBookPage===pageItems.length-1||pageTurning;
  bookNext.textContent=currentBookPage===pageItems.length-1?"จบบทอ่าน":"หน้าถัดไป →";
 }
+function turnBookPage(direction){
+ if(pageTurning)return;
+ const nextIndex=currentBookPage+direction;
+ if(nextIndex<0||nextIndex>=pageItems.length)return;
+ const outgoing=pageItems[currentBookPage];
+ const incoming=pageItems[nextIndex];
+ pageTurning=true;
+ bookPrev.disabled=true;bookNext.disabled=true;
+ outgoing.classList.remove("turn-in-forward","turn-in-backward","turn-out-forward","turn-out-backward");
+ incoming.classList.remove("turn-in-forward","turn-in-backward","turn-out-forward","turn-out-backward");
+ incoming.classList.remove("is-current");
+ outgoing.classList.add(direction>0?"turn-out-forward":"turn-out-backward");
+ incoming.classList.add("is-current",direction>0?"turn-in-forward":"turn-in-backward");
+ if(window.matchMedia("(prefers-reduced-motion: reduce)").matches){
+  outgoing.classList.remove("is-current","turn-out-forward","turn-out-backward");
+  incoming.classList.remove("turn-in-forward","turn-in-backward");
+  currentBookPage=nextIndex;pageTurning=false;renderBookPage();return;
+ }
+ window.setTimeout(()=>{
+  outgoing.classList.remove("is-current","turn-out-forward","turn-out-backward");
+  incoming.classList.remove("turn-in-forward","turn-in-backward");
+  currentBookPage=nextIndex;pageTurning=false;renderBookPage();
+ },TURN_MS);
+}
 bookStart.addEventListener("click",()=>{currentBookPage=0;renderBookPage();showBookScreen("pages")});
-bookPrev.addEventListener("click",()=>{if(currentBookPage>0){currentBookPage--;renderBookPage()}});
-bookNext.addEventListener("click",()=>{if(currentBookPage<pageItems.length-1){currentBookPage++;renderBookPage()}});
-$("bookRestart").addEventListener("click",()=>{currentBookPage=0;renderBookPage();showBookScreen("cover")});
+bookPrev.addEventListener("click",()=>turnBookPage(-1));
+bookNext.addEventListener("click",()=>turnBookPage(1));
+$("bookRestart").addEventListener("click",()=>{if(pageTurning)return;currentBookPage=0;renderBookPage();showBookScreen("cover")});
 
 function openMyths(){
  showBookScreen("cover");
@@ -109,6 +135,7 @@ function openMyths(){
  mythClose.focus();
 }
 function closeMyths(){
+ if(!mythModal.classList.contains("is-open"))return;
  mythModal.classList.remove("is-open");
  showBookScreen("cover");
  mythModal.setAttribute("aria-hidden","true");
@@ -116,7 +143,7 @@ function closeMyths(){
  mythOpen.focus();
 }
 mythOpen.addEventListener("click",openMyths);
-mythClose.addEventListener("click",closeMyths);
+mythClose.addEventListener("click",event=>{event.preventDefault();event.stopPropagation();closeMyths()});
 mythModal.addEventListener("click",event=>{if(event.target.hasAttribute("data-myth-close"))closeMyths()});
 document.addEventListener("keydown",event=>{if(event.key==="Escape"&&mythModal.classList.contains("is-open"))closeMyths()});
 })();
