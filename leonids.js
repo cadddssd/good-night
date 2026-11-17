@@ -15,7 +15,7 @@ const wishes=[
 ];
 const $=id=>document.getElementById(id);
 const letter=$("wishLetter"),message=$("wishMessage"),hint=$("letterHint"),status=$("shakeStatus");
-let lastWish=-1,lastShake=0,motionEnabled=false,lastMotion=0;
+let lastWish=-1,motionEnabled=false,lastMotion=0,previousMotion=null;
 for(let i=0;i<95;i++){const s=document.createElement("i");s.className="star";s.style.left=Math.random()*100+"%";s.style.top=Math.random()*100+"%";s.style.setProperty("--t",(2+Math.random()*4)+"s");s.style.animationDelay=(-Math.random()*5)+"s";$("starField").append(s)}
 for(let i=0;i<9;i++){const m=document.createElement("i");m.className="meteor";m.style.setProperty("--top",(Math.random()*55)+"%");m.style.setProperty("--left",(65+Math.random()*45)+"%");m.style.setProperty("--length",(75+Math.random()*115)+"px");m.style.setProperty("--duration",(2.4+Math.random()*3.5)+"s");m.style.setProperty("--delay",(-Math.random()*5)+"s");$("meteorField").append(m)}
 function reveal(){
@@ -39,9 +39,13 @@ async function enableMotion(){
  }catch(e){status.textContent="เปิดเซนเซอร์ไม่ได้ในเบราว์เซอร์นี้ ใช้ปุ่มเขย่าจดหมายได้เลยนะ"}
 }
 function onMotion(e){
- const a=e.accelerationIncludingGravity;if(!a)return;
- const power=Math.abs(a.x||0)+Math.abs(a.y||0)+Math.abs(a.z||0);
- const now=Date.now();if(power>27&&now-lastMotion>1700){lastMotion=now;reveal()}
+ const a=e.accelerationIncludingGravity||e.acceleration;if(!a)return;
+ const current={x:a.x||0,y:a.y||0,z:a.z||0};
+ if(previousMotion){
+  const movement=Math.abs(current.x-previousMotion.x)+Math.abs(current.y-previousMotion.y)+Math.abs(current.z-previousMotion.z);
+  const now=Date.now();if(movement>18&&now-lastMotion>1700){lastMotion=now;reveal()}
+ }
+ previousMotion=current;
 }
 $("motionButton").addEventListener("click",enableMotion);
 })();
