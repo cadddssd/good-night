@@ -160,8 +160,8 @@ h1 span{font-size:.65em}
   will-change:opacity,transform;
 }
 @keyframes star-glimmer {
-  0%,100% { opacity:var(--star-dim,.65); transform:scale(.72); filter:brightness(.85); }
-  48% { opacity:1; transform:scale(1.55); filter:brightness(1.5); }
+  0%,100% { opacity:var(--star-dim,.18); transform:scale(.82); filter:brightness(.9); }
+  48% { opacity:.42; transform:scale(1.18); filter:brightness(1.12); }
 }
 .meteor {
   top:var(--top);
