@@ -11,7 +11,7 @@ function render(){
  list.replaceChildren();const all=[...items.values()].sort((a,b)=>new Date(a.created_at)-new Date(b.created_at)).slice(-36);
  all.forEach((item,index)=>{
   const boat=document.createElement("button");boat.type="button";boat.className="floating-krathong";boat.setAttribute("aria-label","อ่านคำอธิษฐานของ "+(item.display_name||"ผู้ไม่ระบุชื่อ"));
-  const seed=String(item.id).split("").reduce((n,c)=>n+c.charCodeAt(0),0);
+  const seed=String(item.id).split("").reduce((n,c)=>Math.imul(n,31)+c.charCodeAt(0)|0,7)>>>0;\n  boat.dataset.color=["cream","pink","lavender"][seed%3];
   boat.style.setProperty("--left",(8+(seed%85))+"%");boat.style.setProperty("--bottom",(8+(seed%34))+"%");boat.style.setProperty("--duration",(5.5+(seed%40)/10)+"s");boat.style.setProperty("--delay",(-1*(seed%60)/10)+"s");
   boat.innerHTML='<span class="cloud-bread"></span><span class="bread-face"></span><span class="bread-smile"></span><span class="bread-cheek left"></span><span class="bread-cheek right"></span><span class="bread-star">✦</span>';
   boat.addEventListener("click",()=>showWish(item));list.append(boat);
@@ -38,7 +38,7 @@ async function init(){
    const {data,error}=await db.from("goodnight_krathongs").insert({message:text,display_name:author||null}).select("id,message,display_name,created_at").single();
    if(error)throw error;lastSent=Date.now();add(data);message.value="";name.value="";$("#charCount").textContent="0/240";status.textContent="ลอยกระทงสำเร็จแล้ว ขอให้คำอธิษฐานนี้พาคุณไปพบวันที่ดีนะ 💛";
   }catch(error){console.error(error);status.textContent="ลอยกระทงไม่สำเร็จ กรุณาลองใหม่อีกครั้ง"}
-  finally{send.disabled=false;send.innerHTML="<span>🪷</span> ลอยกระทงของฉัน"}
+  finally{send.disabled=false;send.innerHTML="<span>☁️</span> ลอยขนมปังก้อนเมฆ"}
  });
 }
 init();
