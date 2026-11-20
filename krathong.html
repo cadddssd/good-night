@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#172238">
+  <title>Loy Krathong – River of Wishes 🪷</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Mali:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="krathong.css?v=river-wishes-1">
+</head>
+<body>
+  <div class="night-sky" aria-hidden="true">
+    <div class="moon"></div><div class="stars" id="stars"></div>
+    <div class="distant-lights"></div>
+  </div>
+  <main class="page">
+    <header class="hero">
+      <a class="back-link" href="index.html">← กลับสู่ Good Night</a>
+      <p class="eyebrow">A GENTLE NIGHT OF LETTING GO</p>
+      <h1>Loy Krathong <span>🪷</span></h1>
+      <p class="intro">ลอยความทุกข์ ฝากความสุขและคำอธิษฐานไว้กับสายน้ำ</p>
+    </header>
+
+    <section class="river-scene" aria-label="แม่น้ำแห่งคำอธิษฐาน">
+      <div class="river-glow"></div>
+      <div class="river-label"><span>✦</span> RIVER OF WISHES <span>✦</span></div>
+      <div class="river" id="river">
+        <div class="water-shimmer"></div>
+        <div class="river-reflection"></div>
+        <div class="river-empty" id="emptyState">
+          <span>🪷</span>
+          <p>สายน้ำกำลังรอคำอธิษฐานแรกจากคุณ</p>
+        </div>
+        <div class="krathong-list" id="krathongList" aria-live="polite"></div>
+      </div>
+      <div class="river-bank bank-left"></div><div class="river-bank bank-right"></div>
+    </section>
+
+    <section class="wish-panel">
+      <div class="panel-heading">
+        <span class="lotus-icon">🪷</span>
+        <div><h2>ฝากคำอธิษฐานไว้กับสายน้ำ</h2><p>เขียนสิ่งที่อยากปล่อยวาง หรือสิ่งดี ๆ ที่อยากให้เกิดขึ้น</p></div>
+      </div>
+      <form id="wishForm">
+        <label for="wishName">ชื่อผู้ลอยกระทง <span>(ไม่บังคับ)</span></label>
+        <input id="wishName" maxlength="30" autocomplete="nickname" placeholder="จะลงชื่อเล่นหรือไม่ระบุก็ได้">
+        <label for="wishMessage">คำอธิษฐานของคุณ</label>
+        <textarea id="wishMessage" maxlength="240" rows="4" required placeholder="ขอให้ตัวเองมีความสุข ขอให้คนที่รักปลอดภัย หรือขอให้เรื่องหนักใจค่อย ๆ ผ่านไป..."></textarea>
+        <div class="form-bottom"><small id="charCount">0/240</small><button id="floatButton" type="submit"><span>🪷</span> ลอยกระทงของฉัน</button></div>
+      </form>
+      <p class="status" id="status" role="status" aria-live="polite">กำลังเตรียมสายน้ำแห่งคำอธิษฐาน...</p>
+    </section>
+
+    <div class="community-note"><span>☾</span> กระทงและคำอธิษฐานจะแบ่งปันให้ทุกคนได้เห็น <span>☽</span></div>
+    <footer>ขอให้ทุกการปล่อยวาง พาเราไปพบวันที่อ่อนโยนกว่าเดิม <span>♡</span></footer>
+  </main>
+
+  <dialog id="wishDialog" class="wish-dialog">
+    <button class="dialog-close" id="closeDialog" type="button" aria-label="ปิด">×</button>
+    <span class="dialog-lotus">🪷</span>
+    <p class="dialog-kicker">A WISH ON THE WATER</p>
+    <p class="dialog-message" id="dialogMessage"></p>
+    <p class="dialog-author" id="dialogAuthor"></p>
+    <small>ขอให้คำอธิษฐานนี้เดินทางไปถึงวันที่ดี ✨</small>
+  </dialog>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="krathong.js"></script>
+</body>
+</html>
