@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Mali:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="krathong.css?v=river-wishes-1">
+  <link rel="stylesheet" href="krathong.css?v=cloud-bread-2">
 </head>
 <body>
   <div class="night-sky" aria-hidden="true">
@@ -30,8 +30,8 @@
         <div class="water-shimmer"></div>
         <div class="river-reflection"></div>
         <div class="river-empty" id="emptyState">
-          <span>🪷</span>
-          <p>สายน้ำกำลังรอคำอธิษฐานแรกจากคุณ</p>
+          <span>☁️</span>
+          <p>สายน้ำกำลังรอขนมปังก้อนเมฆก้อนแรกจากคุณ</p>
         </div>
         <div class="krathong-list" id="krathongList" aria-live="polite"></div>
       </div>
@@ -40,7 +40,7 @@
 
     <section class="wish-panel">
       <div class="panel-heading">
-        <span class="lotus-icon">🪷</span>
+        <span class="lotus-icon">☁️</span>
         <div><h2>ฝากคำอธิษฐานไว้กับสายน้ำ</h2><p>เขียนสิ่งที่อยากปล่อยวาง หรือสิ่งดี ๆ ที่อยากให้เกิดขึ้น</p></div>
       </div>
       <form id="wishForm">
@@ -48,7 +48,7 @@
         <input id="wishName" maxlength="30" autocomplete="nickname" placeholder="จะลงชื่อเล่นหรือไม่ระบุก็ได้">
         <label for="wishMessage">คำอธิษฐานของคุณ</label>
         <textarea id="wishMessage" maxlength="240" rows="4" required placeholder="ขอให้ตัวเองมีความสุข ขอให้คนที่รักปลอดภัย หรือขอให้เรื่องหนักใจค่อย ๆ ผ่านไป..."></textarea>
-        <div class="form-bottom"><small id="charCount">0/240</small><button id="floatButton" type="submit"><span>🪷</span> ลอยกระทงของฉัน</button></div>
+        <div class="form-bottom"><small id="charCount">0/240</small><button id="floatButton" type="submit"><span>☁️</span> ลอยขนมปังก้อนเมฆ</button></div>
       </form>
       <p class="status" id="status" role="status" aria-live="polite">กำลังเตรียมสายน้ำแห่งคำอธิษฐาน...</p>
     </section>
@@ -59,7 +59,7 @@
 
   <dialog id="wishDialog" class="wish-dialog">
     <button class="dialog-close" id="closeDialog" type="button" aria-label="ปิด">×</button>
-    <span class="dialog-lotus">🪷</span>
+    <span class="dialog-lotus">☁️</span>
     <p class="dialog-kicker">A WISH ON THE WATER</p>
     <p class="dialog-message" id="dialogMessage"></p>
     <p class="dialog-author" id="dialogAuthor"></p>
