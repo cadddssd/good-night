@@ -13,7 +13,7 @@ function render(){
   const boat=document.createElement("button");boat.type="button";boat.className="floating-krathong";boat.setAttribute("aria-label","อ่านคำอธิษฐานของ "+(item.display_name||"ผู้ไม่ระบุชื่อ"));
   const seed=String(item.id).split("").reduce((n,c)=>n+c.charCodeAt(0),0);
   boat.style.setProperty("--left",(8+(seed%85))+"%");boat.style.setProperty("--bottom",(8+(seed%34))+"%");boat.style.setProperty("--duration",(5.5+(seed%40)/10)+"s");boat.style.setProperty("--delay",(-1*(seed%60)/10)+"s");
-  boat.innerHTML='<span class="boat"></span><span class="petal p1"></span><span class="petal p2"></span><span class="petal p3"></span><span class="petal p4"></span><span class="petal p5"></span><span class="petal p6"></span><span class="candle"></span><span class="flame"></span>';
+  boat.innerHTML='<span class="cloud-bread"></span><span class="bread-face"></span><span class="bread-smile"></span><span class="bread-cheek left"></span><span class="bread-cheek right"></span><span class="bread-star">✦</span>';
   boat.addEventListener("click",()=>showWish(item));list.append(boat);
  });
  empty.hidden=all.length>0;
